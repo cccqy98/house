@@ -2,7 +2,10 @@ package com.aaa.house.dao;
 
 import com.aaa.house.entity.Staff;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * 员工 正删改查
@@ -14,8 +17,14 @@ public interface AStaffMappng {
     @Select("select * from staff where staff_num=#{staff_num} and staff_state=1")
     Staff selectStaff(Staff staff);
 
+    //查询所有员工
+    @Select("select * from staff")
+    List<Staff> selectStaffAll();
+
     //员工添加
-    @Insert("INSERT INTO staff(staff_num,staff_name,staff_phone,staff_sex,staff_password,staff_portrait)\n" +
-            "VALUES(staff_num=#{staff_num},staff_name=#{staff_name},staff_phone=#{staff_phone},staff_sex=#{staff_sex},staff_password=#{staff_password},staff_portrait=#{staff_portrait})")
+    @Insert("INSERT INTO staff (staff_num,staff_name,staff_phone,staff_sex,staff_password,staff_portrait)\n" +
+            "VALUES(#{staff_num},#{staff_name},#{staff_phone},#{staff_sex},#{staff_password},#{staff_portrait})")
     int insertStaff(Staff staff);
+
+
 }

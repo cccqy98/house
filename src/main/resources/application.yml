@@ -7,18 +7,18 @@ server:
 #配置数据源
 spring:
   datasource:
-    url: jdbc:mysql://192.168.11.115:3306/hellohouse
+    url: jdbc:mysql://localhost:3306/hellohouse
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: 945787475
 
-#
-resources:
-static-locations: classpath:/templates/,classpath:/static/
-#配置mybatis
+  resources:
+      static-locations: classpath:/templates/,classpath:/static/
+# 配置mybatis
 mybatis:
-mapper-locations: mapping/*.xml
-type-aliases-package: com.aaa.house.entity
+  mapper-locations: mapping/*.xml
+  type-aliases-package: com.aaa.house.entity
+
 
 # 日志
 logging:
