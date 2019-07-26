@@ -1,5 +1,8 @@
+#配置端口号和上下文路径
 server:
-  port: 8888 #配置默认端口号
+  port: 8080
+  servlet:
+    context-path: /demo1
 
 #配置数据源
 spring:
@@ -9,8 +12,21 @@ spring:
     username: root
     password: 945787475
 
+  #关闭模板的缓存
+  thymeleaf:
+    cache: false
+  #允许重启
+  devtools:
+    remote:
+      restart:
+        enabled: true
+  #时区格式
+  jackson:
+    date-format: yyyy-MM-dd
+  #访问路径
   resources:
-      static-locations: classpath:/templates/,classpath:/static/
+    static-locations: classpath:/templates/,classpath:/static/
+
 # 配置mybatis
 mybatis:
   mapper-locations: mapping/*.xml

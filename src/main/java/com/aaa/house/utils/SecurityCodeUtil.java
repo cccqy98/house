@@ -17,7 +17,7 @@ import java.util.Random;
  * @Version 1.0.0
  */
 
-public class SecurityCode {
+public class SecurityCodeUtil {
     // 产品名称:云通信短信API产品,开发者无需替换
     static final String product = "Dysmsapi";
     // 产品域名,开发者无需替换
@@ -44,13 +44,10 @@ public class SecurityCode {
         request.setPhoneNumbers(telephone);
 
 
-
         // 必填:短信签名-可在短信控制台中找到
         request.setSignName("蜗壳租房");  //改这里
         // 必填:短信模板-可在短信控制台中找到
         request.setTemplateCode("SMS_162115417");  //改这里
-
-
 
 
         // 可选:模板中的变量替换JSON串,如模板内容为"亲爱的用户,您的验证码为${code}"时,此处的值为
@@ -67,30 +64,18 @@ public class SecurityCode {
         return sendSmsResponse;
     }
 
-
+    /*测试*/
     public static void main(String[] args) throws Exception {
-
-        String code=randomCode();
-        System.out.println(code);
-        //验证码可以用随机生成
-        SendSmsResponse sendSms = sendSms("15736959683",code);
-        System.out.println("短信接口返回的数据----------------");
-        System.out.println("Code=" + sendSms.getCode());
-        System.out.println("Message=" + sendSms.getMessage());
-        System.out.println("RequestId=" + sendSms.getRequestId());
-        System.out.println("BizId=" + sendSms.getBizId());
-
-
-    }
+//        String code=randomCode();
+//        System.out.println(code);
+//        //验证码可以用随机生成
+//        SendSmsResponse sendSms = sendSms("15736959683",code);
+//        System.out.println("短信接口返回的数据----------------");
+//        System.out.println("Code=" + sendSms.getCode());
+//        System.out.println("Message=" + sendSms.getMessage());
+//        System.out.println("RequestId=" + sendSms.getRequestId());
+//        System.out.println("BizId=" + sendSms.getBizId());
 
 
-    //六位随机数
-    public static String randomCode() {
-        StringBuilder str = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < 6; i++) {
-            str.append(random.nextInt(10));
-        }
-        return str.toString();
     }
 }
