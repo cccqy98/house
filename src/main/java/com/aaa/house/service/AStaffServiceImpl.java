@@ -23,15 +23,16 @@ public class AStaffServiceImpl implements AStaffService{
     public Staff selectStaff(Staff staff) {
         return aStaffMappng.selectStaff(staff);
     }
+
     //查询所有员工
     @Override
     public List<Staff> selectStaffAll() {
         return aStaffMappng.selectStaffAll();
     }
+
     //员工添加
     @Override
     public int insertStaff(Staff staff) {
-        System.out.println(staff);
         return aStaffMappng.insertStaff(staff);
     }
 }

@@ -46,7 +46,6 @@ public class AStaffController {
      */
     @RequestMapping("/insertStaff")
     public int insertStaff(Staff staff){
-        System.out.println("f1212"+staff);
         return aStaffService.insertStaff(staff);
     }
 }
