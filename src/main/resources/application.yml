@@ -12,8 +12,21 @@ spring:
     username: root
     password: 945787475
 
+  #关闭模板的缓存
+  thymeleaf:
+    cache: false
+  #允许重启
+  devtools:
+    remote:
+      restart:
+        enabled: true
+  #时区格式
+  jackson:
+    date-format: yyyy-MM-dd
+  #访问路径
   resources:
-      static-locations: classpath:/templates/,classpath:/static/
+    static-locations: classpath:/templates/,classpath:/static/
+
 # 配置mybatis
 mybatis:
   mapper-locations: mapping/*.xml
@@ -27,3 +40,17 @@ logging:
       aaa:
         house:
           dao: debug
+
+
+
+
+###静态资源html.js 等等缓存（开发时设置为false） --必须配置
+#  spring.thymeleaf.cache=false
+#  spring.resources.chain.cache=false
+#  #资源文件缓存时间 -1 永不过期       --必须配置
+#  spring.messages.cache-seconds=10
+###开启    --必须配置
+#  spring.devtools.restart.enabled=false
+#  spring.devtools.restart.exclude=/META-INF/maven/**，/META-INF/resources/**，/resources/**，/static/**，/templates/**，/public/**
+###监听目录（可不设置）
+#  spring.devtools.restart.additional-paths=src/main/webapp
