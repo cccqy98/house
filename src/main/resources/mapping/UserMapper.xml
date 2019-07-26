@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aaa.house.dao.LoginRegDao">
-  <resultMap id="BaseResultMap" type="com.example.springboot3.entity.User">
+  <resultMap id="BaseResultMap" type="com.aaa.house.entity.User">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="u_petname" jdbcType="VARCHAR" property="uPetname" />
     <result column="u_name" jdbcType="VARCHAR" property="uName" />
@@ -25,7 +25,7 @@
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.springboot3.entity.User">
+  <insert id="insert" parameterType="com.aaa.house.entity.User">
     insert into user (id, u_petname, u_name, 
       u_sex, u_phone, u_card, 
       u_password, u_state, u_photo
@@ -35,7 +35,7 @@
       #{uPassword,jdbcType=VARCHAR}, #{uState,jdbcType=INTEGER}, #{uPhoto,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.springboot3.entity.User">
+  <insert id="insertSelective" parameterType="com.aaa.house.entity.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -96,7 +96,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.springboot3.entity.User">
+  <update id="updateByPrimaryKeySelective" parameterType="com.aaa.house.entity.User">
     update user
     <set>
       <if test="uPetname != null">
@@ -126,7 +126,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.springboot3.entity.User">
+  <update id="updateByPrimaryKey" parameterType="com.aaa.house.entity.User">
     update user
     set u_petname = #{uPetname,jdbcType=VARCHAR},
       u_name = #{uName,jdbcType=VARCHAR},

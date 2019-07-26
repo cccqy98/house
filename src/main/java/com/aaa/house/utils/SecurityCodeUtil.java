@@ -75,7 +75,5 @@ public class SecurityCodeUtil {
 //        System.out.println("Message=" + sendSms.getMessage());
 //        System.out.println("RequestId=" + sendSms.getRequestId());
 //        System.out.println("BizId=" + sendSms.getBizId());
-
-
     }
 }
