@@ -21,8 +21,3 @@ logging:
       aaa:
         house:
           dao: debug
-#配置端口号和上下文路径
-server:
-  port: 8080
-  servlet:
-    context-path: /demo1
