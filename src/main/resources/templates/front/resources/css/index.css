@@ -61,7 +61,7 @@ body a {
 }
 
 .header {
-	background: url(../../resources/images/background/banner.jpg) no-repeat center top;
+	background: url(../images/background/banner.jpg) no-repeat center top;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -582,7 +582,7 @@ h2.m_1 {
 	font-size: 16px;
 	font-weight: bold;
 	padding: 0 47px 0 15px;
-	background: url(../../resources/images/go.png) right no-repeat;
+	background: url(../images/go.png) right no-repeat;
 	height: 40px;
 	width: 180px;
 	line-height: 40px;
@@ -641,7 +641,7 @@ h2.m_1 {
 }
 
 #mybtns #left {
-	background-image: url(../../resources/images/jt_l.png);
+	background-image: url(../images/jt_l.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	-moz-background-size: 100% 100%;
@@ -649,7 +649,7 @@ h2.m_1 {
 }
 
 #mybtns #right {
-	background-image: url(../../resources/images/jt_r.png);
+	background-image: url(../images/jt_r.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	-moz-background-size: 100% 100%;
@@ -728,7 +728,7 @@ h2.m_1 {
 	background: #2f2f2f;
 	padding: 5em 0;
 	width: 100%;
-	background: url("../../resources/images/background/bedrock.png") 0 0 repeat;
+	background: url("..round/bedrock.png") 0 0 repeat;
 	padding-top: 0;
 	height: 200px;
 }
@@ -803,7 +803,7 @@ h2.m_1 {
 }
 
 .block.right .tcqq .pic {
-	background: url("../../resources/images/icons.png") no-repeat -1025px -1600px;
+	background: url("...png") no-repeat -1025px -1600px;
 }
 
 .block.right .tcqq .pic:hover {
@@ -811,7 +811,7 @@ h2.m_1 {
 }
 
 .block.right .weibo .pic {
-	background: url("../../resources/images/icons.png") no-repeat -1025px -447px;
+	background: url("...png") no-repeat -1025px -447px;
 }
 
 .block.right .weibo .pic:hover {
@@ -820,7 +820,7 @@ h2.m_1 {
 
 .block.right .weixin .pic {
 	color: #222;
-	background: url("../../resources/images/icons.png") no-repeat -1025px -640px;
+	background: url("...png") no-repeat -1025px -640px;
 }
 
 .block.right .weixin .pic:hover {
@@ -847,21 +847,21 @@ h2.m_1 {
 }
 
 .block.right .qrcode-box.qrcode-qq {
-	background: url(../../resources/images/qqcode.jpg) center center no-repeat
+	background: url(../images/qqcode.jpg) center center no-repeat
 }
 
 .block.right .qrcode-box.qrcode-weibo {
-	background: url(../../resources/images/weibocode.png) center center no-repeat
+	background: url(../images/weibocode.png) center center no-repeat
 }
 
 .block.right .qrcode-box.qrcode-weixin {
-	background: url(../../resources/images/weixincode.jpg) center center no-repeat
+	background: url(../images/weixincode.jpg) center center no-repeat
 }
 
 .block.right .qrcode-box .qrcode-box-arrow {
 	width: 130px;
 	height: 141px;
-	background: url(../../resources/images/jiao.png) bottom center no-repeat
+	background: url(../images/jiao.png) bottom center no-repeat
 }
 
 .block.right .tcqq:hover .qrcode-box-wrp,
