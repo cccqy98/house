@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.house.dao.LoginRegDao">
+  <resultMap id="BaseResultMap" type="com.example.springboot3.entity.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="u_petname" jdbcType="VARCHAR" property="uPetname" />
+    <result column="u_name" jdbcType="VARCHAR" property="uName" />
+    <result column="u_sex" jdbcType="INTEGER" property="uSex" />
+    <result column="u_phone" jdbcType="INTEGER" property="uPhone" />
+    <result column="u_card" jdbcType="VARCHAR" property="uCard" />
+    <result column="u_password" jdbcType="VARCHAR" property="uPassword" />
+    <result column="u_state" jdbcType="INTEGER" property="uState" />
+    <result column="u_photo" jdbcType="VARCHAR" property="uPhoto" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, u_petname, u_name, u_sex, u_phone, u_card, u_password, u_state, u_photo
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.springboot3.entity.User">
+    insert into user (id, u_petname, u_name, 
+      u_sex, u_phone, u_card, 
+      u_password, u_state, u_photo
+      )
+    values (#{id,jdbcType=INTEGER}, #{uPetname,jdbcType=VARCHAR}, #{uName,jdbcType=VARCHAR}, 
+      #{uSex,jdbcType=INTEGER}, #{uPhone,jdbcType=INTEGER}, #{uCard,jdbcType=VARCHAR}, 
+      #{uPassword,jdbcType=VARCHAR}, #{uState,jdbcType=INTEGER}, #{uPhoto,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.springboot3.entity.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uPetname != null">
+        u_petname,
+      </if>
+      <if test="uName != null">
+        u_name,
+      </if>
+      <if test="uSex != null">
+        u_sex,
+      </if>
+      <if test="uPhone != null">
+        u_phone,
+      </if>
+      <if test="uCard != null">
+        u_card,
+      </if>
+      <if test="uPassword != null">
+        u_password,
+      </if>
+      <if test="uState != null">
+        u_state,
+      </if>
+      <if test="uPhoto != null">
+        u_photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uPetname != null">
+        #{uPetname,jdbcType=VARCHAR},
+      </if>
+      <if test="uName != null">
+        #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="uSex != null">
+        #{uSex,jdbcType=INTEGER},
+      </if>
+      <if test="uPhone != null">
+        #{uPhone,jdbcType=INTEGER},
+      </if>
+      <if test="uCard != null">
+        #{uCard,jdbcType=VARCHAR},
+      </if>
+      <if test="uPassword != null">
+        #{uPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="uState != null">
+        #{uState,jdbcType=INTEGER},
+      </if>
+      <if test="uPhoto != null">
+        #{uPhoto,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.springboot3.entity.User">
+    update user
+    <set>
+      <if test="uPetname != null">
+        u_petname = #{uPetname,jdbcType=VARCHAR},
+      </if>
+      <if test="uName != null">
+        u_name = #{uName,jdbcType=VARCHAR},
+      </if>
+      <if test="uSex != null">
+        u_sex = #{uSex,jdbcType=INTEGER},
+      </if>
+      <if test="uPhone != null">
+        u_phone = #{uPhone,jdbcType=INTEGER},
+      </if>
+      <if test="uCard != null">
+        u_card = #{uCard,jdbcType=VARCHAR},
+      </if>
+      <if test="uPassword != null">
+        u_password = #{uPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="uState != null">
+        u_state = #{uState,jdbcType=INTEGER},
+      </if>
+      <if test="uPhoto != null">
+        u_photo = #{uPhoto,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.springboot3.entity.User">
+    update user
+    set u_petname = #{uPetname,jdbcType=VARCHAR},
+      u_name = #{uName,jdbcType=VARCHAR},
+      u_sex = #{uSex,jdbcType=INTEGER},
+      u_phone = #{uPhone,jdbcType=INTEGER},
+      u_card = #{uCard,jdbcType=VARCHAR},
+      u_password = #{uPassword,jdbcType=VARCHAR},
+      u_state = #{uState,jdbcType=INTEGER},
+      u_photo = #{uPhoto,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
