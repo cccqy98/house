@@ -2,8 +2,8 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>蜗壳</title>
-    <link rel="shortcut icon" href="../resources/images/favicon.ico"/>
+    <title>house</title>
+    <link rel="shortcut icon" href="resources/images/favicon.ico"/>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=M2kGUcWj1dSWhQvuNlrqWYPouAGVbBGT"></script>
     <script src="resources/js/jquery.js"></script>
     <script src="resources/js/wave.js"></script>
@@ -11,7 +11,6 @@
     <script src="resources/vue/vue.js"></script>
     <script src="resources/antd/ant-design-vue.js"></script>
     <link href="resources/antd/antd.css" rel="stylesheet"/>
-
     <link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet"/>
     <link href="resources/css/index.css" rel="stylesheet"/>
 </head>
@@ -26,24 +25,28 @@
 <!--头部分-->
 <div class="header" id="index">
     <div class="container">
+        <!--导航栏-->
         <div class="header_top">
+            <!--导航栏左标题-->
             <div class="top_left">
-
+                <!--logo-->
                 <div class="logo-img">
-                    <a href="index.html" style="text-decoration:none;">
+                    <a href="main.html" style="text-decoration:none;">
                         <img src="resources/images/logoko.png" style="padding-bottom: 5px">
                     </a>
                 </div>
+                <!--标题部分-->
                 <div class="logo-font">
                     <font style="font-weight:bold;font-size:35px;color:#0f0f0f">
                         蜗壳
                     </font>
                 </div>
+                <!--地理位置-->
                 <div class="city">
                     <a id="allmap"></a>
                 </div>
-
             </div>
+            <!--导航栏连接-->
             <div class="top-nav">
                 <ul class="nav1">
                     <li><a href="#feature">看房</a></li>
@@ -53,14 +56,16 @@
                     <li><a href="">下载APP</a></li>
                 </ul>
             </div>
+            <!--导航栏未登录部分-->
             <ul class="widget" id="customer">
-                <a href="page/reception/rlogin.html">
+                <a href="login.html">
                     <li class="login">登录</li>
                 </a>
-                <a href="page/reception/register.html">
+                <a href="register.html">
                     <li class="join">注册</li>
                 </a>
             </ul>
+            <!--导航栏已登录部分-->
             <ul class="cus" id="cus">
                 <a-dropdown>
 							<span class="ant-dropdown-link cname">
@@ -106,7 +111,6 @@
 
         <!--页面上面部分的大标题及搜索框-->
         <div class="header-wrap">
-
             <!--大标题-->
             <div class="wrap-ico">
                 <div class="title_small">
@@ -116,7 +120,6 @@
                 </div>
                 <div class="title_big">租房上蜗壳 一站式服务</div>
             </div>
-
             <!--搜索框-->
             <div class="search-box-wrap" log-mod="search">
                 <div class="search-box-con">
@@ -153,9 +156,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 </div>
 
