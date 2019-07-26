@@ -6,7 +6,7 @@
     <result column="u_petname" jdbcType="VARCHAR" property="uPetname" />
     <result column="u_name" jdbcType="VARCHAR" property="uName" />
     <result column="u_sex" jdbcType="INTEGER" property="uSex" />
-    <result column="u_phone" jdbcType="INTEGER" property="uPhone" />
+    <result column="u_phone" jdbcType="VARCHAR" property="uPhone" />
     <result column="u_card" jdbcType="VARCHAR" property="uCard" />
     <result column="u_password" jdbcType="VARCHAR" property="uPassword" />
     <result column="u_state" jdbcType="INTEGER" property="uState" />
@@ -15,11 +15,11 @@
   <sql id="Base_Column_List">
     id, u_petname, u_name, u_sex, u_phone, u_card, u_password, u_state, u_photo
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from user
-    where id = #{id,jdbcType=INTEGER}
+    where u_phone = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user

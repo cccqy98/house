@@ -23,6 +23,7 @@ public class OtherUtil{
         for (int i = 0; i < 6; i++) {
             str.append(random.nextInt(10));
         }
+        System.out.println("----------------------验证码"+str.toString());
         return str.toString();
     }
 

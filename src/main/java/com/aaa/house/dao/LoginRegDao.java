@@ -16,6 +16,11 @@ import java.util.Map;
  */
 @Repository
 public interface LoginRegDao {
+
+
+    User selectByPrimaryKey(String id);
+
+
     /**
      * 根据手机号查询是否有此用户
      * @param phone 参数手机号
@@ -23,6 +28,10 @@ public interface LoginRegDao {
      */
     @Select("select id from user where u_phone=#{phone}")
     String queryPhone(@Param("phone")String phone);
+
+
+
+
 
     /**
      * 动态添加用户
@@ -38,7 +47,7 @@ public interface LoginRegDao {
 
 
 
-    User selectByPrimaryKey(Integer id);
+
 
     int updateByPrimaryKeySelective(User record);
 

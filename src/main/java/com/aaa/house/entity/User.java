@@ -22,7 +22,7 @@ public class User implements Serializable {
 
     private Integer uSex; //性别
 
-    private Integer uPhone; //手机号
+    private String uPhone; //手机号
 
     private String uCard; //身份证号
 

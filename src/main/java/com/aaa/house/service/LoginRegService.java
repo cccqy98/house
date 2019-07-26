@@ -20,7 +20,6 @@ public interface LoginRegService {
      * @param phone 参数手机号
      * @return int
      */
-    @Select("select id from user where u_phone=#{phone}")
     String queryPhone(String phone);
 
     /**

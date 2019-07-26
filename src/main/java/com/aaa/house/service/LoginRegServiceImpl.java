@@ -30,28 +30,35 @@ public class LoginRegServiceImpl implements LoginRegService {
     @Override
     public String queryPhone(String phone) {
         //判断是否存在用户
-        if (loginRegDao.queryPhone(phone) != null) {
-            return "此账号已注册";
+
+        String result = loginRegDao.queryPhone(phone);
+        System.out.println("服务处"+result);
+        if (result != null) {
+            return result;
         }
-        String randomCode = OtherUtil.randomCode();
+
+        randomCode = OtherUtil.randomCode();
+        System.out.println("赋值" + randomCode);
         //验证码可以用随机生成
         try {
             SendSmsResponse sendSms = sendSms(String.valueOf(phone), randomCode);
         } catch (ClientException e) {
             e.printStackTrace();
         }
-        return "验证码已发送";
+        return null;
+
     }
 
     @Override
-    public int insertSelective(User record,String code) {
-        if (code.equals(randomCode)){
-            if (OtherUtil.isEmpty(record.getId())){
+    public int insertSelective(User record, String code) {
+        System.out.println("判断code" + randomCode);
+        if (code.equals(randomCode)) {
+            if (OtherUtil.isEmpty(record.getId())) {
                 record.setUPassword(OtherUtil.MD5(record.getUPassword()));
                 record.setUPetname(OtherUtil.getUname());
                 loginRegDao.insertSelective(record);
                 return 1;
-            }else {
+            } else {
                 return 0;
             }
         }

@@ -3,6 +3,7 @@ package com.aaa.house.controller;
 import com.aaa.house.dao.LoginRegDao;
 import com.aaa.house.entity.User;
 import com.aaa.house.service.LoginRegService;
+import com.aaa.house.service.LoginRegServiceImpl;
 import com.aaa.house.utils.ISysConstants;
 import com.aaa.house.utils.ResultUtil;
 import org.omg.PortableInterceptor.INACTIVE;
@@ -29,34 +30,38 @@ public class LoginRegController {
     @Autowired
     private LoginRegService loginRegService;
 
-
+    /**
+     * 获取验证码
+     * @param phone
+     * @return
+     */
     @RequestMapping("/getPhoneCode")
-    public ResultUtil test1(@RequestParam("phone") String phone){
-        System.out.println("验证码");
-        String result=loginRegService.queryPhone(phone);
-        ResultUtil resultUtil=new ResultUtil();
-        if (result!=null){
+    public ResultUtil test1(@RequestParam("phone") String phone) {
+        String result = loginRegService.queryPhone(phone);
+        ResultUtil resultUtil = new ResultUtil();
+        if (result != null) {
             resultUtil.setCode(ISysConstants.ERRORCODE);
             resultUtil.setMsg("该手机号已经注册");
-        }else{
+        } else {
             resultUtil.setCode(ISysConstants.SUCCESSCODE);
-            resultUtil.setMsg("验证码已发送，请在5分钟内使用");
+            resultUtil.setMsg("验证码已发送，请在3分钟内使用");
         }
         return resultUtil;
     }
 
-    @RequestMapping("register")
-    public ResultUtil test2(@RequestBody User user,String code){
-        System.out.println("===========================注册=================================");
+
+    @RequestMapping("/register")
+    public ResultUtil test2(User user, String code) {
+        System.out.println("===========================注册=================================" + code);
         System.out.println(user);
-        int reg=loginRegService.insertSelective(user,code);
-        ResultUtil resultUtil=new ResultUtil();
-        if (reg==-1){
+        int reg = loginRegService.insertSelective(user, code);
+        ResultUtil resultUtil = new ResultUtil();
+        if (reg == -1) {
             resultUtil.setCode(ISysConstants.OTHERTIPS);
             resultUtil.setMsg("验证码错误");
-        }else if(reg==1){
+        } else if (reg == 1) {
             resultUtil.setCode(ISysConstants.SUCCESSCODE);
-        }else {
+        } else {
             resultUtil.setCode(ISysConstants.ERRORCODE);
             resultUtil.setMsg("注册失败");
         }
@@ -79,6 +84,4 @@ public class LoginRegController {
 //        }
 //        return result;
 //    }
-
-
 }
