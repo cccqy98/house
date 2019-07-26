@@ -26,5 +26,8 @@ public interface AStaffMappng {
             "VALUES(#{staff_num},#{staff_name},#{staff_phone},#{staff_sex},#{staff_password},#{staff_portrait})")
     int insertStaff(Staff staff);
 
+    //修改员工信息
+    int updateStaff(Staff staff);
+
 
 }
