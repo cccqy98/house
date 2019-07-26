@@ -5,6 +5,8 @@ import com.aaa.house.entity.Staff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * FileName: AStaffServiceImpl
  * Author:   曹康
@@ -16,12 +18,17 @@ public class AStaffServiceImpl implements AStaffService{
     @Autowired
     private AStaffMappng aStaffMappng;
 
-
+    //员工登录
     @Override
     public Staff selectStaff(Staff staff) {
         return aStaffMappng.selectStaff(staff);
     }
-
+    //查询所有员工
+    @Override
+    public List<Staff> selectStaffAll() {
+        return aStaffMappng.selectStaffAll();
+    }
+    //员工添加
     @Override
     public int insertStaff(Staff staff) {
         System.out.println(staff);

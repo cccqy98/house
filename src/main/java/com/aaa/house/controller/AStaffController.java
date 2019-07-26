@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * FileName: AStaffController
  * Author:   曹康
@@ -28,12 +30,23 @@ public class AStaffController {
     }
 
     /**
+     * 查询所有员工
+     * @return
+     */
+    @RequestMapping("/selectStaffAll")
+    public List<Staff> selectStaffAll(){
+        return aStaffService.selectStaffAll();
+    }
+
+
+    /**
      * 员工添加
      * @param staff
      * @return
      */
     @RequestMapping("/insertStaff")
     public int insertStaff(Staff staff){
+        System.out.println("f1212"+staff);
         return aStaffService.insertStaff(staff);
     }
 }
