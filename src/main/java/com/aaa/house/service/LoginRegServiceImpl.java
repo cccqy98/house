@@ -28,7 +28,7 @@ public class LoginRegServiceImpl implements LoginRegService {
     private LoginRegDao loginRegDao;
 
     @Override
-    public String queryPhone(int phone) {
+    public String queryPhone(String phone) {
         //判断是否存在用户
         if (loginRegDao.queryPhone(phone) != null) {
             return "此账号已注册";

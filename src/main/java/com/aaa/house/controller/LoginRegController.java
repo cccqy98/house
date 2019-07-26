@@ -23,15 +23,16 @@ import java.util.Map;
  * @Version 1.0.0
  */
 @RestController
-@RequestMapping("loginReg")
+@RequestMapping("/loginReg")
 public class LoginRegController {
 
     @Autowired
     private LoginRegService loginRegService;
 
 
-    @RequestMapping("getPhoneCode")
-    public ResultUtil test1(@RequestBody Integer phone){
+    @RequestMapping("/getPhoneCode")
+    public ResultUtil test1(@RequestParam("phone") String phone){
+        System.out.println("验证码");
         String result=loginRegService.queryPhone(phone);
         ResultUtil resultUtil=new ResultUtil();
         if (result!=null){

@@ -21,7 +21,7 @@ public interface LoginRegService {
      * @return int
      */
     @Select("select id from user where u_phone=#{phone}")
-    String queryPhone(int phone);
+    String queryPhone(String phone);
 
     /**
      * 核查验证码，动态添加用户

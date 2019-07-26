@@ -22,7 +22,7 @@ public interface LoginRegDao {
      * @return int
      */
     @Select("select id from user where u_phone=#{phone}")
-    String queryPhone(@Param("phone")int phone);
+    String queryPhone(@Param("phone")String phone);
 
     /**
      * 动态添加用户
