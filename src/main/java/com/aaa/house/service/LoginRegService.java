@@ -20,12 +20,26 @@ public interface LoginRegService {
      * @param phone 参数手机号
      * @return int
      */
-    String queryPhone(String phone);
+    User queryPhone(String phone);
 
     /**
      * 核查验证码，动态添加用户
-     * @param record
+     * @param record 实体类
+     * @param code 验证码
      * @return int
      */
-    int insertSelective(User record,String code);
+    int   checkCodeInsertSelective(User record,String code);
+
+    /**
+     * 根据手机号查询用户信息
+     * @param record 实体对象
+     * @return User实体对象
+     */
+    User checkLogin(User record);
+
+
+    User selectByPrimaryKey(String phone);
+
+
+    User judgeCusLogin();
 }

@@ -1,5 +1,8 @@
 package com.aaa.house.utils;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
+
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,6 +28,18 @@ public class OtherUtil{
         }
         System.out.println("----------------------验证码"+str.toString());
         return str.toString();
+    }
+
+    /**
+     * 判断字符串是否为空
+     * @param str 字符串
+     * @return boolean
+     */
+    public static boolean isEmpty(Object str) {
+        if (str == null || str.equals("") || str.equals("null")) {
+            return true;
+        }
+        return false;
     }
 
     /**随机生成用户名
@@ -69,18 +84,6 @@ public class OtherUtil{
 
 
 //    ============================================
-    /**
-     * 判断字符串是否为空
-     *
-     * @param str
-     * @return
-     */
-    public static boolean isEmpty(Object str) {
-        if (str == null || str.equals("") || str.equals("null")) {
-            return true;
-        }
-        return false;
-    }
 
 
 
@@ -149,5 +152,14 @@ public class OtherUtil{
 
     public static void main(String[] args) {
         System.out.println(GetCnum());
+
     }
+
+
+
+
+
+
+
+
 }

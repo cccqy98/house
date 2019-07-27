@@ -5,5 +5,5 @@ public interface ISysConstants {
     int ERRORCODE=100;//失败
     int OTHERTIPS=300; //其他提示
     String EMP="employee";//存在session 中
-    String CUS="customer";//存在session 中
+    String CUS="user";//存在session 中
 }

@@ -16,29 +16,27 @@ import java.util.Map;
  */
 @Repository
 public interface LoginRegDao {
-
-
-    User selectByPrimaryKey(String id);
-
-
-    /**
-     * 根据手机号查询是否有此用户
-     * @param phone 参数手机号
-     * @return int
-     */
-    @Select("select id from user where u_phone=#{phone}")
-    String queryPhone(@Param("phone")String phone);
-
-
-
-
-
+//    /**
+//     * 根据手机号查询是否有此用户
+//     * @param phone 参数手机号
+//     * @return string
+//     */
+//    @Select("select id from user where u_phone=#{phone}")
+//    String queryPhone(@Param("phone")String phone);
     /**
      * 动态添加用户
      * @param record
      * @return int
      */
     int insertSelective(User record);
+
+    /**
+     * 根据手机号获取用户信息
+     * @param phone 手机号
+     * @return User实体对象
+     */
+    User selectByPrimaryKey(String phone);
+
 
 
     int deleteByPrimaryKey(Integer id);

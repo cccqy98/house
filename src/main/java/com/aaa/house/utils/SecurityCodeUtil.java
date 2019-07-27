@@ -7,6 +7,8 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 
 import java.util.Random;
 
@@ -75,5 +77,27 @@ public class SecurityCodeUtil {
 //        System.out.println("Message=" + sendSms.getMessage());
 //        System.out.println("RequestId=" + sendSms.getRequestId());
 //        System.out.println("BizId=" + sendSms.getBizId());
+        String password = md5("123456", "18503808571");
+        System.out.println(password);
+        //加密后的结果
+        //3bcbb857c763d1429a24959cb8de2593
+    }
+
+
+
+
+
+
+    public static final String md5(String password, String salt){
+        //加密方式
+        String hashAlgorithmName = "MD5";
+        //盐：为了即使相同的密码不同的盐加密后的结果也不同
+        ByteSource byteSalt = ByteSource.Util.bytes(salt);
+        //密码
+        Object source = password;
+        //加密次数
+        int hashIterations = 1024;
+        SimpleHash result = new SimpleHash(hashAlgorithmName, source, byteSalt, hashIterations);
+        return result.toString();
     }
 }

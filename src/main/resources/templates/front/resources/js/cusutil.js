@@ -20,7 +20,7 @@ function judgeCusLogin() {
     $.ajax({
         type: "post",
         dataType: "json",
-        url: "/login/judgeCusLogin",
+        url: "../loginReg/judgeCusLogin",
         success: function (data) {
             if (data.code == 200) {
                 //alert(data.code);

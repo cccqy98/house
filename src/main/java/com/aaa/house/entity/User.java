@@ -33,4 +33,7 @@ public class User implements Serializable {
     private String uPhoto; //头像
 
     private static final long serialVersionUID = 1L;
+
+    public User() {
+    }
 }
