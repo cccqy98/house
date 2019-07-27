@@ -9,6 +9,7 @@ import lombok.ToString;
  * @author: L_Fly
  * @Date: 2019/7/26  Time：14:04
  * @Version 1.0.0
+ * 交互实体类
  */
 @Getter
 @Setter

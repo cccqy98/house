@@ -4,6 +4,7 @@ import com.aaa.house.entity.Staff;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -11,10 +12,11 @@ import java.util.List;
  * 员工 正删改查
  * 曹康
  */
+@Repository
 public interface AStaffMappng {
 
     //员工登录
-    @Select("select * from staff where staff_num=#{staff_num} and staff_state=1")
+    @Select("select * from staff where staff_num=#{staff_num} and staff_password=#{staff_password} and staff_state=1")
     Staff selectStaff(Staff staff);
 
     //查询所有员工

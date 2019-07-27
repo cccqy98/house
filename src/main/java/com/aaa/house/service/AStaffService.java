@@ -11,6 +11,9 @@ public interface AStaffService {
     //员工登录
     Staff selectStaff(Staff staff);
 
+    //判断员工是否登录
+    Staff selectSession();
+
     //查询所有员工
     List<Staff> selectStaffAll();
 

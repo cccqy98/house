@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html >
 <head>
     <meta charset="utf-8">
     <title>枫城</title>
@@ -15,7 +15,7 @@
     <script>
         jQuery(document).ready(function () {
             $.backstretch([
-                "../resources/images/background/1.jpg","../resources/images/background/2.jpg"
+                "../front/resources/images/background/1.jpg","../front/resources/images/background/2.jpg"
             ], {
                 duration: 3000,
                 fade: 750
@@ -30,8 +30,9 @@
     <a-layout>
         <a-layout-header>
 					<span>
-						<img src="../front/resources/images/logoko2.png"/>
+						<img src="../front/resources/images/feng.png"/>
 						枫城后台登录
+                        <img src="../front/resources/images/feng.png"/>
 					</span>
         </a-layout-header>
         <a-layout-content>
@@ -47,15 +48,15 @@
                     <a-form id="components-form-demo-normal-login" :form="form" class="login-form" @submit="handleSubmit">
                         <a-form-item>
                             <a-input placeholder="请输入用户名" size="large"  v-decorator="[
-          'eusername',
+          'staff_num',
           { rules: [{ required: true, message: '请输入用户名!' }] }
         ]">
-                                <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)"/>
+                                <a-icon slot="prefix" type="staff_num" style="color: rgba(0,0,0,.25)"/>
                             </a-input>
                         </a-form-item>
                         <a-form-item>
-                            <a-input type="password" placeholder="请输入密码" size="large" v-decorator="[
-          'epassword',
+                            <a-input type="staff_password" placeholder="请输入密码" size="large" v-decorator="[
+          'staff_password',
           { rules: [{ required: true, message: '请输入密码!' }] }
         ]">
                                 <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)"/>
@@ -98,7 +99,7 @@
                     if (!err) {
                         $.ajax({
                             type: "post",
-                            url: "/login/empLogin",
+                            url: "/staffid",
                             data: values,
                             dataType:"json",
                             success: function (data) {

@@ -1,5 +1,6 @@
 package com.aaa.house.utils;
 
+import com.aaa.house.entity.Staff;
 import com.aaa.house.entity.User;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -12,11 +13,11 @@ import javax.servlet.http.HttpSession;
  * @author: L_Fly
  * @Date: 2019/7/27  Time：10:44
  * @Version 1.0.0
+ * 存 取session
  */
-
 public class CusUtil {
     /**
-     * 取HttpServletRequest
+     * 获取 HttpServletRequest
      * @return
      */
     public static HttpServletRequest getRequest() {
@@ -62,4 +63,31 @@ public class CusUtil {
     public static void removeCusson() {
         getSession().invalidate();
     }
+
+    //--------------------------------------------------------------------------------------------
+                                             /*后台sesion*/
+    //流程:1.getRequest() 获取HttpServletRequest
+    //     2.getSession() 获取session
+    //     3.setStaff() 存值
+    //     3.getStaff() 取值
+    //--------------------------------------------------------------------------------------------
+
+    /**
+     * 后台存 session
+     * @param staff
+     */
+    public static void setStaff(Staff staff){
+        //ISysConstants.EMP:键
+        getSession().setAttribute(ISysConstants.EMP,staff);
+    }
+
+    /**
+     * 后台取 session
+     * @return
+     */
+    public static Staff getStaff(){
+        Staff staff= (Staff) getSession().getAttribute(ISysConstants.EMP);
+        return staff;
+    }
+
 }
