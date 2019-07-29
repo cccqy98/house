@@ -16,9 +16,9 @@ import lombok.ToString;
 @ToString
 public class ResultUtil {
 
-    private Integer code;
+    private Integer code;//状态码
     private String msg;
-    private Object object;
+    private Object object;//数据
     private Integer count;
 
     public ResultUtil() {

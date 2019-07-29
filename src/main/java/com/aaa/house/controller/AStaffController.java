@@ -2,17 +2,14 @@ package com.aaa.house.controller;
 
 import com.aaa.house.entity.Staff;
 import com.aaa.house.service.AStaffService;
+import com.aaa.house.utils.CusUtil;
 import com.aaa.house.utils.ISysConstants;
 import com.aaa.house.utils.ResultUtil;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.xml.transform.Result;
 import java.util.List;
 
 /**
@@ -34,10 +31,10 @@ public class AStaffController {
     @RequestMapping("/staffid")
     public ResultUtil staffId(Staff staff){
         Staff staff1=aStaffService.selectStaff(staff);
-        System.out.println(staff);
-        //状态码
+        //交互类
         ResultUtil resultUtil=new ResultUtil();
        if (staff1!=null) {
+           //状态码
            resultUtil.setCode(ISysConstants.SUCCESSCODE);
            return resultUtil;
        }
@@ -47,13 +44,24 @@ public class AStaffController {
     }
 
     /**
+     * 员工注销
+     */
+    @RequestMapping("removeStaff")
+    public ResultUtil removeStaff(){
+        //注销
+        CusUtil.removeCusson();
+        //返回执行成功状态码
+        return new ResultUtil(ISysConstants.SUCCESSCODE,null,null);
+    }
+
+    /**
      * 验证是否登录 即获取session值传在前台
      * @return
      */
     @RequestMapping("selectSession")
     public ResultUtil selectSession(){
+        //数据
         Staff staff = aStaffService.selectSession();
-        System.out.println("session++++++"+staff);
         ResultUtil resultUtil=new ResultUtil();//创建交互类
         if (staff!=null){
             resultUtil.setObject(staff);//数据

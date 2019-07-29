@@ -70,14 +70,16 @@
 
                 <a-sub-menu v-for="treedata in treedatas" :key="treedata.id">
                     <span slot="title">
-                        <a-icon :type="treedata.icon"></a-icon>
+                        <!--菜单图标-->
+                        <a-icon :type="treedata.per_icon"></a-icon>
                         <span>
                             {{treedata.label}}
                         </span>
                     </span>
 
                     <a-menu-item v-for="children in treedata.children" :key="children.id">
-                        <a target="ifm" :href="children.url">{{children.label}}</a>
+                        <!--子菜单-->
+                        <a target="ifm" :href="children.per_url">{{children.label}}</a>
                     </a-menu-item>
 
                 </a-sub-menu>
@@ -149,24 +151,24 @@
                 dataType: "json",
                 url: "/selectSession",
                 success: function (data) {
-                    console.log(data.object)
-                    console.log(data)
+
                     /*获取员工信息*/
                     _this.staff=data.object;
                     if (data.code == 200) {
                         $.ajax({
                             type: "post",
-                            url: "/menu/getMenuTree",
+                            url: "/getTreeAll",
                             dataType:"json",
                             success: function (data) {
                                 if(data.code==200){
+                                    console.log("1212121"+data.object);
                                     _this.treedatas=data.object;
                                 }
                             }
                         })
                         _this.$notification.open({
                             message: '欢迎!',
-                            description: _this.datatime+'欢迎回来开始工作吧~',
+                            description: _this.datatime+_this.staff.staff_name+',欢迎回来，祝你工作愉快~',
                         });
                     } else {
                         window.location.href="blogin.html";
@@ -185,7 +187,7 @@
                         $.ajax({
                             type: "post",
                             dataType: "json",
-                            url: "/login/killEmpSession",
+                            url: "/removeStaff",
                             success: function () {
                                 window.location.href = "blogin.html";
                             }
