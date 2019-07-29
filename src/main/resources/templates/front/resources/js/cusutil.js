@@ -40,9 +40,9 @@ function killCusSession() {
     $.ajax({
         type: "post",
         dataType: "json",
-        url: "/login/killCusSession",
+        url: "../login/outUser",
         success: function () {
-            window.location.href = "index.html";
+            window.location.href = "main.html";
         }
     });
 }
@@ -53,13 +53,13 @@ var countdown = 60;
 function settime() {
     if (countdown == 0) {
         $("#btn").attr("disabled", false);
-        $("#btn").val("获取验证码")
+        $("#btn").val("获取验证码");
         countdown = 60;
         return;
     } else {
         $("#btn").css("background-color", "rgba(226, 179, 42, 0.6)");
         $("#btn").attr("disabled", true);
-        $("#btn").val("重新发送" + countdown)
+        $("#btn").val("重新发送" + countdown);
         countdown--;
     }
     setTimeout(function () {

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>user</title>
+    <!--先引入vue.js库-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+
+    <style type="text/css">
+        .el-header, .el-footer {
+            background-color: #B3C0D1;
+            color: #333;
+            text-align: center;
+            line-height: 60px;
+            border: 2px solid red;
+        }
+
+        .el-aside {
+            background-color: #D3DCE6;
+            color: #333;
+            text-align: center;
+            line-height: 200px;
+
+        }
+
+        .el-main {
+            background-color: #E9EEF3;
+            color: #333;
+            text-align: center;
+            line-height: 450px;
+        }
+
+        body > div > .el-container {
+            margin-bottom: 40px;
+            border: 2px solid red;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <el-row>
+        <el-menu style="border-radius: 4px"
+                 :default-active="activeIndex2"
+                 class="el-menu-demo"
+                 mode="horizontal"
+                 @select="handleSelect"
+                 background-color="#545c64"
+                 text-color="#fff"
+                 active-text-color="#ffd04b">
+            <el-col :span="2" :offset="3">
+                <el-menu-item index="1">logo</el-menu-item>
+            </el-col>
+            <el-col :span="2">
+                <el-menu-item index="2">首页</el-menu-item>
+            </el-col>
+            <el-col :span="2">
+                <el-menu-item index="3">租房</el-menu-item>
+            </el-col>
+            <el-col :span="2">
+                <el-menu-item index="4">发布房源</el-menu-item>
+            </el-col>
+            <el-col :span="2" :offset="8">
+                <el-menu-item index="2">用户名</el-menu-item>
+            </el-col>
+        </el-menu>
+    </el-row>
+
+    <el-row style="margin: 20px 0 10px 0;">
+        <el-col :offset="3" :span="18">
+            <template>
+                <div class="demo-fit">
+                    <div class="block" :key="fit">
+                        <el-avatar shape="circle" :size="50" :fit="fit" :src="url"></el-avatar>
+                        <span class="title">你好{{ fit }}</span>
+                    </div>
+                </div>
+            </template>
+        </el-col>
+    </el-row>
+
+    <el-row>
+        <el-col :offset="3" :span="18">
+            <el-tabs tab-position="left"
+                     style="height: 450px;border: 1px solid #DcDfE6;text-align: left;border-radius: 5px">
+                <el-tab-pane>
+                    <span slot="label"><i class="el-icon-user-solid"></i>&nbsp;个人中心&nbsp;&nbsp;&nbsp;</span>
+                    个人中心界面
+                </el-tab-pane>
+                <el-tab-pane>
+                    <span slot="label"><i class="el-icon-star-on"></i>&nbsp;已关注房源</span>
+                    收藏管理界面
+                </el-tab-pane>
+                <el-tab-pane>
+                    <span slot="label"><i class="el-icon-upload"></i>&nbsp;已发布房源</span>
+                    发布管理界面
+                </el-tab-pane>
+                <el-tab-pane>
+                    <span slot="label"><i class="el-icon-s-opportunity"></i>&nbsp;密码修改&nbsp;&nbsp;&nbsp;</span>
+                    修改密码界面
+                </el-tab-pane>
+                <el-tab-pane>
+                    <span slot="label"><i class="el-icon-s-tools"></i>&nbsp;设置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    界面
+                </el-tab-pane>
+            </el-tabs>
+        </el-col>
+    </el-row>
+
+    <el-row>
+        <el-col :offset="2" :span="20" style="margin-top:20px;height:50px;border: 2px solid #DcDfE6;"></el-col>
+    </el-row>
+</div>
+
+<script>
+
+    new Vue({
+        el: "#app",
+        data: {
+            fit: '你好',
+            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+        },
+        methods: {
+            handleOpen: function (key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose: function (key, keyPath) {
+                console.log(key, keyPath);
+            }
+        }
+    });
+</script>
+</body>
+</html>

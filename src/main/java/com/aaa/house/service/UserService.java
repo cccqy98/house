@@ -1,20 +1,15 @@
 package com.aaa.house.service;
 
 import com.aaa.house.entity.User;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
-import java.util.Map;
 
 /**
- * @Classname：LoginRegService
+ * @Classname：UserService
  * @author: L_Fly
- * @Date: 2019/7/26  Time：11:21
+ * @Date: 2019/7/29  Time：10:47
  * @Version 1.0.0
  */
 
-public interface LoginRegService {
+public interface UserService {
     /**
      * 根据手机号查询是否有此用户
      * @param phone 参数手机号
@@ -37,9 +32,10 @@ public interface LoginRegService {
      */
     User checkLogin(User record);
 
-
-    User selectByPrimaryKey(String phone);
-
-
+    /**
+     * 判断登录
+     *
+     * @return 实体对象
+     */
     User judgeCusLogin();
 }

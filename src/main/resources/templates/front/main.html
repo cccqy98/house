@@ -86,7 +86,7 @@
                 var cus = new Vue({
                     el: "#cus",
                     methods: {
-                        yonghu:function(){
+                        yonghu: function ({key}) {
                             if (key=="zx"){
                                 this.$confirm({
                                     title: '确定退出?',
@@ -98,7 +98,7 @@
                                 });
                             }
                             if (key=="grzx"){
-                                window.location.href='page/reception/personal.html'
+                                window.location.href = 'perCenter.html'
                             }
                         }
                     }

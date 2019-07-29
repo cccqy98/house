@@ -10,6 +10,7 @@ import java.io.Serializable;
  * @author: L_Fly
  * @Date: 2019/7/26  Time：10:12
  * @Version 1.0.0
+ * @Description: 用户实体类
  */
 @Data
 @ToString
@@ -30,7 +31,7 @@ public class User implements Serializable {
 
     private Integer uState; //状态
 
-    private String uPhoto; //头像
+    private String uPhoto; //头像路径
 
     private static final long serialVersionUID = 1L;
 
