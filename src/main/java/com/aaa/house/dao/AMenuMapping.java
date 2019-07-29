@@ -1,9 +1,10 @@
 package com.aaa.house.dao;
 
 import com.aaa.house.entity.Tree;
+import com.aaa.house.utils.RedisCache;
+import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ import java.util.List;
  * Description: 菜单权限
  */
 @Repository
+//开启二级缓存 reids
+@CacheNamespace(implementation = RedisCache.class)
 public interface AMenuMapping {
     /**
      * 查询权限 树形菜单

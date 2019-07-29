@@ -1,12 +1,14 @@
 package com.aaa.house.entity;
 
+import java.io.Serializable;
+
 /**
  * FileName: Staff
  * Author:   曹康
  * Date:     2019/7/26 9:50
  * Description: 员工实体类
  */
-public class Staff {
+public class Staff implements Serializable {
     private int staff_id;
     private String staff_num;//员工编号
     private String staff_name;//员工名字

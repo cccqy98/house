@@ -2,6 +2,7 @@ package com.aaa.house.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  * Description: 树形菜单
  */
 @Data
-public class Tree {
+public class Tree implements Serializable {
     private Integer id;
     private String label;//权限名
     private Integer per_id;//父Id
