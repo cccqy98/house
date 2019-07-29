@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.house.dao.HouseMapper">
+    <resultMap id="BaseResultMap" type="com.aaa.house.entity.House">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column=" house_uid" jdbcType="INTEGER" property="houseUid" />
+        <result column="house_title" jdbcType="VARCHAR" property="houseTitle" />
+        <result column="house_urban" jdbcType="INTEGER" property="houseUrban" />
+        <result column="house_street" jdbcType="INTEGER" property="houseStreet" />
+        <result column="house_district" jdbcType="VARCHAR" property="houseDistrict" />
+        <result column="house_lable" jdbcType="INTEGER" property="houseLable" />
+        <result column="house_rent" jdbcType="INTEGER" property="houseRent" />
+        <result column="house_state" jdbcType="INTEGER" property="houseState" />
+        <result column="house_area" jdbcType="INTEGER" property="houseArea" />
+        <result column="house_floor" jdbcType="INTEGER" property="houseFloor" />
+        <result column="house_orientation" jdbcType="INTEGER" property="houseOrientation" />
+        <result column="house_date" jdbcType="DATE" property="houseDate" />
+        <result column="house_layout" jdbcType="INTEGER" property="houseLayout" />
+        <result column="house_staffid" jdbcType="INTEGER" property="houseStaffid" />
+        <result column="house_audit" jdbcType="INTEGER" property="houseAudit" />
+        <result column="house_certificate" jdbcType="VARCHAR" property="houseCertificate" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, " house_uid", house_title, house_urban, house_street, house_district, house_lable,
+        house_rent, house_state, house_area, house_floor, house_orientation, house_date,
+        house_layout, house_staffid, house_audit, house_certificate
+    </sql>
+    <select id="queryHouseAll"  resultType="map" resultMap="BaseResultMap">
+        select a.*,b.himg from house a join house_img b on a.id=b.hid
+        join (select * from code where code_type=7) c on a.house_layout=c.code_number
+        <where>
+            <if test="id!=null and id!=''">
+                and id like "%"#{id}"%"
+            </if>
+            <if test="rentStart!=null and rentStart!=''">
+                and a.house_rent <![CDATA[ >= ]]> #{rentStart}
+            </if>
+            <if test="rentOver!=null and rentOver!=''">
+                and a.house_rent <![CDATA[ <= ]]> #{rentOver}
+            </if>
+            <if test="houseLable!=null and houseLable!=''">
+                and a.house_layout =#{houseLable}
+            </if>
+            <if test="houseUrban!=null and houseUrban!=''">
+                and a.house_urban =#{houseUrban}
+            </if>
+            <if test="houseStreet!=null and houseStreet!=''">
+                and a.house_street =#{houseStreet}
+            </if>
+        </where> limit ${start},${pageSize}
+    </select>
+    <select id="queryHousePageCount"  resultType="int" resultMap="BaseResultMap">
+        select a.*,b.himg from house a join  house_imgon b on a.id=b.hid
+        join (select * from code where code_type=7) c on a.house_layout=c.code_number
+        <where>
+            <if test="id!=null and id!=''">
+                and id like "%"#{id}"%"
+            </if>
+            <if test="rentStart!=null and rentStart!=''">
+                and a.house_rent <![CDATA[ >= ]]> #{rentStart}
+            </if>
+            <if test="rentOver!=null and rentOver!=''">
+                and a.house_rent <![CDATA[ <= ]]> #{rentOver}
+            </if>
+            <if test="houseLable!=null and houseLable!=''">
+                and a.house_layout =#{houseLable}
+            </if>
+            <if test="houseUrban!=null and houseUrban!=''">
+                and a.house_urban =#{houseUrban}
+            </if>
+            <if test="houseStreet!=null and houseStreet!=''">
+                and a.house_street =#{houseStreet}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from house
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.aaa.house.entity.House">
+        insert into house (id, " house_uid", house_title,
+        house_urban, house_street, house_district,
+        house_lable, house_rent, house_state,
+        house_area, house_floor, house_orientation,
+        house_date, house_layout, house_staffid,
+        house_audit, house_certificate)
+        values (#{id,jdbcType=INTEGER}, #{houseUid,jdbcType=INTEGER}, #{houseTitle,jdbcType=VARCHAR},
+        #{houseUrban,jdbcType=INTEGER}, #{houseStreet,jdbcType=INTEGER}, #{houseDistrict,jdbcType=VARCHAR},
+        #{houseLable,jdbcType=INTEGER}, #{houseRent,jdbcType=INTEGER}, #{houseState,jdbcType=INTEGER},
+        #{houseArea,jdbcType=INTEGER}, #{houseFloor,jdbcType=INTEGER}, #{houseOrientation,jdbcType=INTEGER},
+        #{houseDate,jdbcType=DATE}, #{houseLayout,jdbcType=INTEGER}, #{houseStaffid,jdbcType=INTEGER},
+        #{houseAudit,jdbcType=INTEGER}, #{houseCertificate,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.aaa.house.entity.House">
+        insert into house
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="houseUid != null">
+                " house_uid",
+            </if>
+            <if test="houseTitle != null">
+                house_title,
+            </if>
+            <if test="houseUrban != null">
+                house_urban,
+            </if>
+            <if test="houseStreet != null">
+                house_street,
+            </if>
+            <if test="houseDistrict != null">
+                house_district,
+            </if>
+            <if test="houseLable != null">
+                house_lable,
+            </if>
+            <if test="houseRent != null">
+                house_rent,
+            </if>
+            <if test="houseState != null">
+                house_state,
+            </if>
+            <if test="houseArea != null">
+                house_area,
+            </if>
+            <if test="houseFloor != null">
+                house_floor,
+            </if>
+            <if test="houseOrientation != null">
+                house_orientation,
+            </if>
+            <if test="houseDate != null">
+                house_date,
+            </if>
+            <if test="houseLayout != null">
+                house_layout,
+            </if>
+            <if test="houseStaffid != null">
+                house_staffid,
+            </if>
+            <if test="houseAudit != null">
+                house_audit,
+            </if>
+            <if test="houseCertificate != null">
+                house_certificate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="houseUid != null">
+                #{houseUid,jdbcType=INTEGER},
+            </if>
+            <if test="houseTitle != null">
+                #{houseTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="houseUrban != null">
+                #{houseUrban,jdbcType=INTEGER},
+            </if>
+            <if test="houseStreet != null">
+                #{houseStreet,jdbcType=INTEGER},
+            </if>
+            <if test="houseDistrict != null">
+                #{houseDistrict,jdbcType=VARCHAR},
+            </if>
+            <if test="houseLable != null">
+                #{houseLable,jdbcType=INTEGER},
+            </if>
+            <if test="houseRent != null">
+                #{houseRent,jdbcType=INTEGER},
+            </if>
+            <if test="houseState != null">
+                #{houseState,jdbcType=INTEGER},
+            </if>
+            <if test="houseArea != null">
+                #{houseArea,jdbcType=INTEGER},
+            </if>
+            <if test="houseFloor != null">
+                #{houseFloor,jdbcType=INTEGER},
+            </if>
+            <if test="houseOrientation != null">
+                #{houseOrientation,jdbcType=INTEGER},
+            </if>
+            <if test="houseDate != null">
+                #{houseDate,jdbcType=DATE},
+            </if>
+            <if test="houseLayout != null">
+                #{houseLayout,jdbcType=INTEGER},
+            </if>
+            <if test="houseStaffid != null">
+                #{houseStaffid,jdbcType=INTEGER},
+            </if>
+            <if test="houseAudit != null">
+                #{houseAudit,jdbcType=INTEGER},
+            </if>
+            <if test="houseCertificate != null">
+                #{houseCertificate,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.aaa.house.entity.House">
+        update house
+        <set>
+            <if test="houseUid != null">
+                " house_uid" = #{houseUid,jdbcType=INTEGER},
+            </if>
+            <if test="houseTitle != null">
+                house_title = #{houseTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="houseUrban != null">
+                house_urban = #{houseUrban,jdbcType=INTEGER},
+            </if>
+            <if test="houseStreet != null">
+                house_street = #{houseStreet,jdbcType=INTEGER},
+            </if>
+            <if test="houseDistrict != null">
+                house_district = #{houseDistrict,jdbcType=VARCHAR},
+            </if>
+            <if test="houseLable != null">
+                house_lable = #{houseLable,jdbcType=INTEGER},
+            </if>
+            <if test="houseRent != null">
+                house_rent = #{houseRent,jdbcType=INTEGER},
+            </if>
+            <if test="houseState != null">
+                house_state = #{houseState,jdbcType=INTEGER},
+            </if>
+            <if test="houseArea != null">
+                house_area = #{houseArea,jdbcType=INTEGER},
+            </if>
+            <if test="houseFloor != null">
+                house_floor = #{houseFloor,jdbcType=INTEGER},
+            </if>
+            <if test="houseOrientation != null">
+                house_orientation = #{houseOrientation,jdbcType=INTEGER},
+            </if>
+            <if test="houseDate != null">
+                house_date = #{houseDate,jdbcType=DATE},
+            </if>
+            <if test="houseLayout != null">
+                house_layout = #{houseLayout,jdbcType=INTEGER},
+            </if>
+            <if test="houseStaffid != null">
+                house_staffid = #{houseStaffid,jdbcType=INTEGER},
+            </if>
+            <if test="houseAudit != null">
+                house_audit = #{houseAudit,jdbcType=INTEGER},
+            </if>
+            <if test="houseCertificate != null">
+                house_certificate = #{houseCertificate,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.aaa.house.entity.House">
+        update house
+        set " house_uid" = #{houseUid,jdbcType=INTEGER},
+        house_title = #{houseTitle,jdbcType=VARCHAR},
+        house_urban = #{houseUrban,jdbcType=INTEGER},
+        house_street = #{houseStreet,jdbcType=INTEGER},
+        house_district = #{houseDistrict,jdbcType=VARCHAR},
+        house_lable = #{houseLable,jdbcType=INTEGER},
+        house_rent = #{houseRent,jdbcType=INTEGER},
+        house_state = #{houseState,jdbcType=INTEGER},
+        house_area = #{houseArea,jdbcType=INTEGER},
+        house_floor = #{houseFloor,jdbcType=INTEGER},
+        house_orientation = #{houseOrientation,jdbcType=INTEGER},
+        house_date = #{houseDate,jdbcType=DATE},
+        house_layout = #{houseLayout,jdbcType=INTEGER},
+        house_staffid = #{houseStaffid,jdbcType=INTEGER},
+        house_audit = #{houseAudit,jdbcType=INTEGER},
+        house_certificate = #{houseCertificate,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
