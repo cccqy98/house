@@ -1,0 +1,56 @@
+package com.aaa.house.service;
+
+import com.aaa.house.dao.AHouseMapping;
+import com.aaa.house.entity.HouseUser;
+import com.aaa.house.entity.Staff;
+import com.aaa.house.utils.CusUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * FileName: AHouseServiceImpl
+ * Author:   曹康
+ * Date:     2019/7/29 22:06
+ * Description: 房屋
+ */
+@Service
+public class AHouseServiceImpl implements AHouseService{
+
+    @Autowired
+    private AHouseMapping aHouseMapping;
+
+    /**
+     * 查询客户发布未联系的房屋
+     * @return
+     */
+    @Override
+    public List<HouseUser> getHouseUserAll(Map map) {
+        return aHouseMapping.getHouseUserAll(map);
+    }
+
+    /**
+     * 查询客户发布未联系的房屋数量
+     * @param map
+     * @return
+     */
+    @Override
+    public int getHouseUserquall(Map map) {
+        return aHouseMapping.getHouseUserquall(map);
+    }
+
+
+    /**
+     * 联系房源
+     * @return
+     */
+    @Override
+    public int upHouseUser(Map map) {
+        //获取当前登陆的经济人工号
+        Staff staff = CusUtil.getStaff();
+        map.put("uh_staff",staff.getStaff_num());
+        return aHouseMapping.upHouseUser(map);
+    }
+}

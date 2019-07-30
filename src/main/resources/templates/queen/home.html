@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>枫城</title>
-    <link rel="icon" href="../front/resources/images/favicon.ico"/>
+    <link rel="icon" href="../front/resources/images/fengye1.ico"/>
     <script src="../front/resources/js/jquery.js"></script>
     <script src="../front/resources/vue/vue.js"></script>
     <script src="../front/resources/antd/moment.js"></script>
@@ -96,7 +96,7 @@
                 </a-icon>
 
                 <!--天气预报-->
-                <iframe width="450" scrolling="no" height="18" frameborder="0" allowtransparency="true" src="//i.tianqi.com/index.php?c=code&id=1&color=%23&icon=1&wind=1&num=2&site=15"></iframe>
+                <iframe width="580" scrolling="no" height="18" frameborder="0" allowtransparency="true" src="//i.tianqi.com/index.php?c=code&id=1&color=%23&icon=1&wind=1&num=2&site=15"></iframe>
 
                 <!--用户盒子-->
                 <div class="header-box" >
@@ -161,7 +161,6 @@
                             dataType:"json",
                             success: function (data) {
                                 if(data.code==200){
-                                    console.log("1212121"+data.object);
                                     _this.treedatas=data.object;
                                 }
                             }
