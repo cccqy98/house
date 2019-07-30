@@ -22,11 +22,13 @@ public class HouseServiceImpl implements HouseService{
 
     @Override
     public List<Map> queryHouseAll(Map map) {
-        return houseDao.queryHouseAll(map);
+        List<Map> list = houseDao.queryHouseAll(map);
+        return list;
     }
 
     @Override
-    public int queryHousePageCount(Map map) {
-        return houseDao.queryHousePageCount(map);
+    public Integer queryHousePageCount(Map map) {
+        Integer i=houseDao.queryHousePageCount(map);
+        return i;
     }
 }

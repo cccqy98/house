@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.aaa.house.dao.HouseMapper">
+<mapper namespace="com.aaa.house.dao.HouseDao">
     <resultMap id="BaseResultMap" type="com.aaa.house.entity.House">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column=" house_uid" jdbcType="INTEGER" property="houseUid" />
@@ -17,8 +17,10 @@
         <result column="house_date" jdbcType="DATE" property="houseDate" />
         <result column="house_layout" jdbcType="INTEGER" property="houseLayout" />
         <result column="house_staffid" jdbcType="INTEGER" property="houseStaffid" />
+        <result column="house_cover" jdbcType="INTEGER" property="houseCover" />
         <result column="house_audit" jdbcType="INTEGER" property="houseAudit" />
         <result column="house_certificate" jdbcType="VARCHAR" property="houseCertificate" />
+
     </resultMap>
     <sql id="Base_Column_List">
         id, " house_uid", house_title, house_urban, house_street, house_district, house_lable,
@@ -26,8 +28,7 @@
         house_layout, house_staffid, house_audit, house_certificate
     </sql>
     <select id="queryHouseAll"  resultType="map" resultMap="BaseResultMap">
-        select a.*,b.himg from house a join house_img b on a.id=b.hid
-        join (select * from code where code_type=7) c on a.house_layout=c.code_number
+        select a.*,b.himg,DATE_FORMAT(a.house_date,'%Y-%m-%d') house_date, DATEDIFF(NOW(),a.house_date) newstime, c.code_state as ccodeState,d.code_state as dcodeState,e.code_state as ecodeState from house a join house_img b on a.id=b.hid join (select * from code where code_type=7) c on a.house_layout=c.code_number join (select * from code where code_type=11300) d on a.house_urban=d.code_number join (select * from code where code_type=6) e on a.house_orientation=e.code_number
         <where>
             <if test="id!=null and id!=''">
                 and id like "%"#{id}"%"
@@ -49,9 +50,8 @@
             </if>
         </where> limit ${start},${pageSize}
     </select>
-    <select id="queryHousePageCount"  resultType="int" resultMap="BaseResultMap">
-        select a.*,b.himg from house a join  house_imgon b on a.id=b.hid
-        join (select * from code where code_type=7) c on a.house_layout=c.code_number
+    <select id="queryHousePageCount"  resultType="Integer" >
+        select count(*) from house a join house_img b on a.id=b.hid join (select * from code where code_type=7) c on a.house_layout=c.code_number join (select * from code where code_type=11300) d on a.house_urban=d.code_number join (select * from code where code_type=6) e on a.house_orientation=e.code_number
         <where>
             <if test="id!=null and id!=''">
                 and id like "%"#{id}"%"

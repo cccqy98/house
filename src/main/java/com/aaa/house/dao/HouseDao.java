@@ -1,6 +1,7 @@
 package com.aaa.house.dao;
 
 import com.aaa.house.entity.House;
+import org.springframework.stereotype.Repository;
 
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Map;
  * createTime:2019/7/26 21:47
  * versoin:1.0.0
  */
-
+@Repository
 public interface HouseDao {
     int deleteByPrimaryKey(Integer id);
 
@@ -33,7 +34,7 @@ public interface HouseDao {
      * @param map
      * @return
      */
-    int queryHousePageCount(Map map);
+    Integer queryHousePageCount(Map map);
 
     int updateByPrimaryKeySelective(House record);
 

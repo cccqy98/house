@@ -35,6 +35,7 @@ public class House {
     private Integer houseOrientation;
 
     private Date houseDate;
+    private Integer newstime;
 
     private Integer houseLayout;
 
@@ -43,14 +44,10 @@ public class House {
     private Integer houseAudit;
 
     private String houseCertificate;
-
-    private Integer rentStart;
-
-    private Integer rentOver;
-
-    private String start;
-
-    private String pageSize;
+    private String houseCover;
+    private String ccodeState;
+    private String dcodeState;
+    private String ecodeState;
 
     public Integer getId() {
         return id;
@@ -188,35 +185,43 @@ public class House {
         this.houseCertificate = houseCertificate == null ? null : houseCertificate.trim();
     }
 
-    public Integer getRentStart() {
-        return rentStart;
+    public String getCcodeState() {
+        return ccodeState;
     }
 
-    public void setRentStart(Integer rentStart) {
-        this.rentStart = rentStart;
+    public void setCcodeState(String ccodeState) {
+        this.ccodeState = ccodeState;
     }
 
-    public Integer getRentOver() {
-        return rentOver;
+    public String getDcodeState() {
+        return dcodeState;
     }
 
-    public void setRentOver(Integer rentOver) {
-        this.rentOver = rentOver;
+    public void setDcodeState(String dcodeState) {
+        this.dcodeState = dcodeState;
     }
 
-    public String getStart() {
-        return start;
+    public String getEcodeState() {
+        return ecodeState;
     }
 
-    public void setStart(String start) {
-        this.start = start;
+    public void setEcodeState(String ecodeState) {
+        this.ecodeState = ecodeState;
     }
 
-    public String getPageSize() {
-        return pageSize;
+    public Integer getNewstime() {
+        return newstime;
     }
 
-    public void setPageSize(String pageSize) {
-        this.pageSize = pageSize;
+    public void setNewstime(Integer newstime) {
+        this.newstime = newstime;
+    }
+
+    public String getHouseCover() {
+        return houseCover;
+    }
+
+    public void setHouseCover(String houseCover) {
+        this.houseCover = houseCover;
     }
 }

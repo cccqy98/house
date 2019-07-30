@@ -23,5 +23,5 @@ public interface HouseService {
      * @param map
      * @return
      */
-    int queryHousePageCount(Map map);
+    Integer queryHousePageCount(Map map);
 }
