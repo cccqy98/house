@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 根据手机号查询用户信息
+     * 根据手机号查询用户信息,核对信息进行登录
      * @param record 实体对象
      * @return User实体对象
      */

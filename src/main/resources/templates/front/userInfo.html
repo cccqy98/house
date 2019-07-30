@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>user</title>
+    <!--先引入vue.js库-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style type="text/css">
+
+
+        a {
+            font-size: 18px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .el-menu-item {
+            text-align: center;
+        }
+
+        a:hover {
+            color: orange
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <!--导航栏-->
+    <el-header>
+        <el-row>
+            <el-menu style="border-radius: 4px"
+                     class="el-menu-demo"
+                     mode="horizontal"
+                     background-color="#545c64"
+                     text-color="#fff"
+                     active-text-color="#ffd04b">
+                <el-col :span="2" :offset="3">
+                    <el-menu-item index="0">
+
+                        logo
+
+                    </el-menu-item>
+                </el-col>
+                <el-col :span="2">
+                    <el-menu-item index="1">
+
+                        <a href="https://www.baidu.com">首页</a>
+
+                    </el-menu-item>
+                </el-col>
+                <el-col :span="2">
+                    <el-menu-item index="2">
+
+                        <a href="https://www.baidu.com">房源信息</a>
+
+                    </el-menu-item>
+                </el-col>
+                <el-col :span="2">
+                    <el-menu-item index="3">
+                        <a href="https://www.baidu.com">发布房源</a></el-menu-item>
+                </el-col>
+                <el-col :span="2" :offset="8">
+                    <el-menu-item index="4"><a href="https://www.baidu.com">用户名</a></el-menu-item>
+                </el-col>
+            </el-menu>
+        </el-row>
+    </el-header>
+
+    <!--内容区-->
+    <el-main>
+        <!--天气和时间-->
+        <el-row style="height: 30px;background: #bae7ff"></el-row>
+        <!--用户信息-->
+        <el-row>
+            <el-col :span="16" :offset="4">
+                <el-tabs tab-position="left">
+                    <el-tab-pane label="个人资料">
+                        <el-row>
+                            <el-col :span="10" :offset="6" style="height: 500px;">
+                                <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
+
+                                <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm"
+                                         label-width="100px" class="demo-ruleForm">
+
+                                    <el-form-item label="昵称" prop="name">
+                                        <el-input v-model="ruleForm.name"></el-input>
+                                    </el-form-item>
+
+                                    <el-form-item label="性别" prop="radio">
+                                        <el-radio v-model="ruleForm.radio" label="1">先生</el-radio>
+                                        <el-radio v-model="ruleForm.radio" label="2">女士</el-radio>
+                                    </el-form-item>
+
+                                    <el-form-item label="手机号" prop="phone">
+                                        <el-input v-model="ruleForm.phone"></el-input>
+                                    </el-form-item>
+
+                                    <el-form-item label="状态" prop="state">
+                                        <el-input v-model="ruleForm.state" disabled></el-input>
+                                    </el-form-item>
+
+
+                                    <el-form-item>
+                                        <el-button type="primary" @click="submitForm('ruleForm')">更新</el-button>
+                                    </el-form-item>
+
+                                </el-form>
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
+                    <el-tab-pane label="已收藏">
+                        <el-row>
+                            <el-col :span="10" :offset="6" style="height: 500px;">
+                                <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
+
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
+                    <el-tab-pane label="已发布">
+                        <el-row>
+                            <el-col :span="10" :offset="6" style="height: 500px;">
+                                <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
+
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
+                    <el-tab-pane label="实名认证">
+                        <el-row>
+                            <el-col :span="10" :offset="6" style="height: 500px;">
+                                <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
+
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
+                    <el-tab-pane label="密码修改">
+                        <el-row>
+                            <el-col :span="10" :offset="6" style="height: 500px;">
+                                <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
+
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
+                </el-tabs>
+            </el-col>
+        </el-row>
+    </el-main>
+
+    <!--页脚公司信息-->
+    <el-footer>
+        <el-row style="height:60px;background: salmon"></el-row>
+    </el-footer>
+</div>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            formLabelAlign: {name: '', region: '', type: ''},
+            ruleForm: {
+                name: '',
+                radio: '2',
+                phone: '',
+                state: ''
+
+            },
+            rules: {
+                name: [
+                    {required: true, message: '请输入活动名称', trigger: 'blur'},
+                    {min: 2, max: 6, message: '长度在 2 到 6 个字符', trigger: 'blur'}
+                ]
+            }
+        },
+        created: function () {
+            var self = this.ruleForm;
+            //获取用户信息
+            axios.post('http://localhost:8080/loginReg/judgeCusLogin').then(function (response) {
+                //JSON.stringify  把json对象转换为json字符串
+                //JSON.parse()把json字符串转换为json对象
+                console.log(JSON.stringify(response.data));
+                self.name = response.data.object.upetname;
+                self.radio = response.data.object.usex;
+                self.phone = response.data.object.uphone;
+                self.state = response.data.object.ustate;
+
+                console.log(self.radio);
+            });
+        },
+        methods: {
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            }
+
+        }
+    });
+</script>
+</body>
+</html>

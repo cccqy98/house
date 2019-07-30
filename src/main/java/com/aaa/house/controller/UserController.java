@@ -3,13 +3,17 @@ package com.aaa.house.controller;
 import com.aaa.house.entity.User;
 import com.aaa.house.service.UserService;
 import com.aaa.house.utils.CusUtil;
+import com.aaa.house.utils.FtpUtil;
 import com.aaa.house.utils.ISysConstants;
 import com.aaa.house.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 
 /**
  * @Classname：Login
@@ -24,6 +28,10 @@ public class UserController {
 
     @Autowired
     private UserService service;
+    @Autowired
+    private FtpUtil ftpUtil;
+    @Autowired
+    private ResourceLoader resourceLoader;
 
     /**
      * 获取验证码
@@ -103,7 +111,9 @@ public class UserController {
             result.setCode(ISysConstants.ERRORCODE);
         } else {
             result.setCode(ISysConstants.SUCCESSCODE);
-            result.setObject(judgeCusLogin.getUPetname());
+            judgeCusLogin.setUPassword("********");
+            judgeCusLogin.setUPhone("123456789");
+            result.setObject(judgeCusLogin);
         }
         return result;
     }
@@ -117,5 +127,16 @@ public class UserController {
     public ResultUtil outUser() {
         CusUtil.removeCusson();
         return new ResultUtil(ISysConstants.SUCCESSCODE, null, null);
+    }
+
+    /**
+     * 显示图片
+     *
+     * @param fileName
+     * @return
+     */
+    public ResponseEntity show(String fileName) {
+        //ftp://username:password@192.168.14.140
+        return ResponseEntity.ok(resourceLoader.getResource("ftp://"));
     }
 }

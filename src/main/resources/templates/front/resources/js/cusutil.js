@@ -26,7 +26,8 @@ function judgeCusLogin() {
                 //alert(data.code);
                 $("#customer").hide();
                 $("#cus").show();
-                $("#cusername").html(data.object);
+                $("#cusername").html(data.object.upetname);
+
             } else {
                 $("#cus").hide();
                 $("#customer").show();
@@ -40,7 +41,7 @@ function killCusSession() {
     $.ajax({
         type: "post",
         dataType: "json",
-        url: "../login/outUser",
+        url: "../loginReg/outUser",
         success: function () {
             window.location.href = "main.html";
         }

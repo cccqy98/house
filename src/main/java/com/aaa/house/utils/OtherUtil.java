@@ -42,8 +42,9 @@ public class OtherUtil{
         return false;
     }
 
-    /**随机生成用户名
-     * @return
+    /**
+     * 随机生成用户名
+     * @return String
      */
     public static String getUname(){
         String randomcode = "";
@@ -77,17 +78,6 @@ public class OtherUtil{
         SimpleHash result = new SimpleHash(hashAlgorithmName, source, byteSalt, hashIterations);
         return result.toString();
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
     /**
