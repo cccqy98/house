@@ -11,12 +11,13 @@
     <result column="u_password" jdbcType="VARCHAR" property="uPassword" />
     <result column="u_state" jdbcType="INTEGER" property="uState" />
     <result column="u_photo" jdbcType="VARCHAR" property="uPhoto" />
+      <result column="u_cardstate" jdbcType="INTEGER" property="ucardState"/>
   </resultMap>
   <sql id="Base_Column_List">
-    id, u_petname, u_name, u_sex, u_phone, u_card, u_password, u_state, u_photo
+    id, u_petname, u_name, u_sex, u_phone, u_card, u_password, u_state, u_photo,u_cardstate
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+      select
     <include refid="Base_Column_List" />
     from user
     where u_phone = #{id,jdbcType=INTEGER}
@@ -120,6 +121,9 @@
       <if test="uState != null">
         u_state = #{uState,jdbcType=INTEGER},
       </if>
+        <if test="ucardState != null">
+            u_cardstate = #{ucardState,jdbcType=INTEGER},
+        </if>
       <if test="uPhoto != null">
         u_photo = #{uPhoto,jdbcType=VARCHAR},
       </if>

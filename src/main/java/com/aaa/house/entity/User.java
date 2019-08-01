@@ -33,6 +33,10 @@ public class User implements Serializable {
 
     private String uPhoto; //头像路径
 
+    private Integer ucardState; //实名状态
+
+
+
     private static final long serialVersionUID = 1L;
 
     public User() {

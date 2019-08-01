@@ -12,8 +12,7 @@
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <style type="text/css">
-
-
+        /*导航栏css*/
         a {
             font-size: 18px;
             text-decoration: none;
@@ -26,6 +25,37 @@
 
         a:hover {
             color: orange
+        }
+
+        /*图片展示css*/
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            margin-left: 100px;
+        }
+
+        .avatar-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+
+        .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 120px;
+            height: 120px;
+            line-height: 120px;
+            text-align: center;
+
+        }
+
+        .avatar {
+
+            width: 120px;
+            height: 120px;
+            display: block;
         }
     </style>
 </head>
@@ -67,7 +97,14 @@
                         <a href="https://www.baidu.com">发布房源</a></el-menu-item>
                 </el-col>
                 <el-col :span="2" :offset="8">
-                    <el-menu-item index="4"><a href="https://www.baidu.com">用户名</a></el-menu-item>
+                    <el-menu-item index="4">
+                        <a href="https://www.baidu.com">
+                            <!--                        <img v-if="ruleForm.photo" :src="'http://localhost:8080/loginReg/show?fileName='+ruleForm.photo" height="60px;" width="60px;">-->
+                            <el-avatar shape="circle" :size="45" :src="imageUrl1">
+
+                            </el-avatar>
+                        </a>
+                    </el-menu-item>
                 </el-col>
             </el-menu>
         </el-row>
@@ -76,42 +113,56 @@
     <!--内容区-->
     <el-main>
         <!--天气和时间-->
-        <el-row style="height: 30px;background: #bae7ff"></el-row>
+        <el-row style="height: 30px;">
+            <el-col :span="16" :offset="4" style="border: 1px solid red">
+                <iframe width="450" scrolling="no" height="18" frameborder="0" allowtransparency="true"
+                        src="//i.tianqi.com/index.php?c=code&id=1&bdc=%23&icon=1&py=zhongyuanqu&wind=1&num=2&site=12"></iframe>
+            </el-col>
+        </el-row>
         <!--用户信息-->
         <el-row>
-            <el-col :span="16" :offset="4">
+            <el-col :span="16" :offset="4" style="border: 1px solid red">
                 <el-tabs tab-position="left">
                     <el-tab-pane label="个人资料">
                         <el-row>
                             <el-col :span="10" :offset="6" style="height: 500px;">
-                                <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
-
                                 <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm"
                                          label-width="100px" class="demo-ruleForm">
+                                    <el-form-item label="头像" label-width="60px">
+                                        <el-upload
+                                                name="headPic"
+                                                class="avatar-uploader"
+                                                action="http://localhost:8080/loginReg/uploadHeadPic"
+                                                :show-file-list="false"
+                                                :on-success="handleAvatarSuccess"
+                                                :before-upload="beforeAvatarUpload">
 
-                                    <el-form-item label="昵称" prop="name">
-                                        <el-input v-model="ruleForm.name"></el-input>
+                                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+
+                                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                        </el-upload>
                                     </el-form-item>
 
+                                    <el-form-item label="昵称" prop="upetname">
+                                        <el-input v-model="ruleForm.upetname"></el-input>
+                                    </el-form-item>
                                     <el-form-item label="性别" prop="radio">
-                                        <el-radio v-model="ruleForm.radio" label="1">先生</el-radio>
-                                        <el-radio v-model="ruleForm.radio" label="2">女士</el-radio>
+                                        <el-radio v-model="ruleForm.usex" label="1">先生</el-radio>
+                                        <el-radio v-model="ruleForm.usex" label="2">女士</el-radio>
                                     </el-form-item>
 
                                     <el-form-item label="手机号" prop="phone">
-                                        <el-input v-model="ruleForm.phone"></el-input>
+                                        <el-input v-model="ruleForm.uphone" disabled></el-input>
                                     </el-form-item>
-
-                                    <el-form-item label="状态" prop="state">
-                                        <el-input v-model="ruleForm.state" disabled></el-input>
+                                    <el-form-item label="状态">
+                                        <el-input v-model="state" disabled></el-input>
                                     </el-form-item>
-
-
                                     <el-form-item>
                                         <el-button type="primary" @click="submitForm('ruleForm')">更新</el-button>
                                     </el-form-item>
 
                                 </el-form>
+
                             </el-col>
                         </el-row>
                     </el-tab-pane>
@@ -135,17 +186,56 @@
                         <el-row>
                             <el-col :span="10" :offset="6" style="height: 500px;">
                                 <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
+                                <el-form label-position="left" :model="idFrom" :rules="rules1" ref="idFrom"
+                                         label-width="100px" class="demo-ruleForm">
+                                    <el-form-item label="身份证号" prop="ucard">
+                                        <el-input v-model="idFrom.ucard" autocomplete="off"
+                                                  :disabled="disabled"></el-input>
+                                    </el-form-item>
 
+                                    <el-form-item label="姓名" prop="uname">
+                                        <el-input v-model="idFrom.uname" :disabled="disabled"></el-input>
+                                    </el-form-item>
+                                    <el-form-item>
+                                        <el-button type="primary" @click="submitForm1('idFrom')" :disabled="disabled">
+                                            实名认证
+                                        </el-button>
+                                    </el-form-item>
+
+                                </el-form>
                             </el-col>
                         </el-row>
                     </el-tab-pane>
                     <el-tab-pane label="密码修改">
                         <el-row>
                             <el-col :span="10" :offset="6" style="height: 500px;">
+
                                 <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
+
+
+                                <el-form label-position="left" :model="upFrom" :rules="rules2" ref="upFrom"
+                                         label-width="100px" class="demo-ruleForm">
+                                    <el-form-item label="当前密码" prop="oldPass">
+                                        <el-input v-model="upFrom.oldPass"></el-input>
+                                    </el-form-item>
+
+                                    <el-form-item label="修改密码" prop="newPass">
+                                        <el-input v-model="upFrom.newPass"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="确认密码" prop="checkPass">
+                                        <el-input v-model="upFrom.checkPass"></el-input>
+                                    </el-form-item>
+                                    <el-form-item>
+                                        <el-button type="primary" @click="submitForm2('upFrom')">更新</el-button>
+                                        <el-button @click="resetForm('upFrom')">重置</el-button>
+                                    </el-form-item>
+
+                                </el-form>
+
 
                             </el-col>
                         </el-row>
+
                     </el-tab-pane>
                 </el-tabs>
             </el-col>
@@ -154,55 +244,238 @@
 
     <!--页脚公司信息-->
     <el-footer>
-        <el-row style="height:60px;background: salmon"></el-row>
+        <el-row style="height:60px;">
+            <!--            <iframe frameborder="0" scrolling="no" hspace="0" id="fancybox-frame" name="fancybox-frame1564580392567"   src="http://i.tianqi.com/index.php?c=code&a=getcode&id=38&h=60&w=610"></iframe>-->
+            <!---->
+            <!--            <iframe frameborder="0" scrolling="no" width="420"  height="45"  allowtransparency="true" src="//i.tianqi.com/index.php?c=code&id=12&bdc=%23&icon=1&py=zhongyuanqu&num=5&site=12"></iframe>-->
+
+            <!--            <iframe width="450" scrolling="no" height="55" frameborder="0" allowtransparency="true" src="//i.tianqi.com/index.php?c=code&a=getcode&id=38&h=60&w=610"></iframe>-->
+        </el-row>
     </el-footer>
 </div>
+
 <script>
-    new Vue({
+    //验证用户名正则
+    var validatePet = (rule, value, callback) => {
+        var str = /^[\u4E00-\u9FA5A-Za-z0-9]{2,6}$/;
+        if (value === '') {
+            callback(new Error('昵称不能为空'));
+        } else if (!str.test(value)) {
+            callback(new Error('格式错误 : 昵称由2-6位中文、英文、数字组成'));
+        } else {
+            callback();
+        }
+    };
+    //验证身份正则
+    var validateCard = (rule, value, callback) => {
+        var IdCardNumberReg = /(^\d{15}$)|(^\d{17}([0-9]|X)$)/;
+        if (value === '') {
+            callback(new Error('身份证号不能为空'));
+        } else if (!IdCardNumberReg.test(value)) {
+            callback(new Error('格式错误 : 15位数字组或17位数字和1位效验码组成'));
+        } else {
+            callback();
+        }
+    };
+    //验证汉字正则
+    var validateName = (rule, value, callback) => {
+        var reg = /^[\u4e00-\u9fa5]{2,12}$/;
+        if (value === '') {
+            callback(new Error('姓名不能为空'));
+        } else if (!reg.test(value)) {
+            callback(new Error('格式错误 : 姓名由2-12位汉字组成'));
+        } else {
+            callback();
+        }
+    };
+    //密码正则
+    var validateOldPass = (rule, value, callback) => {
+        var reg = /^[A-Za-z0-9]{6,16}$/;
+        if (value === '') {
+            callback(new Error('请输入密码'));
+        } else if (!reg.test(value)) {
+            callback(new Error('格式错误 : 密码由6-16位英文和数字组成'));
+        }
+        callback();
+
+    };
+    //新密码
+    var validatePass = (rule, value, callback) => {
+        var reg = /^[A-Za-z0-9]{6,12}$/;
+        if (value === '') {
+            callback(new Error('请输入密码'));
+        } else if (!reg.test(value)) {
+            callback(new Error('格式错误 : 密码由6-16位英文和数字组成'));
+        } else {
+            if (vue.upFrom.checkPass !== '') {
+                vue.$refs.upFrom.validateField('checkPass');
+            }
+            callback();
+        }
+    };
+    //确认密码
+    var validatePass2 = (rule, value, callback) => {
+        if (value === '') {
+            callback(new Error('请再次输入密码'));
+        } else if (value !== vue.upFrom.newPass) {
+            callback(new Error('两次输入密码不一致!'));
+        } else {
+            callback();
+        }
+    };
+    var vue = new Vue({
         el: "#app",
         data: {
-            formLabelAlign: {name: '', region: '', type: ''},
-            ruleForm: {
-                name: '',
-                radio: '2',
-                phone: '',
-                state: ''
-
-            },
+            imageUrl: '',
+            imageUrl1: '',
+            disabled: true,
+            ruleForm: {id: '', upetname: '', usex: '', uphone: '', uphoto: ''},
             rules: {
-                name: [
-                    {required: true, message: '请输入活动名称', trigger: 'blur'},
-                    {min: 2, max: 6, message: '长度在 2 到 6 个字符', trigger: 'blur'}
-                ]
-            }
+                upetname: [{validator: validatePet, trigger: 'blur'}]
+            },
+            idFrom: {
+                id: '',
+                ucard: '',
+                uname: ''
+            },
+            rules1: {
+                ucard: [{validator: validateCard, trigger: 'blur'}],
+                uname: [{validator: validateName, trigger: 'blur'}]
+            },
+            upFrom: {
+                id: '',
+                uphone: '',
+                oldPass: '',
+                newPass: '',
+                checkPass: ''
+            },
+            rules2: {
+                oldPass: [{validator: validateOldPass, trigger: 'blur'}],
+                newPass: [{validator: validatePass, trigger: 'blur'}],
+                checkPass: [{validator: validatePass2, trigger: 'blur'}]
+            },
+            state: '',
+            url: ''
         },
         created: function () {
-            var self = this.ruleForm;
-            //获取用户信息
-            axios.post('http://localhost:8080/loginReg/judgeCusLogin').then(function (response) {
-                //JSON.stringify  把json对象转换为json字符串
-                //JSON.parse()把json字符串转换为json对象
-                console.log(JSON.stringify(response.data));
-                self.name = response.data.object.upetname;
-                self.radio = response.data.object.usex;
-                self.phone = response.data.object.uphone;
-                self.state = response.data.object.ustate;
-
-                console.log(self.radio);
-            });
+            this.loadData();
         },
         methods: {
+            errorHandler() {
+                return true
+            },
+            loadData: function () {
+                var self = this.ruleForm;
+                var img = this;
+                //获取用户信息
+                axios.post('http://localhost:8080/loginReg/judgeCusLogin').then(function (response) {
+
+                    if (response.data.object == null) {
+                        window.location.href = "main.html";
+                    }
+                    self.id = response.data.object.id;
+                    self.upetname = response.data.object.upetname;
+                    self.usex = response.data.object.usex + '';
+                    self.uphone = response.data.object.uphone;
+                    self.uphoto = response.data.object.uphoto;
+
+                    img.upFrom.uphone = self.uphone;
+                    img.upFrom.id = self.id;
+
+                    img.idFrom.id = self.id;
+
+                    img.imageUrl = 'http://localhost:8080/loginReg/show?fileName=' + response.data.object.uphoto;
+                    img.imageUrl1 = img.imageUrl;
+
+                    if (response.data.object.ucardState == 1) {
+                        img.state = "未实名,";
+                        img.disabled = false;
+                    } else {
+                        img.state = "已实名,";
+                        img.idFrom.ucard = response.data.object.ucard;
+                        img.idFrom.uname = response.data.object.uname;
+                    }
+                    if (response.data.object.ustate == 1) {
+                        img.state += "正常使用";
+                    } else {
+                        img.state += "禁止使用";
+                    }
+                });
+            },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        this.url = 'http://localhost:8080/loginReg/update';
+                        this.update(this.ruleForm);
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
                 });
-            }
+            },
+            submitForm1(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.url = 'http://localhost:8080/loginReg/checkID';
+                        this.update(this.idFrom);
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            submitForm2(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.url = 'http://localhost:8080/loginReg/upPass';
+                        this.update(this.upFrom);
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = URL.createObjectURL(file.raw);
+                this.ruleForm.uphoto = file.response.newFileName;
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            },
+            update(from) {
+                var self = this;
+                axios.post(this.url, from).then(function (response) {
+                    console.log(JSON.stringify(response.data));
+                    console.log(response.data.code);
+                    var s = response.data.code;
+                    if (s === 200) {
+                        self.$message({
+                            showClose: true,
+                            message: response.data.msg,
+                            type: 'success'
+                        });
+                    } else {
+                        self.$message({
+                            showClose: true,
+                            message: response.data.msg,
+                            type: 'error'
+                        });
+                    }
 
+                    self.loadData();
+                });
+            }
         }
     });
 </script>

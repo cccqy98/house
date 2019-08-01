@@ -9,6 +9,9 @@ import com.aliyuncs.exceptions.ClientException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
+import static com.aaa.house.utils.OtherUtil.checkIDCard;
 import static com.aaa.house.utils.SecurityCodeUtil.sendSms;
 
 /**
@@ -16,6 +19,7 @@ import static com.aaa.house.utils.SecurityCodeUtil.sendSms;
  * @author: L_Fly
  * @Date: 2019/7/29  Time：10:48
  * @Version 1.0.0
+ * 用户数据操作
  */
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,6 +31,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 获取验证码
+     *
      * @param phone 参数手机号
      * @return String 返回值为null或者不为null
      */
@@ -59,7 +64,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int checkCodeInsertSelective(User record, String code) {
-        System.out.println("判断code" + randomCode);
         //核对验证码
         if (code.equals(randomCode)) {
             //判断id是否为空
@@ -82,23 +86,27 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 根据手机号查询用户信息,核对信息进行登录
+     *
      * @param record 实体对象
      * @return User实体对象
      */
     @Override
     public User checkLogin(User record) {
+        System.out.println("验证登录");
+        System.out.println(record);
         //获取手机号
         String phone = record.getUPhone();
         //根据手机号查询用户
         User user = userMapper.selectByPrimaryKey(phone);
         //如果用户部位null
-        if (user!=null){
+        if (user != null) {
+            //对前台传输密码进行MD5加密
             record.setUPassword(OtherUtil.MD5(record.getUPassword(), phone));
-            String paramPassword=record.getUPassword();
-            System.out.println("参数密码"+paramPassword);
-            String password=user.getUPassword();
-            System.out.println("查询到的密码"+password);
-            if (password.equals(paramPassword)){
+            //得到加密后的密码
+            String paramPassword = record.getUPassword();
+            //得到原始密码
+            String password = user.getUPassword();
+            if (password.equals(paramPassword)) {
                 CusUtil.saveCus(user);
                 return user;
             }
@@ -113,10 +121,74 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User judgeCusLogin() {
-        user=CusUtil.getCusFromSession();
-        if(user==null){
+        //获取session中的值
+        user = CusUtil.getCusFromSession();
+        if (user == null) {
             return null;
         }
         return user;
+    }
+
+    /**
+     * 根据id修改用户信息
+     *
+     * @param record
+     * @return
+     */
+    @Override
+    public boolean updateByPrimaryKeySelective(User record) {
+        int result = userMapper.updateByPrimaryKeySelective(record);
+        if (result > 0) {
+            //修改信息成功之后更新session
+            String phone = record.getUPhone();
+            User user = userMapper.selectByPrimaryKey(phone);
+            //往sessions中保存
+            CusUtil.saveCus(user);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 验证身份证号
+     *
+     * @param record
+     * @return
+     */
+    @Override
+    public boolean checkID(User record) {
+        String uCard = record.getUCard();
+        String uName = record.getUName();
+//  HttpEntity httpEntity = checkIDCard(uCard, uName);
+        boolean b = checkIDCard(uCard, uName);
+        if (b) {
+            record.setUcardState(2);
+            this.updateByPrimaryKeySelective(record);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param map
+     * @return
+     */
+    @Override
+    public boolean upPass(Map map) {
+        User user = new User();
+        user.setUPhone((String) map.get("uphone"));
+        user.setUPassword((String) map.get("oldPass"));
+        user.setId((Integer) map.get("id"));
+        Object obj = this.checkLogin(user);
+        if (obj != null) {
+            user.setUPassword(OtherUtil.MD5((String) map.get("newPass"), user.getUPhone()));
+            if (updateByPrimaryKeySelective(user)) {
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 }

@@ -2,6 +2,8 @@ package com.aaa.house.service;
 
 import com.aaa.house.entity.User;
 
+import java.util.Map;
+
 /**
  * @Classname：UserService
  * @author: L_Fly
@@ -38,4 +40,28 @@ public interface UserService {
      * @return 实体对象
      */
     User judgeCusLogin();
+
+    /**
+     * 根据id修改用户信息
+     *
+     * @param record
+     * @return
+     */
+    boolean updateByPrimaryKeySelective(User record);
+
+    /**
+     * 验证身份信息，进行用户信息完善
+     *
+     * @param record
+     * @return
+     */
+    boolean checkID(User record);
+
+    /**
+     * 密码修改
+     *
+     * @param map
+     * @return
+     */
+    boolean upPass(Map map);
 }
