@@ -1,5 +1,7 @@
 package com.aaa.house.service;
 
+import com.aaa.house.entity.House;
+
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +18,7 @@ public interface HouseService {
      * @param map
      * @return
      */
-    List<Map> queryHouseAll(Map map);
+    List<House> queryHouseAll(Map map);
 
     /**
      * 查询总数
@@ -24,4 +26,9 @@ public interface HouseService {
      * @return
      */
     Integer queryHousePageCount(Map map);
+    /**
+     * 查询房屋布局
+     * @return
+     */
+    List<Map> selectLayout();
 }

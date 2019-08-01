@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>蜗壳</title>
-    <link rel="shortcut icon" href="resources/images/favicon.ico"/>
+    <title>枫城</title>
+    <link rel="shortcut icon" href="resources/images/fengye1.ico"/>
     <script src="resources/js/jquery.js"></script>
     <script src="resources/js/axios.js"></script>
     <script src="resources/vue/vue.js"></script>
@@ -58,13 +58,15 @@
             margin-right: 10px;
             font-size: 13px;
         }
-
+        .zf span{
+            margin-right: 15px;
+        }
         .zf {
             margin-bottom: 10px;
             margin-top: 10px;
         }
-        .zf span{
-            margin-right: 15px;
+        #bu {
+            margin-right: 8px;
         }
         #zflist a{
             font-size: 20px;
@@ -82,8 +84,8 @@
         .ant-list-item-meta-content{
             margin-left: 30px;
         }
-        .ant-list-item-meta-description{
-            font-size: 15px;
+        .ant-form-item-children{
+            margin-right: 0px;
         }
         .ant-list-item-meta-description span{
             font-size: 14px;
@@ -142,12 +144,36 @@
             <a-layout>
                 <a-layout-content style="margin-top: 20px;margin-left: 20px;">
                     <div class="zf">
-                        <h1 style="display: inline">蜗壳租房 </h1>&nbsp;<h1 style="display: inline;color: gray">|</h1>&nbsp;
+                        <h1 style="display: inline">枫城租房 </h1>&nbsp;<h1 style="display: inline;color: gray">|</h1>&nbsp;
                         <a id="allmap"></a>
                     </div>
-                    <div class="zf">
-                        <a-input-search style="width: 500px" placeholder="请输入区域、商圈或小区名开始找房" v-model="hadr" @search="load(1)"
-                                        enterButton="Search" size="large"/>
+                    <div>
+                        <a-form layout="inline" :form="form">
+                            <a-form-item label="租金"  style="margin-right: 0px;">
+                                <a-input v-model="form.rentStart" style=" width: 100px; text-align:center;"/>
+                            </a-form-item>
+                            <span style="text-align: center">~</span>
+                            <a-form-item >
+                                <a-input v-model="form.rentOver" style="width: 100px; text-align: center;"/>
+                            </a-form-item>
+                            <a-form-item label="房屋布局">
+                                <a-select v-model="form.houseLayout" style="width: 120px">
+                                    <a-select-option v-for="item in houlayout" :key="item.num" :label="item.val" :value="item.num">{{item.val}}</a-select-option>
+                                </a-select>
+                            </a-form-item>
+                            <a-form-item label="地区" >
+                                <a-select v-model="form.houseUrban" id="urb" style="width: 120px" @change="handleProvinceChange">
+                                    <a-select-option v-for="item in provinceData" :key="item.codeNumber" :label="item.codeState" :value="item.codeNumber">{{item.codeState}}</a-select-option>
+                                </a-select>
+                                <a-select v-model="form.houseStreet" style="width: 120px">
+                                    <a-select-option v-for="ke in cityData" :key="ke.codeNumber" :label="ke.codeState" :value="ke.codeNumber">{{ke.codeState}}</a-select-option>
+                                </a-select>
+                            </a-form-item>
+                            <a-form-item  id="bu">
+                                <a-button type="primary" icon="redo" @click="flash"></a-button>
+                                <a-button type="primary" icon="search" @click="submet"></a-button>
+                            </a-form-item>
+                        </a-form>
                     </div>
                 </a-layout-content>
                 <a-layout-content style="background-color: #fff">
@@ -164,16 +190,16 @@
                                 <a-list-item v-for="item in listData" :id="item.id">
                                     <a-list-item-meta>
                                         <a slot="title" @click="houseDetail(item.id)" :hid="item.id">{{item.houseTitle}}</a>
-                                        <span slot="description">{{item.dcodeState}}-{{item.houseStreet}}-{{item.houseDistrict}}&nbsp;&nbsp;&nbsp;/</span>
+                                        <span slot="description">{{item.houurban}}-{{item.houstreet}}-{{item.houseDistrict}}&nbsp;&nbsp;&nbsp;/</span>
                                         <span slot="description">{{item.houseArea}}㎡&nbsp;&nbsp;&nbsp;/</span>
-                                        <span slot="description">{{item.ecodeState}}&nbsp;&nbsp;&nbsp;/</span>
-                                        <span slot="description">{{item.ccodeState}}</span>
+                                        <span slot="description">{{item.houorientation}}&nbsp;&nbsp;&nbsp;/</span>
+                                        <span slot="description">{{item.houlayout}}</span>
                                         <span id="price" slot="description">{{item.houseRent}}<span slot="description">元/月</span></span>
                                         <p slot="description"><a-icon type="clock-circle"></a-icon>&nbsp;{{item.newstime}}天前发布</p>
-                                        <!--<ul id="ulinfo" slot="description" style="padding-left: 10px;">
-                                            <li slot="description" v-for="(k,index) in item.desctag">{{k}}</li>
+                                        <ul id="ulinfo" slot="description" style="padding-left: 10px;">
+                                            <li slot="description" v-for="(k,index) in item.houseLabel">{{k}}</li>
                                         </ul>
-                                        <img slot="avatar" :src="item.himg"/>-->
+                                        <img slot="avatar" :src="item.houseCover"/>
                                     </a-list-item-meta>
                                 </a-list-item>
                             </a-list>
@@ -204,18 +230,55 @@
             currentPage: 1,
             pageSize: 2,
             total: 0,
-            hadr:""  //查询条件
+            provinceData:[],
+            cityData:[],
+            form:{
+                rentStart:'',
+                rentOver:'',
+                houseLayout:'',
+                houseUrban:'',
+                houseStreet:''
+            },
         },
         mounted: function () {
+            this.selectlayout();
+            this.selectcity();
             this.load();
         },
         methods: {
+            selectlayout:function () {
+                var self = this;
+                axios.post('/house/layout')
+                    .then(function(response) {
+                        self.houlayout = response.data;
+                    })
+            },
+            selectcity:function () {
+                var self = this;
+                axios.post('/city/region')
+                    .then(function(response) {
+                        self.provinceData = response.data;
+                        for (var i in self.provinceData) {
+                            var obj = self.provinceData[i];
+                            if (obj.codeNumber == self.form.houseUrban) {
+                                self.cityData = obj.houseStreet;
+                                break;
+                            }
+                        }
+                        self.form.houseStreet = self.cityData[0].codeNumber;
+                    })
+            },
             load:function () {
                 var self = this;
                 var start = (this.currentPage - 1) * this.pageSize;
                 axios.post('/house/page', {
                     start: start,
-                    pageSize: this.pageSize
+                    pageSize: this.pageSize,
+                    rentStart:this.form.rentStart,
+                    rentOver:this.form.rentOver,
+                    houseLayout:this.form.houseLayout,
+                    houseUrban:this.form.houseUrban,
+                    houseStreet:this.form.houseStreet
                 })
                     .then(function(response) {
                         self.listData = response.data.empList;
@@ -233,8 +296,25 @@
                 this.currentPage = page;
                 this.load();
             },
+            handleProvinceChange:function () {
+                this.selectcity();
+            },
+            flash:function () {
+                this.form={
+                    rentStart:'',
+                    rentOver:'',
+                    houseLayout:'',
+                    houseUrban:'',
+                    houseStreet:''
+                }
+                this.load();
+            },
+            submet:function () {
+                this.load();
+            }
+        },
 
-  },
+
             /*
             houseDetail:function (hid) {
                 location.href="housedetail.html?id="+hid;

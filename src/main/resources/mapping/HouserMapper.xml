@@ -8,7 +8,6 @@
         <result column="house_urban" jdbcType="INTEGER" property="houseUrban" />
         <result column="house_street" jdbcType="INTEGER" property="houseStreet" />
         <result column="house_district" jdbcType="VARCHAR" property="houseDistrict" />
-        <result column="house_lable" jdbcType="INTEGER" property="houseLable" />
         <result column="house_rent" jdbcType="INTEGER" property="houseRent" />
         <result column="house_state" jdbcType="INTEGER" property="houseState" />
         <result column="house_area" jdbcType="INTEGER" property="houseArea" />
@@ -27,8 +26,8 @@
         house_rent, house_state, house_area, house_floor, house_orientation, house_date,
         house_layout, house_staffid, house_audit, house_certificate
     </sql>
-    <select id="queryHouseAll"  resultType="map" resultMap="BaseResultMap">
-        select a.*,b.himg,DATE_FORMAT(a.house_date,'%Y-%m-%d') house_date, DATEDIFF(NOW(),a.house_date) newstime, c.code_state as ccodeState,d.code_state as dcodeState,e.code_state as ecodeState from house a join house_img b on a.id=b.hid join (select * from code where code_type=7) c on a.house_layout=c.code_number join (select * from code where code_type=11300) d on a.house_urban=d.code_number join (select * from code where code_type=6) e on a.house_orientation=e.code_number
+    <select id="queryHouseAll"  resultType="house" resultMap="BaseResultMap">
+        select a.*,DATE_FORMAT(a.house_date,'%Y-%m-%d') house_date, DATEDIFF(NOW(),a.house_date) newstime, c.code_state as houlayout,d.code_state as houurban,f.code_state as houstreet,g.code_state as houorientation from house a join (select * from code where code_type=7) c on a.house_layout=c.code_number join (select * from code where code_type=11300) d on a.house_urban=d.code_number join code e on e.code_number=a.house_urban join code f  on a.house_street=f.code_number join (select * from code where code_type=6) g on a.house_orientation=g.code_number
         <where>
             <if test="id!=null and id!=''">
                 and id like "%"#{id}"%"
@@ -39,8 +38,8 @@
             <if test="rentOver!=null and rentOver!=''">
                 and a.house_rent <![CDATA[ <= ]]> #{rentOver}
             </if>
-            <if test="houseLable!=null and houseLable!=''">
-                and a.house_layout =#{houseLable}
+            <if test="houseLayout!=null and houseLayout!=''">
+                and a.house_layout =#{houseLayout}
             </if>
             <if test="houseUrban!=null and houseUrban!=''">
                 and a.house_urban =#{houseUrban}
@@ -51,7 +50,7 @@
         </where> limit ${start},${pageSize}
     </select>
     <select id="queryHousePageCount"  resultType="Integer" >
-        select count(*) from house a join house_img b on a.id=b.hid join (select * from code where code_type=7) c on a.house_layout=c.code_number join (select * from code where code_type=11300) d on a.house_urban=d.code_number join (select * from code where code_type=6) e on a.house_orientation=e.code_number
+        select count(*) from house a join (select * from code where code_type=7) c on a.house_layout=c.code_number join (select * from code where code_type=11300) d on a.house_urban=d.code_number join code e on e.code_number=a.house_urban join code f  on a.house_street=f.code_number join (select * from code where code_type=6) g on a.house_orientation=g.code_number
         <where>
             <if test="id!=null and id!=''">
                 and id like "%"#{id}"%"
@@ -62,8 +61,8 @@
             <if test="rentOver!=null and rentOver!=''">
                 and a.house_rent <![CDATA[ <= ]]> #{rentOver}
             </if>
-            <if test="houseLable!=null and houseLable!=''">
-                and a.house_layout =#{houseLable}
+            <if test="houseLayout!=null and houseLayout!=''">
+                and a.house_layout =#{houseLayout}
             </if>
             <if test="houseUrban!=null and houseUrban!=''">
                 and a.house_urban =#{houseUrban}
@@ -72,6 +71,18 @@
                 and a.house_street =#{houseStreet}
             </if>
         </where>
+    </select>
+    <select id="selectLable"  resultType="string">
+        select b.code_state lable from house_lable a join code b on a.la_id=b.code_number
+        <where>
+             b.code_type=9
+            <if test="id!=null and id!=''">
+                and a.ho_id=#{id}
+            </if>
+        </where>
+    </select>
+    <select id="selectLayout"  resultType="map">
+        select code_number num,code_state val from code where code_type=7
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from house

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.house.dao.CityDao">
+    <resultMap id="CityMap" type="com.aaa.house.entity.City">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="code_type" jdbcType="INTEGER" property="codeType" />
+        <result column="code_number" jdbcType="INTEGER" property="codeNumber" />
+        <result column="code_state" jdbcType="VARCHAR" property="codeState" />
+    </resultMap>
+    <select id="selectCity"  resultType="city" resultMap="CityMap">
+        select * from code where code_type=11300
+    </select>
+    <select id="selectStreet" resultType="city" resultMap="CityMap">
+        select * from code where code_type=#{cNumber}
+    </select>
+</mapper>

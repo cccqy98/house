@@ -23,6 +23,11 @@ public class HouseController {
     @Autowired
     private HouseService houseService;
 
+    /**
+     * 查询房屋信息
+     * @param map
+     * @return
+     */
     @RequestMapping("/page")
     public Object queryAll(@RequestBody Map map) {
         //验证
@@ -32,5 +37,14 @@ public class HouseController {
         mapResult.put("empList", houseService.queryHouseAll(map));
         mapResult.put("total", houseService.queryHousePageCount(map));
         return mapResult;
+    }
+
+    /**
+     * 查询房间布局
+     * @return
+     */
+    @RequestMapping("/layout")
+    public Object selectLayout() {
+        return houseService.selectLayout();
     }
 }

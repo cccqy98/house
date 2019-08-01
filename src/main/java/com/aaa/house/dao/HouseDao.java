@@ -27,7 +27,7 @@ public interface HouseDao {
      * @param map
      * @return
      */
-    List<Map> queryHouseAll(Map map);
+    List<House> queryHouseAll(Map map);
 
     /**
      * 查询总数
@@ -35,6 +35,19 @@ public interface HouseDao {
      * @return
      */
     Integer queryHousePageCount(Map map);
+
+    /**
+     * 根据id查询标签
+     * @param id
+     * @return
+     */
+    List<String> selectLable(Integer id);
+
+    /**
+     * 查询房屋布局
+     * @return
+     */
+    List<Map> selectLayout();
 
     int updateByPrimaryKeySelective(House record);
 

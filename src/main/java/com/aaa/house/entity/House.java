@@ -1,6 +1,7 @@
 package com.aaa.house.entity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * fileName:House
@@ -22,7 +23,6 @@ public class House {
 
     private String houseDistrict;
 
-    private Integer houseLable;
 
     private Integer houseRent;
 
@@ -44,10 +44,18 @@ public class House {
     private Integer houseAudit;
 
     private String houseCertificate;
+
     private String houseCover;
-    private String ccodeState;
-    private String dcodeState;
-    private String ecodeState;
+
+    private String houlayout;
+
+    private String houurban;
+
+    private String houstreet;
+
+    private String houorientation;
+
+    private List<String> houseLabel;
 
     public Integer getId() {
         return id;
@@ -95,14 +103,6 @@ public class House {
 
     public void setHouseDistrict(String houseDistrict) {
         this.houseDistrict = houseDistrict == null ? null : houseDistrict.trim();
-    }
-
-    public Integer getHouseLable() {
-        return houseLable;
-    }
-
-    public void setHouseLable(Integer houseLable) {
-        this.houseLable = houseLable;
     }
 
     public Integer getHouseRent() {
@@ -185,30 +185,6 @@ public class House {
         this.houseCertificate = houseCertificate == null ? null : houseCertificate.trim();
     }
 
-    public String getCcodeState() {
-        return ccodeState;
-    }
-
-    public void setCcodeState(String ccodeState) {
-        this.ccodeState = ccodeState;
-    }
-
-    public String getDcodeState() {
-        return dcodeState;
-    }
-
-    public void setDcodeState(String dcodeState) {
-        this.dcodeState = dcodeState;
-    }
-
-    public String getEcodeState() {
-        return ecodeState;
-    }
-
-    public void setEcodeState(String ecodeState) {
-        this.ecodeState = ecodeState;
-    }
-
     public Integer getNewstime() {
         return newstime;
     }
@@ -223,5 +199,45 @@ public class House {
 
     public void setHouseCover(String houseCover) {
         this.houseCover = houseCover;
+    }
+
+    public String getHoulayout() {
+        return houlayout;
+    }
+
+    public void setHoulayout(String houlayout) {
+        this.houlayout = houlayout;
+    }
+
+    public String getHouurban() {
+        return houurban;
+    }
+
+    public void setHouurban(String houurban) {
+        this.houurban = houurban;
+    }
+
+    public String getHoustreet() {
+        return houstreet;
+    }
+
+    public void setHoustreet(String houstreet) {
+        this.houstreet = houstreet;
+    }
+
+    public String getHouorientation() {
+        return houorientation;
+    }
+
+    public void setHouorientation(String houorientation) {
+        this.houorientation = houorientation;
+    }
+
+    public List<String> getHouseLabel() {
+        return houseLabel;
+    }
+
+    public void setHouseLabel(List<String> houseLabel) {
+        this.houseLabel = houseLabel;
     }
 }
