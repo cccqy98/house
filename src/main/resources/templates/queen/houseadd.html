@@ -94,7 +94,7 @@
 				</el-header>
 				<el-main>
 
-						<el-form ref="eform" label-width="100px">
+						<el-form ref="eform" :rules="rules" :model="eform" label-width="100px">
 							<el-form-item label="经纪人信息">
 								<el-col :span="8">
 									<span>编号&nbsp;&nbsp;</span>
@@ -115,7 +115,7 @@
 							<el-form-item label="房东信息" :label-width="formLabelWidth">
 								<el-col :span="8">
 									<span>姓名&nbsp;&nbsp;</span>
-									<el-select v-model="eform.uh_name" @change="searchName"  placeholder="请选择房东姓名" size="large" clearable>
+									<el-select v-model="eform.uh_name" prop="uh_name"  @change="searchName"  placeholder="请选择房东姓名" size="large" clearable>
 										<el-option
 												v-for="item in options"
 												:key="item.uh_useid"
@@ -127,7 +127,7 @@
 
 								<el-col :span="8">
 									<span>房屋&nbsp;&nbsp;</span>
-									<el-select v-model="eform.uhouse"   placeholder="请选择房东房屋号" size="large" clearable >
+									<el-select v-model="eform.uhouse" prop="uhouse"  placeholder="请选择房东房屋号" size="large" clearable >
 										<el-option
 												v-for="item in options1"
 												:key="item.uh_id"
@@ -140,9 +140,26 @@
 							</el-form-item>
 
 
-							<el-form-item label="房屋封面" :label-width="formLabelWidth">
 
-								<el-upload
+
+
+							<el-form-item label="房屋封面" prop="headPic" :label-width="formLabelWidth">
+
+									<el-upload
+											name="headPic"
+											action="/uploadHeadPic"
+											list-type="picture-card"
+											:on-success="handleAvatarSuccess"
+											:on-preview="handleAvatarSuccess"
+											:on-remove="handleRemove">
+										<i class="el-icon-plus"></i>
+									</el-upload>
+									<el-dialog :visible.sync="dialogVisible">
+										<img width="100%" :src="imageUrl" alt="">
+									</el-dialog>
+
+
+								<!--<el-upload
 										name="headPic"
 										class="avatar-uploader"
 										action="/uploadHeadPic"
@@ -151,10 +168,32 @@
 										:before-upload="beforeAvatarUpload">
 									<img v-if="imageUrl" :src="imageUrl" class="avatar">
 									<i v-else class="el-icon-plus avatar-uploader-icon"></i>
-								</el-upload>
+								</el-upload>-->
 							</el-form-item>
 
-							<el-form-item label="房产证图" :label-width="formLabelWidth">
+
+
+
+
+
+
+
+
+							<el-form-item label="房产证图" prop="headPic1" :label-width="formLabelWidth">
+								<el-upload
+										name="headPic1"
+										action="/uploadHeadPic1"
+										list-type="picture-card"
+										:on-success="handleAvatarSuccess1"
+										:on-preview="handleAvatarSuccess1"
+										:on-remove="handleRemove">
+									<i class="el-icon-plus"></i>
+								</el-upload>
+								<el-dialog :visible.sync="dialogVisible">
+									<img width="100%" :src="imageUrll" alt="">
+								</el-dialog>
+
+								<!--
 								<el-upload
 										name="headPic1"
 										class="avatar-uploader"
@@ -164,17 +203,17 @@
 										:before-upload="beforeAvatarUpload">
 									<img v-if="imageUrll" :src="imageUrll" class="avatar">
 									<i v-else class="el-icon-plus avatar-uploader-icon"></i>
-								</el-upload>
+								</el-upload>-->
 
 							</el-form-item>
 
-							<el-form-item label="房屋标题" prop="htitle">
+							<el-form-item label="房屋标题" prop="house_title">
 								<el-input v-model="eform.house_title"></el-input>
 							</el-form-item>
 
 							<el-form-item label="房屋地址">
 								<el-col :span="8">
-									<el-form-item label="城市" :label-width="formLabelWidth">
+									<el-form-item label="城市" prop="uh_urban" :label-width="formLabelWidth">
 										<el-select v-model="eform.uh_urban" @change="urbanStreet" placeholder="请选择地区" id="address">
 											<el-option label="郑州" value="1130121"></el-option>
 											<el-option label="开封" value="1130122"></el-option>
@@ -192,7 +231,7 @@
 								</el-col>
 
 								<el-col :span="8">
-									<el-form-item label="街道" :label-width="formLabelWidth">
+									<el-form-item label="街道" prop="uh_street" :label-width="formLabelWidth">
 										<el-select v-model="eform.uh_street" placeholder="请选择">
 											<el-option
 													v-for="item in options3"
@@ -205,7 +244,7 @@
 								</el-col>
 
 								<el-col :span="8">
-									<el-form-item label="详细地址" prop="street">
+									<el-form-item label="详细地址" prop="uh_district">
 										<el-input id="street" v-model="eform.uh_district" placeholder="详细地址" style="width:220px"></el-input>
 									</el-form-item>
 								</el-col>
@@ -216,7 +255,7 @@
 
 
 								<el-col :span="8">
-									<el-form-item label="楼层" prop="hfloor">
+									<el-form-item label="楼层" prop="house_floor">
 										<el-input v-model.number="eform.house_floor" style="width:220px" placeholder="请输入楼层数"></el-input>
 									</el-form-item>
 								</el-col>
@@ -237,7 +276,7 @@
 								</el-col>
 
 								<el-col :span="8">
-									<el-form-item label="布局" :label-width="formLabelWidth">
+									<el-form-item label="布局" prop="house_layout" :label-width="formLabelWidth">
 										<el-select v-model="eform.house_layout" placeholder="请选择">
 											<el-option label="单间" value="1"></el-option>
 											<el-option label="双人间" value="2"></el-option>
@@ -252,19 +291,19 @@
 								</el-col>
 
 								<el-col :span="8">
-									<el-form-item label="面积" prop="hspace" style="margin-top: 20px;">
+									<el-form-item label="面积" prop="house_area" style="margin-top: 20px;">
 										<el-input v-model.number="eform.house_area" style="width:220px;" placeholder="m^2"></el-input>
 									</el-form-item>
 								</el-col>
 
 								<el-col :span="8">
-									<el-form-item label="租金" prop="hrent" style="margin-top: 20px;">
+									<el-form-item label="租金" prop="house_rent" style="margin-top: 20px;">
 										<el-input v-model.number="eform.house_rent" style="width:220px;" placeholder="元/月"></el-input>
 									</el-form-item>
 								</el-col>
 
 								<el-col :span="8">
-									<el-form-item label="发布日期" :label-width="formLabelWidth">
+									<el-form-item style="margin-top: 20px;" prop="house_date" label="发布日期" :label-width="formLabelWidth">
 										<el-date-picker
 												v-model="eform.house_date"
 												align="right"
@@ -275,34 +314,18 @@
 										</el-date-picker>
 									</el-form-item>
 								</el-col>
-
-								<el-col :span="8">
-									<el-input type="hidden" v-model="eform.himg" :value="eform.himg" style="width: 200px;margin-top: 10px;"></el-input>
-								</el-col>
-								<el-col :span="8">
-									<el-input type="hidden" v-model="eform.cimg" :value="eform.cimg" style="width: 200px;margin-top: 10px;"></el-input>
-								</el-col>
 							</el-form-item>
 
 						<!--1-------------------------------------------------1-->
 
 						<el-form-item label="房屋标签">
-							<el-checkbox-group v-model="eform.aa">
-								<el-checkbox label="近地铁" value="1" name="house_lable"></el-checkbox>
-								<el-checkbox label="随时看房" value="2" name="house_lable"></el-checkbox>
-								<el-checkbox label="在线签约" value="3" name="house_lable"></el-checkbox>
-								<el-checkbox label="月租" value="5" name="house_lable"></el-checkbox>
-								<el-checkbox label="独立卫生间" value="4" name="house_lable"></el-checkbox>
-								<el-checkbox label="精装" value="6" name="house_lable"></el-checkbox>
-								<el-checkbox label="独立阳台" value="7" name="house_lable"></el-checkbox>
-								<el-checkbox label="中央空调" value="8" name="house_lable"></el-checkbox>
-								<el-checkbox label="押一付一" value="9" name="house_lable"></el-checkbox>
-								<el-checkbox label="拎包入住"  value="10" name="house_lable"></el-checkbox>
+							<el-checkbox-group v-model="checkedCities">
+								<el-checkbox v-for="city in cities" :label="city.key" :key="city.key" >{{city.name}}</el-checkbox>
 							</el-checkbox-group>
 						</el-form-item>
 
 
-						<el-form-item label="房屋组图">
+						<el-form-item label="房屋组图" prop="headPic2">
 							<el-upload
 									name="headPic2"
 									action="/uploadHeadPic2"
@@ -332,6 +355,12 @@
 			new Vue({
 				el: "#res",
 				data: {
+					checkAll: false,
+					cities: [{key:'1',name:'近地铁'},{key:'2',name:'随时看房'},{key:'3',name:'在线签约'},{key:'4',name:'独立卫生间'},
+						{key:'5',name:'月租'},{key:'6',name:'精装'},{key:'7',name:'独立阳台'},{key:'8',name:'中央空调'}
+						,{key:'9',name:'押一付一'},{key:'10',name:'拎包入住'}],
+					isIndeterminate: true,
+					checkedCities:[],//标签
 					dialogImageUrl: '',/*回显*/
 					dialogVisible: false,
 					rolefrom: false,
@@ -342,28 +371,52 @@
 					eform: {
 						staff_num:'',//经济人编号
 						uh_name:'',//房东id
+                        uhouse:'',//房屋id
 						house_title: '', //标题
 						uh_urban: '', //市区
-						code_state: '', //街道
+						uh_street: '', //街道
 						uh_district: '', //详细地址
 						house_floor: '', //楼层
 						house_orientation: '', //朝向
 						house_layout: '', //格局
 						house_area: '', //面积
 						house_rent: '', //租金
-						releasedate: '', //发布日期
+						house_date: '', //发布日期
 						headPic:'',//封面
 						headPic1:'',//房产证图
-						house_lable:[],//房屋标签
 						headPic2:[]//房图
 
 					},
+						pickerOptions: {
+							disabledDate:function(time) {
+								return time.getTime() > Date.now();
+							},
+							shortcuts: [{
+								text: '今天',
+								onClick:function(picker) {
+									picker.$emit('pick', new Date());
+								}
+							}, {
+								text: '昨天',
+								onClick:function(picker) {
+									const date = new Date();
+									date.setTime(date.getTime() - 3600 * 1000 * 24);
+									picker.$emit('pick', date);
+								}
+							}, {
+								text: '一周前',
+								onClick:function(picker) {
+									const date = new Date();
+									date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+									picker.$emit('pick', date);
+								}
+							}]
+						},
 					imageUrl: '',/*回显*/
 					imageUrll: '',/*回显*/
 					// 校验规则
 					rules: {
-						checkAll: false,
-						htitle: [{
+						house_title: [{
 								required: true, //是否必填
 								message: '标题不能为空', //规则
 								trigger: 'blur' //何事件触发
@@ -371,25 +424,25 @@
 							//可以设置双重验证标准
 							{
 								min: 3,
-								max: 5,
-								message: '长度在 3 到 5 个字符',
+								max: 10,
+								message: '长度在 3 到 10 个字符',
 							}
 						],
-						street: [{
+						uh_district: [{
 							required: true, //是否必填
 							message: '详细地址不能为空', //规则
 							trigger: 'blur' //何事件触发
 						}],
-						uptown: [{
+						code_state: [{
 							required: true, //是否必填
-							message: '小区不能为空', //规则
+							message: '街道不能为空', //规则
 							trigger: 'blur' //何事件触发
 						}],
 						address: [{
 							required: true, //是否必填
 						}],
 
-						hfloor: [{
+						house_floor: [{
 								required: true, //是否必填
 								message: '楼层不能为空', //规则
 								trigger: 'blur' //何事件触发
@@ -401,14 +454,20 @@
 						],
 						house_orientation: [{
 							required: true, //是否必填
-							message: '格局不能为空', //规则
+							message: '朝向不能为空', //规则
+							trigger: 'blur' //何事件触发
 						}],
 						hdesc: [{
 							required: true, //是否必填
 							message: '格局不能为空', //规则
 							trigger: 'blur' //何事件触发
 						}],
-						hspace: [{
+						uh_urban: [{
+							required: true, //是否必填
+							message: '城市不能为空', //规则
+							trigger: 'blur' //何事件触发
+						}],
+						house_area: [{
 								required: true, //是否必填
 								message: '面积不能为空', //规则
 								trigger: 'blur' //何事件触发
@@ -418,7 +477,7 @@
 								message: '面积必须是数字'
 							}
 						],
-						hrent: [{
+						house_rent: [{
 								required: true, //是否必填
 								message: '租金不能为空', //规则
 								trigger: 'blur' //何事件触发
@@ -428,9 +487,10 @@
 								message: '租金必须是数字'
 							}
 						],
-						releasedate: [{
+						house_date: [{
 							required: true, //是否必填
 							message: '日期不能为空', //规则
+							trigger: 'blur' //何事件触发
 						}],
 					},
 
@@ -457,7 +517,6 @@
 									//JSON.stringify 把json对象装换为json字符串
 									console.log(JSON.stringify(response.data));
 									self.eform=response.data;
-									console.log(response.data)
 								});
 					},
 					all: function() {//房东
@@ -478,7 +537,6 @@
 									//JSON.stringify 把json对象装换为json字符串
 									console.log(JSON.stringify(response.data));
 									self.options1=response.data;
-									self.eform.uhouse=response.data[0].uh_id;
 								});
 
 					},
@@ -524,20 +582,26 @@
 						return isJPG && isLt2M;
 					},
 
+
+
 					onSubmit: function() {
 						var self=this;
-						axios.post('/setHouse',this.eform)
+						axios.post('/setHouse',{"checkedCities":this.checkedCities,"staff_num":this.eform.staff_num,
+						"uh_name":this.eform.uh_name,"house_id":this.eform.uhouse,"house_title":this.eform.house_title,"uh_urban":this.eform.uh_urban,"uh_street":this.eform.uh_street,
+								"uh_district":this.eform.uh_district,"house_floor":this.eform.house_floor,"headPic":this.eform.headPic,
+							"house_orientation":this.eform.house_orientation,"house_layout":this.eform.house_layout,"house_area":this.eform.house_area,
+							"house_rent":this.eform.house_rent,"house_date":this.eform.house_date,"headPic1":this.eform.headPic1,
+							"headPic2":this.eform.headPic2})
 								.then(function (response) {
 									//添加或者修改成功
-									if (response.data==1){
+									if (response.data.code==200){
 										self.$message({
 											message: '恭喜你，这是一条成功消息',
 											type: 'success'
 										});
-										//关闭弹出框
-										self.dialogFormVisible=false;
 										//刷新界面
-										self.loadData();
+										this.loadData();
+
 									}else {
 										self.$message.error('错了哦，这是一条错误消息');
 									}

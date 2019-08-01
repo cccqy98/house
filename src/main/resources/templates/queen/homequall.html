@@ -108,24 +108,24 @@
                         <el-form label-position="left" inline class="demo-table-expand">
                             <div class="yc">
                                 <el-form-item label="房屋租金:">
-                                    <span>{{ props.row.hrent }}</span>
+                                    <span>{{ props.row.house_rent }}</span>
                                 </el-form-item>
                                 <el-form-item label="房屋楼层:">
-                                    <span>{{ props.row.hfloor }}</span>
+                                    <span>{{ props.row.house_floor }}</span>
                                 </el-form-item>
                                 <el-form-item label="房屋面积:">
-                                    <span>{{ props.row.hspace }}</span>
+                                    <span>{{ props.row.house_area }}</span>
                                 </el-form-item>
                             </div>
                             <div class="yc">
                                 <el-form-item label="房屋朝向:">
-                                    <span>{{ props.row.orientation }}</span>
+                                    <span>{{ props.row.house_orintation }}</span>
                                 </el-form-item>
                                 <el-form-item label="发布日期:">
-                                    <span>{{ props.row.releasedate }}</span>
+                                    <span>{{ props.row.house_date }}</span>
                                 </el-form-item>
                                 <el-form-item label="房屋布局:">
-                                    <span>{{ props.row.hdesc }}</span>
+                                    <span>{{ props.row.house_layout }}</span>
                                 </el-form-item>
                             </div>
                             <div class="yc">
@@ -139,10 +139,10 @@
                         </el-form>
                     </template>
                 </el-table-column>
-                <el-table-column prop="houseid" label="房屋编号" width="100"></el-table-column>
-                <el-table-column prop="htitle" label="房屋标题"></el-table-column>
-                <el-table-column prop="hadr" label="房屋地址"></el-table-column>
-                <el-table-column prop="hstate" label="房屋状态"  width="100"></el-table-column>
+                <el-table-column prop="id" label="房屋编号" width="100"></el-table-column>
+                <el-table-column prop="house_title" label="房屋标题"></el-table-column>
+                <el-table-column prop="house_district" label="房屋详细地址"></el-table-column>
+                <el-table-column prop="house_state" label="房屋状态"  width="100"></el-table-column>
                 <el-table-column label="操作" style="width: auto;">
                     <template slot-scope="props">
                         <el-button size="mini" @click="update(props.row)" type="primary">编辑</el-button>
@@ -230,24 +230,20 @@
             hossta:{}, //房屋状态
         },
         mounted: function () {
-            this.load(1);
+            this.load();
 
         },
         methods: {
-            load: function (current) {
-                var _this = this;
-                $.ajax({
-                    type: "post",
-                    dataType: "json",
-                    url: "/house/houseBackList/" + current + "/" + this.pageSize,
-                    data: {hadr: _this.hadr},
-                    success: function (data) {
-                        console.log(data);
-                        _this.tableData = data.object;
-                        _this.total = data.total;
-                        _this.pageSize = 7;
-                    }
-                });
+            load: function () {
+                var self = this;
+                    axios.post('/getHouse')
+                        .then(function (response) {
+                            //JSON.stringify 把json对象装换为json字符串
+                            console.log(JSON.stringify(response.data));
+                            //json.parse()把json字符串转换为json对象
+                            console.log(response)
+                            self.tableData = response.data;
+                        })
             },
             getHosSta:function(){
                 var _this=this;

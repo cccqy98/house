@@ -1,5 +1,7 @@
 package com.aaa.house.service;
 
+import com.aaa.house.entity.HouseImg;
+import com.aaa.house.entity.HouseLable;
 import com.aaa.house.entity.HouseUser;
 import org.apache.ibatis.annotations.Select;
 
@@ -39,5 +41,32 @@ public interface AHouseService {
      * @return
      */
     List<HouseUser> getUserHouse(Map map);
+
+    /**
+     * 查询所有房屋
+     * @return
+     */
+    List<Map> getHouse();
+
+    /**
+     * 添加房屋
+     * @param map
+     * @return
+     */
+    int setHouse(Map map);
+
+    /**
+     * 添加房屋标签表
+     * @param houseLables
+     * @return
+     */
+    int setHouseLable(List<HouseLable> houseLables);
+
+    /**
+     * 添加房屋组图
+     * @param list
+     * @return
+     */
+    int setHouseImg(List<HouseImg> list);
 
 }

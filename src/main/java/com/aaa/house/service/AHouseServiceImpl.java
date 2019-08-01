@@ -1,6 +1,8 @@
 package com.aaa.house.service;
 
 import com.aaa.house.dao.AHouseMapping;
+import com.aaa.house.entity.HouseImg;
+import com.aaa.house.entity.HouseLable;
 import com.aaa.house.entity.HouseUser;
 import com.aaa.house.entity.Staff;
 import com.aaa.house.utils.CusUtil;
@@ -72,5 +74,44 @@ public class AHouseServiceImpl implements AHouseService{
     @Override
     public List<HouseUser> getUserHouse(Map map) {
         return aHouseMapping.getUserHouse(map);
+    }
+
+    /**
+     * 查询所有房屋
+     * @return
+     */
+    @Override
+    public List<Map> getHouse() {
+        return aHouseMapping.getHouse();
+    }
+
+    /**
+     * 添加房屋
+     * @param map
+     * @return
+     */
+    @Override
+    public int setHouse(Map map) {
+        return aHouseMapping.setHouse(map);
+    }
+
+    /**
+     * 添加房屋标签
+     * @param houseLables
+     * @return
+     */
+    @Override
+    public int setHouseLable(List<HouseLable> houseLables) {
+        return aHouseMapping.setHouseLable(houseLables);
+    }
+
+    /**
+     * 添加房屋组图
+     * @param list
+     * @return
+     */
+    @Override
+    public int setHouseImg(List<HouseImg> list) {
+        return aHouseMapping.setHouseImg(list);
     }
 }
