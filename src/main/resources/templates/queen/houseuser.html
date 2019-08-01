@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>枫城</title>
     <link rel="icon" href="../front/resources/images/fengye1.ico"/>
-    <script src="../front/resources/js/jquery.js"></script>
     <script src="../front/resources/vue/vue.js"></script>
     <script src="../front/resources/js/ele.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
@@ -190,7 +189,7 @@
                                 type: 'success'
                             });
                             //刷新界面
-                            self.load(1); //刷新数据表格
+                            self.loadData(); //刷新数据表格
                         }else {
                             self.$message.error('错了哦，这是一条错误消息');
                         }

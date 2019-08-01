@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>枫城</title>
+		<link rel="icon" href="../front/resources/images/fengye1.ico"/>
+		<script src="../front/resources/js/jquery.js"></script>
+		<script src="../front/resources/vue/vue.js"></script>
+		<script src="../front/resources/js/ele.js"></script>
+		<link href="../front/resources/css/ele.css" rel="stylesheet">
+		<script src="../front/resources/js/axios.js"></script>
+		<style>
+			#res {
+				height: 100%;
+				background-color: #DCDFE6;
+			}
+			
+			 .tou {
+				width: 50px;
+				margin-left: 15px;
+				margin-top: 10px;
+				float: left
+			}
+			
+			#res h1 {
+				float: left;
+			}
+			
+			body .el-container {
+				height: 100%;
+				margin-bottom: 40px;
+				border-radius: 2px;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+			}
+			
+			.el-header,
+			.el-footer {
+				background-color: #E4E7ED;
+				color: #333;
+				text-align: center;
+			}
+			
+			.el-main {
+				height: 510px;
+				background-color: #EBEEF5;
+				color: #333;
+				text-align: center;
+			}
+
+
+		<!--上传样式-->
+
+
+			.avatar-uploader .el-upload {
+				border: 1px dashed #d9d9d9;
+				border-radius: 6px;
+				cursor: pointer;
+				position: relative;
+				overflow: hidden;
+			}
+			.avatar-uploader .el-upload:hover {
+				border-color: #409EFF;
+			}
+			.avatar-uploader-icon {
+				font-size: 28px;
+				color: #8c939d;
+				width: 178px;
+				height: 178px;
+				line-height: 178px;
+				text-align: center;
+			}
+			.avatar {
+				width: 150px;
+				height: 150px;
+				display: block;
+			}
+		</style>
+		<!--上传样式-->
+
+
+
+	</head>
+
+	<body>
+		<div id="res">
+			<el-container>
+
+				<el-header>
+
+					<image class="tou" src="../front/resources/images/icon/添加房源.png"></image>
+					<h1>添加房源</h1>
+
+				</el-header>
+				<el-main>
+
+						<el-form ref="eform" label-width="100px">
+							<el-form-item label="经纪人信息">
+								<el-col :span="8">
+									<span>编号&nbsp;&nbsp;</span>
+									<el-input v-model="eform.staff_num" style="width:220px" disabled></el-input>
+								</el-col>
+								<el-col :span="8">
+									<span>名字&nbsp;&nbsp;</span>
+									<el-input v-model="eform.staff_name" style="width:220px" disabled></el-input>
+								</el-col>
+								<el-col :span="8">
+									<span>电话&nbsp;&nbsp;</span>
+									<el-input v-model="eform.staff_phone" style="width:220px" disabled></el-input>
+								</el-col>
+							</el-form-item>
+
+
+
+							<el-form-item label="房东信息" :label-width="formLabelWidth">
+								<el-col :span="8">
+									<span>姓名&nbsp;&nbsp;</span>
+									<el-select v-model="eform.uh_name" @change="searchName"  placeholder="请选择房东姓名" size="large" clearable>
+										<el-option
+												v-for="item in options"
+												:key="item.uh_useid"
+												:label="item.uh_name"
+												:value="item.uh_useid">
+										</el-option>
+									</el-select>
+								</el-col>
+
+								<el-col :span="8">
+									<span>房屋&nbsp;&nbsp;</span>
+									<el-select v-model="eform.uhouse"   placeholder="请选择房东房屋号" size="large" clearable >
+										<el-option
+												v-for="item in options1"
+												:key="item.uh_id"
+												:label="item.uh_id"
+												:value="item.uh_id">
+										</el-option>
+									</el-select>
+								</el-col>
+
+							</el-form-item>
+
+
+							<el-form-item label="房屋封面" :label-width="formLabelWidth">
+
+								<el-upload
+										name="headPic"
+										class="avatar-uploader"
+										action="/uploadHeadPic"
+										:show-file-list="false"
+										:on-success="handleAvatarSuccess"
+										:before-upload="beforeAvatarUpload">
+									<img v-if="imageUrl" :src="imageUrl" class="avatar">
+									<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+								</el-upload>
+							</el-form-item>
+
+							<el-form-item label="房产证图" :label-width="formLabelWidth">
+								<el-upload
+										name="headPic1"
+										class="avatar-uploader"
+										action="/uploadHeadPic1"
+										:show-file-list="false"
+										:on-success="handleAvatarSuccess1"
+										:before-upload="beforeAvatarUpload">
+									<img v-if="imageUrll" :src="imageUrll" class="avatar">
+									<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+								</el-upload>
+
+							</el-form-item>
+
+							<el-form-item label="房屋标题" prop="htitle">
+								<el-input v-model="eform.house_title"></el-input>
+							</el-form-item>
+
+							<el-form-item label="房屋地址">
+								<el-col :span="8">
+									<el-form-item label="城市" :label-width="formLabelWidth">
+										<el-select v-model="eform.uh_urban" @change="urbanStreet" placeholder="请选择地区" id="address">
+											<el-option label="郑州" value="1130121"></el-option>
+											<el-option label="开封" value="1130122"></el-option>
+											<el-option label="洛阳" value="1130123"></el-option>
+											<el-option label="平顶山" value="1130124"></el-option>
+											<el-option label="安阳" value="1130125"></el-option>
+											<el-option label="鹤壁" value="1130126"></el-option>
+											<el-option label="新乡" value="1130127"></el-option>
+											<el-option label="焦作" value="1130128"></el-option>
+											<el-option label="周口" value="1130129"></el-option>
+											<el-option label="信阳" value="1130130"></el-option>
+										</el-select>
+										</el-select>
+									</el-form-item>
+								</el-col>
+
+								<el-col :span="8">
+									<el-form-item label="街道" :label-width="formLabelWidth">
+										<el-select v-model="eform.uh_street" placeholder="请选择">
+											<el-option
+													v-for="item in options3"
+													:key="item.code_number"
+													:label="item.code_state"
+													:value="item.code_number">
+											</el-option>
+										</el-select>
+									</el-form-item>
+								</el-col>
+
+								<el-col :span="8">
+									<el-form-item label="详细地址" prop="street">
+										<el-input id="street" v-model="eform.uh_district" placeholder="详细地址" style="width:220px"></el-input>
+									</el-form-item>
+								</el-col>
+
+							</el-form-item>
+
+							<el-form-item label="房屋详情">
+
+
+								<el-col :span="8">
+									<el-form-item label="楼层" prop="hfloor">
+										<el-input v-model.number="eform.house_floor" style="width:220px" placeholder="请输入楼层数"></el-input>
+									</el-form-item>
+								</el-col>
+
+								<el-col :span="8">
+									<el-form-item label="朝向" prop="house_orientation">
+										<el-select v-model="eform.house_orientation" placeholder="请选择朝向">
+											<el-option label="东" value="1"></el-option>
+											<el-option label="西" value="2"></el-option>
+											<el-option label="南" value="3"></el-option>
+											<el-option label="北" value="4"></el-option>
+											<el-option label="西南" value="5"></el-option>
+											<el-option label="西北" value="6"></el-option>
+											<el-option label="东南" value="7"></el-option>
+											<el-option label="东北" value="8"></el-option>
+										</el-select>
+									</el-form-item>
+								</el-col>
+
+								<el-col :span="8">
+									<el-form-item label="布局" :label-width="formLabelWidth">
+										<el-select v-model="eform.house_layout" placeholder="请选择">
+											<el-option label="单间" value="1"></el-option>
+											<el-option label="双人间" value="2"></el-option>
+											<el-option label="三人间" value="3"></el-option>
+											<el-option label="五人机" value="4"></el-option>
+											<el-option label="一室一厅" value="5"></el-option>
+											<el-option label="二室一厅" value="6"></el-option>
+											<el-option label="二室二厅" value="7"></el-option>
+											<el-option label="三室一厅" value="8"></el-option>
+										</el-select>
+									</el-form-item>
+								</el-col>
+
+								<el-col :span="8">
+									<el-form-item label="面积" prop="hspace" style="margin-top: 20px;">
+										<el-input v-model.number="eform.house_area" style="width:220px;" placeholder="m^2"></el-input>
+									</el-form-item>
+								</el-col>
+
+								<el-col :span="8">
+									<el-form-item label="租金" prop="hrent" style="margin-top: 20px;">
+										<el-input v-model.number="eform.house_rent" style="width:220px;" placeholder="元/月"></el-input>
+									</el-form-item>
+								</el-col>
+
+								<el-col :span="8">
+									<el-form-item label="发布日期" :label-width="formLabelWidth">
+										<el-date-picker
+												v-model="eform.house_date"
+												align="right"
+												type="date"
+												placeholder="选择日期"
+												value-format="yyyy-MM-dd"
+												:picker-options="pickerOptions">
+										</el-date-picker>
+									</el-form-item>
+								</el-col>
+
+								<el-col :span="8">
+									<el-input type="hidden" v-model="eform.himg" :value="eform.himg" style="width: 200px;margin-top: 10px;"></el-input>
+								</el-col>
+								<el-col :span="8">
+									<el-input type="hidden" v-model="eform.cimg" :value="eform.cimg" style="width: 200px;margin-top: 10px;"></el-input>
+								</el-col>
+							</el-form-item>
+
+						<!--1-------------------------------------------------1-->
+
+						<el-form-item label="房屋标签">
+							<el-checkbox-group v-model="eform.aa">
+								<el-checkbox label="近地铁" value="1" name="house_lable"></el-checkbox>
+								<el-checkbox label="随时看房" value="2" name="house_lable"></el-checkbox>
+								<el-checkbox label="在线签约" value="3" name="house_lable"></el-checkbox>
+								<el-checkbox label="月租" value="5" name="house_lable"></el-checkbox>
+								<el-checkbox label="独立卫生间" value="4" name="house_lable"></el-checkbox>
+								<el-checkbox label="精装" value="6" name="house_lable"></el-checkbox>
+								<el-checkbox label="独立阳台" value="7" name="house_lable"></el-checkbox>
+								<el-checkbox label="中央空调" value="8" name="house_lable"></el-checkbox>
+								<el-checkbox label="押一付一" value="9" name="house_lable"></el-checkbox>
+								<el-checkbox label="拎包入住"  value="10" name="house_lable"></el-checkbox>
+							</el-checkbox-group>
+						</el-form-item>
+
+
+						<el-form-item label="房屋组图">
+							<el-upload
+									name="headPic2"
+									action="/uploadHeadPic2"
+									list-type="picture-card"
+									:on-success="handleAvatarSuccess2"
+									:on-preview="handleAvatarSuccess2"
+									:on-remove="handleRemove">
+								<i class="el-icon-plus"></i>
+							</el-upload>
+							<el-dialog :visible.sync="dialogVisible">
+								<img width="100%" :src="dialogImageUrl" alt="">
+							</el-dialog>
+						</el-form-item>
+
+						<el-form-item>
+							<el-button type="primary" @click="onSubmit">立即创建</el-button>
+							<el-button @click="rolefrom = false">取消</el-button>
+						</el-form-item>
+
+						</el-form>
+				</el-main>
+
+			</el-container>
+
+		</div>
+		<script>
+			new Vue({
+				el: "#res",
+				data: {
+					dialogImageUrl: '',/*回显*/
+					dialogVisible: false,
+					rolefrom: false,
+					cname: "",
+					options:[],//房东id
+					options1:[],//房东姓名房屋
+					options3:[],//街道
+					eform: {
+						staff_num:'',//经济人编号
+						uh_name:'',//房东id
+						house_title: '', //标题
+						uh_urban: '', //市区
+						code_state: '', //街道
+						uh_district: '', //详细地址
+						house_floor: '', //楼层
+						house_orientation: '', //朝向
+						house_layout: '', //格局
+						house_area: '', //面积
+						house_rent: '', //租金
+						releasedate: '', //发布日期
+						headPic:'',//封面
+						headPic1:'',//房产证图
+						house_lable:[],//房屋标签
+						headPic2:[]//房图
+
+					},
+					imageUrl: '',/*回显*/
+					imageUrll: '',/*回显*/
+					// 校验规则
+					rules: {
+						checkAll: false,
+						htitle: [{
+								required: true, //是否必填
+								message: '标题不能为空', //规则
+								trigger: 'blur' //何事件触发
+							},
+							//可以设置双重验证标准
+							{
+								min: 3,
+								max: 5,
+								message: '长度在 3 到 5 个字符',
+							}
+						],
+						street: [{
+							required: true, //是否必填
+							message: '详细地址不能为空', //规则
+							trigger: 'blur' //何事件触发
+						}],
+						uptown: [{
+							required: true, //是否必填
+							message: '小区不能为空', //规则
+							trigger: 'blur' //何事件触发
+						}],
+						address: [{
+							required: true, //是否必填
+						}],
+
+						hfloor: [{
+								required: true, //是否必填
+								message: '楼层不能为空', //规则
+								trigger: 'blur' //何事件触发
+							},
+							{
+								type: 'number',
+								message: '楼层必须是数字'
+							}
+						],
+						house_orientation: [{
+							required: true, //是否必填
+							message: '格局不能为空', //规则
+						}],
+						hdesc: [{
+							required: true, //是否必填
+							message: '格局不能为空', //规则
+							trigger: 'blur' //何事件触发
+						}],
+						hspace: [{
+								required: true, //是否必填
+								message: '面积不能为空', //规则
+								trigger: 'blur' //何事件触发
+							},
+							{
+								type: 'number',
+								message: '面积必须是数字'
+							}
+						],
+						hrent: [{
+								required: true, //是否必填
+								message: '租金不能为空', //规则
+								trigger: 'blur' //何事件触发
+							},
+							{
+								type: 'number',
+								message: '租金必须是数字'
+							}
+						],
+						releasedate: [{
+							required: true, //是否必填
+							message: '日期不能为空', //规则
+						}],
+					},
+
+					pickerOptions0: {
+						disabledDate(time) {
+							return time.getTime() > Date.now() - 8.64e7; //如果没有后面的-8.64e7就是不可以选择今天的          }
+
+						},
+
+					},
+
+				},
+				mounted: function() {
+					this.all();
+					this.session();
+
+				},
+				methods: {
+					//经济人
+					session: function() {
+						var self=this;
+						axios.post('/getSessionStaff')
+								.then(function (response) {
+									//JSON.stringify 把json对象装换为json字符串
+									console.log(JSON.stringify(response.data));
+									self.eform=response.data;
+									console.log(response.data)
+								});
+					},
+					all: function() {//房东
+						var self=this;
+						axios.post('/getStaffUser')
+								.then(function (response) {
+									//JSON.stringify 把json对象装换为json字符串
+									console.log(JSON.stringify(response.data));
+									self.options=response.data;
+									self.form=response.data;
+								});
+					},
+					searchName: function() {//huoqu
+						var self=this;
+
+						axios.post('/getUserHouse',{'uh_useid':this.eform.uh_name})
+								.then(function (response) {
+									//JSON.stringify 把json对象装换为json字符串
+									console.log(JSON.stringify(response.data));
+									self.options1=response.data;
+									self.eform.uhouse=response.data[0].uh_id;
+								});
+
+					},
+					urbanStreet: function() {
+						var self=this;
+						//加载街道
+						axios.post('/getHouseCode',{'code_type':this.eform.uh_urban})
+								.then(function (response) {
+									//JSON.stringify 把json对象装换为json字符串
+									console.log(JSON.stringify(response.data));
+									self.options3=response.data;
+								});
+
+					},
+					//封面图
+					handleAvatarSuccess:function(res,file) {
+						this.imageUrl = URL.createObjectURL(file.raw);
+						this.eform.headPicName= file.response.originalFilename;
+						this.eform.headPic=file.response.newFileName;
+					},
+					//房产图
+					handleAvatarSuccess1:function(res,file) {
+						this.imageUrll = URL.createObjectURL(file.raw);
+						this.eform.headPicName= file.response.originalFilename;
+						this.eform.headPic1=file.response.newFileName;
+					},
+					//房图
+					handleAvatarSuccess2:function(res,file) {
+						this.dialogImageUrl = URL.createObjectURL(file.raw);
+						this.eform.headPicName1= file.response.originalFilename;
+						this.eform.headPic2+=file.response.newFileName+",";
+					},
+					beforeAvatarUpload:function(file) {
+						const isJPG = file.type === 'image/jpeg';
+						const isLt2M = file.size / 1024 / 1024 < 2;
+
+						if (!isJPG) {
+							this.$message.error('上传头像图片只能是 JPG 格式!');
+						}
+						if (!isLt2M) {
+							this.$message.error('上传头像图片大小不能超过 2MB!');
+						}
+						return isJPG && isLt2M;
+					},
+
+					onSubmit: function() {
+						var self=this;
+						axios.post('/setHouse',this.eform)
+								.then(function (response) {
+									//添加或者修改成功
+									if (response.data==1){
+										self.$message({
+											message: '恭喜你，这是一条成功消息',
+											type: 'success'
+										});
+										//关闭弹出框
+										self.dialogFormVisible=false;
+										//刷新界面
+										self.loadData();
+									}else {
+										self.$message.error('错了哦，这是一条错误消息');
+									}
+								})
+
+					}
+				}
+
+			})
+		</script>
+	</body>
+
+</html>

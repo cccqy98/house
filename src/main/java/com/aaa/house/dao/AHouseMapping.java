@@ -1,8 +1,7 @@
 package com.aaa.house.dao;
 
 import com.aaa.house.entity.HouseUser;
-import com.aaa.house.utils.RedisCache;
-import org.apache.ibatis.annotations.CacheNamespace;
+
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
@@ -62,16 +61,27 @@ public interface AHouseMapping {
     int getHouseUserquall(Map map);
 
 
-
-
-
-
-
-
     /**
      * 联系房源
      * @return
      */
     @Update("UPDATE house_user set uh_state=1,uh_staff=#{uh_staff} WHERE uh_id=#{uh_id}")
     int upHouseUser(Map map);
+
+    /**
+     *查询当前经济人联系的房源
+     * @param uh_staff
+     * @return
+     */
+    @Select("select uh_useid,uh_name from house_user where  uh_staff=#{uh_staff} and uh_state=2 group by uh_useid")
+    List<Map> getStaffUser(String uh_staff);
+
+    /**
+     * 查询当前房东的房源
+     * @param map
+     * @return
+     */
+    @Select("SELECT uh_id,uh_urban,uh_street,uh_district,uh_name FROM house_user where uh_useid=#{uh_useid}")
+    List<HouseUser> getUserHouse(Map map);
+
 }

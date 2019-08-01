@@ -53,4 +53,24 @@ public class AHouseServiceImpl implements AHouseService{
         map.put("uh_staff",staff.getStaff_num());
         return aHouseMapping.upHouseUser(map);
     }
+
+    /**
+     * 查询当前经济人联系的房源
+     * @return
+     */
+    @Override
+    public  List<Map>  getStaffUser() {
+        String uh_staff=CusUtil.getStaff().getStaff_num();
+        System.out.println(uh_staff);
+        return aHouseMapping.getStaffUser(uh_staff);
+    }
+
+    /**
+     * 查询当前房东的房源
+     * @return
+     */
+    @Override
+    public List<HouseUser> getUserHouse(Map map) {
+        return aHouseMapping.getUserHouse(map);
+    }
 }

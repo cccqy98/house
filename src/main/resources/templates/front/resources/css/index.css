@@ -728,7 +728,7 @@ h2.m_1 {
 	background: #2f2f2f;
 	padding: 5em 0;
 	width: 100%;
-	background: url("..round/bedrock.png") 0 0 repeat;
+	background: url("../images/background/bedrock.png") 0 0 repeat;
 	padding-top: 0;
 	height: 200px;
 }
@@ -803,7 +803,7 @@ h2.m_1 {
 }
 
 .block.right .tcqq .pic {
-	background: url("...png") no-repeat -1025px -1600px;
+	background: url("../images/icons.png") no-repeat -1025px -1600px;
 }
 
 .block.right .tcqq .pic:hover {
@@ -811,7 +811,7 @@ h2.m_1 {
 }
 
 .block.right .weibo .pic {
-	background: url("...png") no-repeat -1025px -447px;
+	background: url("../images/icons.png") no-repeat -1025px -447px;
 }
 
 .block.right .weibo .pic:hover {
@@ -820,7 +820,7 @@ h2.m_1 {
 
 .block.right .weixin .pic {
 	color: #222;
-	background: url("...png") no-repeat -1025px -640px;
+	background: url("../images/icons.png") no-repeat -1025px -640px;
 }
 
 .block.right .weixin .pic:hover {
