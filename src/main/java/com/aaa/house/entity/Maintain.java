@@ -1,6 +1,7 @@
 package com.aaa.house.entity;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,7 +19,7 @@ public class Maintain implements Serializable {
     private String maUser;
 
     private String maCause;
-
+@DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date maTime;
 
     private Integer maAudit;
@@ -28,6 +29,25 @@ public class Maintain implements Serializable {
     private Integer maStatic;
 
     private String maFalse;
+
+private Integer code_number;
+private String code_state;
+
+    public Integer getCode_number() {
+        return code_number;
+    }
+
+    public void setCode_number(Integer code_number) {
+        this.code_number = code_number;
+    }
+
+    public String getCode_state() {
+        return code_state;
+    }
+
+    public void setCode_state(String code_state) {
+        this.code_state = code_state;
+    }
 
     public Integer getId() {
         return id;

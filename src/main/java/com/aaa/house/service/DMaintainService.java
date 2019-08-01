@@ -11,16 +11,23 @@ import java.util.Map;
 
 public interface DMaintainService {
     /**
-     * 查询全部报修信息
+     * 数量
+     * @param map
      * @return
      */
-    List<Maintain> queryAll();
-
+    int queryPageCount1(Map map);
     /**
-     * 录入报修信息
+     * 修改审核
+     * @param map
      * @return
      */
-    int AddMaintain(Maintain maintain);
+    int upAudit(Map map);
+    /**
+     * 修改维修后
+     * @param map
+     * @return
+     */
+    int upMaintain(Map map);
     /**
      * 根据报修状态查询，两表联查
      * @return
@@ -33,13 +40,27 @@ public interface DMaintainService {
      */
    List<Map>  queryAudit(Map map);
     /**
-     * 删除已维修和审核未通过报修信息
-     * @return
-     */
-   int delete();
-    /**
      *修改维修员工和不维修的原因
      * @return
      */
    int updateMa(Maintain maintain);
+
+    /**
+     * 查询分页总数量
+     * @param map
+     * @return
+     */
+    int queryPageCount(Map map);
+
+    /**
+     *审核
+     * @return
+     */
+    List<Map> queryCode();
+
+    /**
+     * 报修
+     * @return
+     */
+    List<Map> queryCode1();
 }

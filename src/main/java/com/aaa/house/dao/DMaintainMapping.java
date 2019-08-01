@@ -18,46 +18,125 @@ import java.util.Map;
  */
 @Repository
 public interface DMaintainMapping {
-    /**
-     * 查询全部报修信息
-     * @return
-     */
-    @Select("select * from maintain")
-List<Maintain> queryAll();
 
-    /**
-     * 录入报修信息
-     * @return
-     */
-    @Insert("insert into maintain (id,ma_user,ma_cause,ma_time,ma_audit,ma_staff,ma_static,ma_false)) " +
-            " values(#{id},#{maUser},#{maCause},#{maTime},#{maAudit},#{maStaff},#{maStatic},#{maFalse})")
-    int AddMaintain(Maintain maintain);
+
+
 
     /**
      * 根据报修状态查询，两表联查
      * @return
      */
-    @Select("select m.*,code_state FROM code c join maintain m on c.code_number=m.ma_static WHERE c.code_type=11;")
+    @Select("<script>   select m.id,m.ma_user as maUser,m.ma_cause as maCause,m.ma_time maTime,m.ma_staff as maStaff,\n" +
+            "m.ma_static as code_number,m.ma_false as maFalse,m.ma_house,c.code_state as ma_static\n" +
+            "              FROM  maintain m join code c on c.code_number=m.ma_static\n" +
+            "               join house h on h.house_uid=m.ma_house"+
+            "    <where>\n" +
+            "      <if test=\"ma_house!=null and ma_house!=''\">\n" +
+            "        and (ma_house like \"%\"#{ma_house}\"%\")\n" +
+            "      </if>\n" +
+            "      <if test=\"code_number!=null and code_number!=''\">\n" +
+            "       and ma_static =#{code_number}\n" +
+            "      </if>\n" +
+            "     and  c.code_type=11\n" +
+            "         </where> " +
+            "limit ${start},${pageSize}" +
+            " </script>")
     List<Map>  queryStatic(Map map);
 
     /**
      * 根据审核状态查询
      * @return
      */
-    @Select("select m.*,code_state FROM code c join maintain m on c.code_number=m.ma_audit WHERE   c.code_type=5;")
-    List<Map>  queryAudit(Map map);
+    @Select("<script> select m.id,m.ma_user as maUser,m.ma_cause as maCause,m.ma_time maTime,m.ma_staff as maStaff,m.ma_audit as code_number,\n" +
+            "            m.ma_false as maFalse,m.ma_house,c.code_state as ma_audit\n" +
+            "                         FROM  maintain m join code c on c.code_number=m.ma_audit\n" +
+            "                         join house h on h.house_uid=m.ma_house\n" +
+            "<where>" +
+            "  <if test=\"ma_house!=null and ma_house!=''\">\n" +
+            "        and (ma_house like \"%\"#{ma_house}\"%\")\n" +
+            "      </if>\n" +
 
-    /**
-     * 删除已维修和审核未通过报修信息
-     * @return
-     */
-    @Delete("delete from maintain where ma_static=3 or ma_audit=3")
-    int delete();
+            "<if test=\"code_number!=null and code_number!=''\">\n" +
+            "        and  m.ma_audit =#{code_number}\n" +
+            "      </if> \n" +
+            "and c.code_type=5"+
+            "</where> " +
+            "limit ${start},${pageSize}" +
+            "</script>")
+    List<Map>  queryAudit(Map map);
 
     /**
      *修改维修员工和不维修的原因
      * @return
      */
-    @Update("UPDATE maintain set ma_staff=#{maStaff},ma_false=#{maFalse}")
+    @Update("UPDATE maintain set ma_false=#{maFalse} where id=#{id}")
     int updateMa(Maintain maintain);
+
+    /**
+     * 修改维修后状态
+     * @param map
+     * @return
+     */
+    @Update("update maintain set ma_staff=#{ma_staff},ma_static=2 where id=#{id}")
+    int upMaintain(Map map);
+
+    /**
+     * 审核状态
+     * @param map
+     * @return
+     */
+    @Update("update maintain set ma_staff=#{ma_staff},ma_audit=2 where id=#{id}")
+    int upAudit(Map map);
+
+    /**
+     * 报修状态数量
+     * @param map
+     * @return
+     */
+    @Select("<script> select count(*) FROM maintain m join code c  on c.code_number=m.ma_static" +
+        " join house h on h.house_uid=m.ma_house"+
+        "   <where>\n" +
+        "      <if test=\"ma_house!=null and ma_house!=''\">\n" +
+        "        and (ma_house like \"%\"#{ma_house}\"%\")\n" +
+        "      </if>\n" +
+        "      <if test=\"code_number!=null and code_number!=''\">\n" +
+        "        and ma_static=#{code_number}\n" +
+        "      </if>\n" +
+        "     and  code_type=11\n" +
+        "         </where> </script>")
+    int queryPageCount(Map map);
+
+    /**
+     * 审核数量
+     * @param map
+     * @return
+     */
+    @Select("<script> select count(*) FROM maintain m join code c  on c.code_number=m.ma_audit\n" +
+            " join house h on h.house_uid=m.ma_house" +
+            " <where>" +
+            "  <if test=\"ma_house!=null and ma_house!=''\">\n" +
+            "        and (ma_house like \"%\"#{ma_house}\"%\")\n" +
+            "      </if>\n" +
+
+            "<if test=\"code_number!=null and code_number!=''\">\n" +
+            "        and  m.ma_audit=#{code_number}\n" +
+            "      </if> \n" +
+            "and c.code_type=5 "+
+            " </where> "+
+             " </script>")
+    int queryPageCount1(Map map);
+
+    /**
+     * 审核
+     * @return
+     */
+    @Select("select code_number,code_state from code where code_type=5")
+List<Map> queryCode();
+
+    /**
+     * 报修
+     * @return
+     */
+    @Select("select code_number,code_state from code where code_type=11")
+    List<Map> queryCode1();
 }
