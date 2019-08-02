@@ -31,4 +31,10 @@ public interface HouseService {
      * @return
      */
     List<Map> selectLayout();
+    /**
+     * 根据id查询房屋信息
+     * @param map
+     * @return
+     */
+    Map<String,Object> housedetail(Map map);
 }

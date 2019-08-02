@@ -2,9 +2,11 @@ package com.aaa.house.service;
 
 import com.aaa.house.dao.HouseDao;
 import com.aaa.house.entity.House;
+import com.aaa.house.entity.Staff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,13 +25,16 @@ public class HouseServiceImpl implements HouseService{
 
     @Override
     public List<House> queryHouseAll(Map map) {
-        List<House> list = houseDao.queryHouseAll(map);
-        for (House ho : list) {
-            Integer id=ho.getId();
-            List<String> strings = houseDao.selectLable(id);
-            ho.setHouseLabel(strings);
+        List<House> houses = houseDao.queryHouseAll(map);
+        Map<String,Object> maps=new HashMap<>();
+        for (House hou : houses) {
+            Integer houseId = hou.getHouseId();
+            if (houseId!=null){
+                List<String> lab = houseDao.selectLable(houseId);
+                hou.setHouseLabel(lab);
+            }
         }
-        return list;
+        return houses;
     }
 
     @Override
@@ -42,5 +47,21 @@ public class HouseServiceImpl implements HouseService{
     @Override
     public List<Map> selectLayout() {
         return houseDao.selectLayout();
+    }
+
+    @Override
+    public Map<String,Object> housedetail(Map map) {
+        House houses=houseDao.houseDetail(map);
+        Map<String,Object> maps=new HashMap<>();
+        Integer hid=houses.getHouseId();
+        List<String> lab = houseDao.selectLable(hid);
+        houses.setHouseLabel(lab);
+        List<String> img = houseDao.selectImgs(hid);
+        houses.setHouseImgs(img);
+        String staff = houses.getHouseStaffid();
+        Staff sta=houseDao.selectStaff(staff);
+        maps.put("obj",houses);
+        maps.put("staff",sta);
+        return maps;
     }
 }

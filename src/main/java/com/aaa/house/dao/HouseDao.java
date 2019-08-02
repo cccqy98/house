@@ -1,6 +1,7 @@
 package com.aaa.house.dao;
 
 import com.aaa.house.entity.House;
+import com.aaa.house.entity.Staff;
 import org.springframework.stereotype.Repository;
 
 
@@ -16,12 +17,6 @@ import java.util.Map;
  */
 @Repository
 public interface HouseDao {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(House record);
-
-    int insertSelective(House record);
-
     /**
      * 查询房屋信息
      * @param map
@@ -38,10 +33,10 @@ public interface HouseDao {
 
     /**
      * 根据id查询标签
-     * @param id
+     * @param houseId
      * @return
      */
-    List<String> selectLable(Integer id);
+    List<String> selectLable(Integer houseId);
 
     /**
      * 查询房屋布局
@@ -49,7 +44,25 @@ public interface HouseDao {
      */
     List<Map> selectLayout();
 
-    int updateByPrimaryKeySelective(House record);
+    /**
+     * 根据id查询房屋图片
+     * @param houseId
+     * @return
+     */
+    List<String> selectImgs(Integer houseId);
 
-    int updateByPrimaryKey(House record);
+    /**
+     * 根据经纪人id查询经纪人信息
+     * @param houseStaff
+     * @return
+     */
+    Staff selectStaff(String houseStaff);
+
+    /**
+     * 根据房屋id获取房屋信息
+     * @param map
+     * @return
+     */
+    House houseDetail(Map map);
+
 }

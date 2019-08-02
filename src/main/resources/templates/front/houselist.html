@@ -189,7 +189,7 @@
                             <a-list id="zflist" itemLayout="horizontal">
                                 <a-list-item v-for="item in listData" :id="item.id">
                                     <a-list-item-meta>
-                                        <a slot="title" @click="houseDetail(item.id)" :hid="item.id">{{item.houseTitle}}</a>
+                                        <a slot="title" @click="houseDetail(item.houseId)" :hid="item.houseId">{{item.houseTitle}}</a>
                                         <span slot="description">{{item.houurban}}-{{item.houstreet}}-{{item.houseDistrict}}&nbsp;&nbsp;&nbsp;/</span>
                                         <span slot="description">{{item.houseArea}}㎡&nbsp;&nbsp;&nbsp;/</span>
                                         <span slot="description">{{item.houorientation}}&nbsp;&nbsp;&nbsp;/</span>
@@ -311,14 +311,13 @@
             },
             submet:function () {
                 this.load();
+            },
+            houseDetail:function (hid) {
+                location.href="housedetail.html?hid="+hid;
             }
         },
 
-
-            /*
-            houseDetail:function (hid) {
-                location.href="housedetail.html?id="+hid;
-            },
+        /*
             yonghu: function ({key}) {
                 var _this = this;
                 if (key == "zx") {

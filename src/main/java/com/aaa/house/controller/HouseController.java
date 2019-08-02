@@ -30,10 +30,7 @@ public class HouseController {
      */
     @RequestMapping("/page")
     public Object queryAll(@RequestBody Map map) {
-        //验证
-
         Map mapResult=new HashMap();
-        //判断
         mapResult.put("empList", houseService.queryHouseAll(map));
         mapResult.put("total", houseService.queryHousePageCount(map));
         return mapResult;
@@ -47,4 +44,14 @@ public class HouseController {
     public Object selectLayout() {
         return houseService.selectLayout();
     }
+
+    @RequestMapping("/detail")
+    public Map<String,Object> housedetail(Map map) {
+        return houseService.housedetail(map);
+    }
+
+
+
+
+
 }
