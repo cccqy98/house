@@ -1,10 +1,7 @@
 package com.aaa.house.service;
 
 import com.aaa.house.dao.AHouseMapping;
-import com.aaa.house.entity.HouseImg;
-import com.aaa.house.entity.HouseLable;
-import com.aaa.house.entity.HouseUser;
-import com.aaa.house.entity.Staff;
+import com.aaa.house.entity.*;
 import com.aaa.house.utils.CusUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,7 +78,7 @@ public class AHouseServiceImpl implements AHouseService{
      * @return
      */
     @Override
-    public List<Map> getHouse() {
+    public List<HouseLaIm> getHouse() {
         return aHouseMapping.getHouse();
     }
 

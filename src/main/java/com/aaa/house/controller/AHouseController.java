@@ -1,6 +1,7 @@
 package com.aaa.house.controller;
 
 import com.aaa.house.entity.HouseImg;
+import com.aaa.house.entity.HouseLaIm;
 import com.aaa.house.entity.HouseLable;
 import com.aaa.house.entity.HouseUser;
 import com.aaa.house.service.AHouseService;
@@ -120,7 +121,7 @@ public class AHouseController {
 
         /*--------------添加房屋组图片表----------------------*/
         List<HouseImg> listimg=new ArrayList<>();
-        try {
+        try {//防止获取不到值
             String aa= (String) map.get("headPic2");
             String[] imgg=aa.split(",");
             for (String s : imgg) {
@@ -218,7 +219,6 @@ public class AHouseController {
         String originalFilename = headPic2.getOriginalFilename();
         //新文件路径
         String newFileName=ftpUtil.upLoad(headPic2);
-        System.out.println("sdfffffffffdfsfsdfsdfs"+newFileName);
         Map map =new HashMap();
         map.put("originalFilename",originalFilename);
         map.put("newFileName",newFileName);
@@ -233,7 +233,7 @@ public class AHouseController {
      * @return
      */
     @RequestMapping("getHouse")
-    public List<Map> getHouse(){
+    public List<HouseLaIm> getHouse(){
         return aHouseService.getHouse();
     }
 

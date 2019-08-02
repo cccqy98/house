@@ -1,6 +1,7 @@
 package com.aaa.house.dao;
 
 import com.aaa.house.entity.HouseImg;
+import com.aaa.house.entity.HouseLaIm;
 import com.aaa.house.entity.HouseLable;
 import com.aaa.house.entity.HouseUser;
 
@@ -88,25 +89,10 @@ public interface AHouseMapping {
     List<HouseUser> getUserHouse(Map map);
 
     /**
-     * 查询所有房屋
+     * 查询所有房屋  嵌套查询**一对多
      * @return
      */
-    @Select("SELECT h.id,h.house_title,aa.code_state as house_urban,bb.code_state as house_street,h.house_district,house_rent,cc.code_state as house_state,h.house_area,h.house_floor,\n" +
-            "dd.code_state as house_orintation,h.house_date,ee.code_state as house_layout,h.house_staffid,ff.code_state as house_audit,h.house_cover\n" +
-            "from house h join code aa\n" +
-            "on h.house_urban=aa.code_number\n" +
-            "join code bb \n" +
-            "on h.house_street=bb.code_number\n" +
-            "join code cc\n" +
-            "on h.house_state=cc.code_number\n" +
-            "join code dd\n" +
-            "on h.house_orientation=dd.code_number\n" +
-            "join code ee\n" +
-            "on h.house_layout=ee.code_number\n" +
-            "join code ff\n" +
-            "on h.house_audit=ff.code_number\n" +
-            "where cc.code_type=8 and dd.code_type=6 and ee.code_type=7 and ff.code_type=5")
-    List<Map> getHouse();
+    List<HouseLaIm> getHouse();
 
     /**
      * 添加房屋

@@ -1,6 +1,7 @@
 package com.aaa.house.service;
 
 import com.aaa.house.entity.HouseImg;
+import com.aaa.house.entity.HouseLaIm;
 import com.aaa.house.entity.HouseLable;
 import com.aaa.house.entity.HouseUser;
 import org.apache.ibatis.annotations.Select;
@@ -46,7 +47,7 @@ public interface AHouseService {
      * 查询所有房屋
      * @return
      */
-    List<Map> getHouse();
+    List<HouseLaIm> getHouse();
 
     /**
      * 添加房屋
