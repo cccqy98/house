@@ -7,10 +7,8 @@
         <collection property="houseLables" ofType="HouseLable" column="ho_id" autoMapping="true"/>
         <collection property="houseImgs" ofType="HouseImg" column="hid" autoMapping="true"/>
         <collection property="staff" ofType="Staff" column="staff_num" autoMapping="true"/>
-
-
     </resultMap>
-
+   <!--**************************************查询全部房源**************************************-->
     <select id="getHouse" resultMap="userRole6">
         SELECT h.house_id,h.house_title,aa.code_state as house_urban,bb.code_state as house_street,h.house_district,house_rent,cc.code_state as house_state,h.house_area,h.house_floor,
         dd.code_state as house_orintation,h.house_date,ee.code_state as house_layout,h.house_staffid,ff.code_state as house_audit,h.house_cover,gg.code_state as la_id,staff.*,user.id,user.u_name,user.u_phone
@@ -50,4 +48,53 @@
              cc.code_type=8 and dd.code_type=6 and ee.code_type=7 and ff.code_type=5 and gg.code_type=9
 
 </select>
+    <!--**************************************查询我的全部房源**************************************-->
+
+    <select id="getMyHouse" resultMap="userRole6">
+        SELECT h.house_id,h.house_title,aa.code_state as house_urban,bb.code_state as house_street,h.house_district,house_rent,cc.code_state as house_state,h.house_area,h.house_floor,
+        dd.code_state as house_orintation,h.house_date,ee.code_state as house_layout,h.house_staffid,ff.code_state as house_audit,h.house_cover,gg.code_state as la_id,staff.*,user.id,user.u_name,user.u_phone
+        from (SELECT *
+        from house
+        <where>
+            <if test="house_state != null and house_state !=''">
+                and house_state = #{house_state}
+            </if>
+            <if test="house_district !=null and house_district !=''">
+                and house_district like "%"#{house_district}"%"
+            </if>
+            and house_delete=1 and house_staffid=#{house_staffid}
+        </where>
+
+        limit #{start},#{pageSize}) h join code aa
+        on h.house_urban=aa.code_number
+        join code bb
+        on h.house_street=bb.code_number
+        join code cc
+        on h.house_state=cc.code_number
+        join code dd
+        on h.house_orientation=dd.code_number
+        join code ee
+        on h.house_layout=ee.code_number
+        join code ff
+        on h.house_audit=ff.code_number
+        join house_lable hla
+        on h.house_id=hla.ho_id
+        join code gg
+        on hla.la_id=gg.code_number
+        join staff
+        on h.house_staffid=staff_num
+        join user user
+        on h.house_uid=user.id
+        where
+        cc.code_type=8 and dd.code_type=6 and ee.code_type=7 and ff.code_type=5 and gg.code_type=9
+
+    </select>
+
+
+
+
+
+
+
+
 </mapper>

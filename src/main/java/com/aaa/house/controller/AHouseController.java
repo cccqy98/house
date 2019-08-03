@@ -261,5 +261,18 @@ public class AHouseController {
         return resultUtil;
     }
 
-
+    /**
+     * 获取我的房屋
+     * @param map
+     * @return
+     */
+    @RequestMapping("getMyHouse")
+    public  Map getMyHouse(@RequestBody Map map){
+        System.out.println(map);
+        Map map1=new HashMap();
+        map1.put("personlist",aHouseService.getMyHouse(map));
+        map1.put("total",4);
+        System.out.println("1111111111"+map1);
+        return map1;
+    }
 }
