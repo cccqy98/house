@@ -70,4 +70,12 @@ public interface AHouseService {
      */
     int setHouseImg(List<HouseImg> list);
 
+
+    /**
+     * 经济人查询我的房屋
+     * @param map
+     * @return
+     */
+    List<HouseLaIm> getMyHouse(Map map);
+
 }

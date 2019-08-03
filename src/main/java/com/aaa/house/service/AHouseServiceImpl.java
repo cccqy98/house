@@ -111,4 +111,16 @@ public class AHouseServiceImpl implements AHouseService{
     public int setHouseImg(List<HouseImg> list) {
         return aHouseMapping.setHouseImg(list);
     }
+
+    /**
+     * 查询我的房屋啊
+     * @param map
+     * @return
+     */
+    @Override
+    public List<HouseLaIm> getMyHouse(Map map) {
+        //从session 中获取经济人
+        map.put("house_staffid",CusUtil.getStaff().getStaff_num());
+        return aHouseMapping.getMyHouse(map);
+    }
 }
