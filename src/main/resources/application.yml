@@ -26,6 +26,9 @@ spring:
   #访问路径
   resources:
     static-locations: classpath:/templates/,classpath:/static/
+  servlet:
+    multipart:
+      max-file-size: 10MB
 
 # 配置mybatis
 mybatis:

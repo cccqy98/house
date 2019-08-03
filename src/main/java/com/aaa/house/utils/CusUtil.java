@@ -46,6 +46,10 @@ public class CusUtil {
         getSession().setAttribute(ISysConstants.CUS, user);
     }
 
+    public static void saveHouse(Object house) {
+        getSession().setAttribute(ISysConstants.HOUSE, house);
+    }
+
 
     /**
      * 从session获取客户信息
@@ -55,6 +59,11 @@ public class CusUtil {
     public static User getCusFromSession() {
         User user = (User) getSession().getAttribute(ISysConstants.CUS);
         return user;
+    }
+
+    public static Object getHouseFromSession() {
+        Object object = getSession().getAttribute(ISysConstants.HOUSE);
+        return object;
     }
 
     /**
