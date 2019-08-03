@@ -67,7 +67,6 @@ public class House {
 
     private List<String> houseImgs;
 
-    private Staff houStaff;
 
 
 }

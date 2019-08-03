@@ -46,7 +46,7 @@ public class HouseController {
     }
 
     @RequestMapping("/detail")
-    public Map<String,Object> housedetail(Map map) {
+    public Map<String,Object> housedetail(@RequestBody Map map) {
         return houseService.housedetail(map);
     }
 
