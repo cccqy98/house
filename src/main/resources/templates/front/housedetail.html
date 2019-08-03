@@ -212,7 +212,7 @@
         <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
             <div class="logo"><img src="resources/images/logoko.png"></div>
             <a-menu theme="dark" mode="horizontal" :defaultSelectedKeys="['2']" :style="{ lineHeight: '64px' }">
-                <a-menu-item key="1"><a href="../index.html">首页</a></a-menu-item>
+                <a-menu-item key="1"><a href="main.html">首页</a></a-menu-item>
                 <a-menu-item key="2"><a href="houselist.html">租房</a></a-menu-item>
                 <a-menu-item key="3"><a href="">发布房源</a></a-menu-item>
                 <a-menu-item key="4">
@@ -225,7 +225,7 @@
                 </a-menu-item>
                 <a-menu-item key="5" class="lr"><a href="register.html">注册</a></a-menu-item>
                 <a-menu-item key="6" class="lr">/</a-menu-item>
-                <a-menu-item key="7" class="lr"><a href="rlogin.html">登录</a></a-menu-item>
+                <a-menu-item key="7" class="lr"><a href="login.html">登录</a></a-menu-item>
                 <a-menu-item id="cuslog">
                     <a-dropdown>
 						<span class="ant-dropdown-link cname">
@@ -261,8 +261,8 @@
                         <div class="con">
                             <span>房源上架时间&nbsp;{{listDetail.houseDate}}</span>
                             <span style="margin-left: 20px;">房源编号&nbsp;{{listDetail.houseId}}</span>
-                            <a-button @click="followHouse(listDetail.id)" type="primary" icon="heart"
-                                      :id="listDetail.id" v-if="toFollow"
+                            <a-button @click="followHouse(listDetail.houseId)" type="primary" icon="heart"
+                                      :id="listDetail.houseId" v-if="toFollow"
                                       style="margin-left: 370px">关注房源
                             </a-button>
                             <a-button icon="heart" v-if="hasFollow" style="margin-left: 370px" disabled>已关注</a-button>
@@ -281,7 +281,7 @@
                                     <a-icon type="right-circle"/>
                                 </div>
                                 <div v-for="k in listDetail.houseImgs">
-                                    <h3><img :src="k" style="width: 100%;height: 500px"></h3>
+                                    <h3><img :src="'http://localhost:8080/loginReg/show?fileName='+k" style="width: 100%;height: 500px"></h3>
                                 </div>
                             </a-carousel>
                         </div>
@@ -318,7 +318,7 @@
                             <a-divider></a-divider>
                             <div style="margin-left: 30px;">
                                 <div>
-                                    <div class="d1"><img id="dlimg" :src="empinfo.logoimg"></div>
+                                    <div class="d1"><img id="dlimg" :src="empinfo.staff_portrait"></div>
                                     <div class="d1" :model="empinfo">
                                         <p style="margin-bottom: 10px">
                                             <span style="color: black;font-size: 22px;font-weight: bold;">{{empinfo.staff_name}}</span>
@@ -331,12 +331,12 @@
                                                                         src="resources/images/icon/id_card.png"></span>
                                             </a-popover>
                                         </p>
-                                        <p><span>蜗壳租房</span><span>经纪人</span></p>
+                                        <p><span>枫城租房</span><span>经纪人</span></p>
                                     </div>
                                 </div>
                                 <div>
                                     <span style="width: 200px;margin-right: 18px;">
-                                        <a-button type="primary" @click="yuyue(listDetail.id)" size="large" style="font-size:20px;">预约看房</a-button>
+                                        <a-button type="primary" @click="yuyue(listDetail.houseId)" size="large" style="font-size:20px;">预约看房</a-button>
                                     </span>
                                     <span>
                                         <a-button size="large" :id="empinfo.id" icon="message" style="font-size:20px;">
@@ -486,7 +486,7 @@
                 var id = str.substr(5);
                 axios.post('/house/detail', {houseId:id})
                     .then(function(response) {
-                        self.listData = response.data.obj;
+                        self.listDetail = response.data.obj;
                         self.empinfo = response.data.staff;
                         self.isFollow(response.data.obj.houseId);
                     })
