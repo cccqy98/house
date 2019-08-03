@@ -6,8 +6,8 @@
     <script src="../front/resources/js/jquery.js"></script>
     <script src="../front/resources/vue/vue.js"></script>
     <script src="../front/resources/js/ele.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <!--<link href="../front/resources/css/ele.css" rel="stylesheet">-->
+    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <link href="../front/resources/css/ele.css" rel="stylesheet">
     <script src="../front/resources/js/axios.js"></script>
 </head>
 <body>
@@ -18,7 +18,7 @@
                 <el-input v-model="formInline.ma_house" placeholder="房屋编号"></el-input>
             </el-form-item>
             <el-form-item label="审核状态">
-                <el-select v-model="formInline.code_number"  @change="maAuditForm">
+                <el-select v-model="formInline.code_number" >
                     <el-option
                             v-for="item in options"
                             :key="item.code_number"
@@ -29,6 +29,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">查询</el-button>
+                <el-button type="primary" @click="flush">刷新</el-button>
             </el-form-item>
         </el-form>
     </el-row>
@@ -186,6 +187,13 @@
                             self.options=response.data;
                         });
                 },*/
+                flush:function(){
+                    this.pageSize=2;
+                    this.currentPage=1;
+                    this.formInline.code_number='';
+                    this.formInline.ma_house='';
+                    this.loadData();
+                },
                 updatelstate1:function (index,row) {//联系
                     this.title='拒修原因';
                     this.url="/updateMa";
@@ -248,10 +256,6 @@
                     console.log('submit!');
                     this.loadData();
                 },
-                maAuditForm: function () {
-
-                }
-
             }
         })
         </script>

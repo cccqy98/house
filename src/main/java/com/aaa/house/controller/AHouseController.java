@@ -228,38 +228,16 @@ public class AHouseController {
 
 
     /**
-     * 查询所有房屋+
-     *模糊查询+分页
+     * 查询所有房屋
+     *
      * @return
      */
     @RequestMapping("getHouse")
-    public  Map getHouse(@RequestBody Map map){
-        Map map1=new HashMap();
-        map1.put("personlist",aHouseService.getHouse(map));
-        map1.put("total",aHouseService.getHouseNum(map));
-        return map1;
+    public List<Map> getHouse(Map map){
+        return aHouseService.getHouse(map);
     }
 
-    /**
-     * 房屋修改
-     * @return
-     */
-    @RequestMapping("setHouseAll")
-    public ResultUtil setHouseAll(@RequestBody Map map){
-        ResultUtil resultUtil=aHouseService.UpdaHouse(map);
-        return resultUtil;
-    }
 
-    /**
-     * 房屋假删除
-     * @param map
-     * @return
-     */
-    @RequestMapping("deleteHouse")
-    public ResultUtil deleteHouse(@RequestBody Map map){
-        ResultUtil resultUtil=aHouseService.updateHouseDelete(map);
-        return resultUtil;
-    }
 
 
 }

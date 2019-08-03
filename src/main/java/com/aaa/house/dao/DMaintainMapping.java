@@ -29,7 +29,7 @@ public interface DMaintainMapping {
     @Select("<script>   select m.id,m.ma_user as maUser,m.ma_cause as maCause,m.ma_time maTime,m.ma_staff as maStaff,\n" +
             "m.ma_static as code_number,m.ma_false as maFalse,m.ma_house,c.code_state as ma_static\n" +
             "              FROM  maintain m join code c on c.code_number=m.ma_static\n" +
-            "               join house h on h.house_uid=m.ma_house"+
+            "               join house h on h.house_id=m.ma_house"+
             "    <where>\n" +
             "      <if test=\"ma_house!=null and ma_house!=''\">\n" +
             "        and (ma_house like \"%\"#{ma_house}\"%\")\n" +
@@ -50,7 +50,7 @@ public interface DMaintainMapping {
     @Select("<script> select m.id,m.ma_user as maUser,m.ma_cause as maCause,m.ma_time maTime,m.ma_staff as maStaff,m.ma_audit as code_number,\n" +
             "            m.ma_false as maFalse,m.ma_house,c.code_state as ma_audit\n" +
             "                         FROM  maintain m join code c on c.code_number=m.ma_audit\n" +
-            "                         join house h on h.house_uid=m.ma_house\n" +
+            "                         join house h on h.house_id=m.ma_house\n" +
             "<where>" +
             "  <if test=\"ma_house!=null and ma_house!=''\">\n" +
             "        and (ma_house like \"%\"#{ma_house}\"%\")\n" +
@@ -94,7 +94,7 @@ public interface DMaintainMapping {
      * @return
      */
     @Select("<script> select count(*) FROM maintain m join code c  on c.code_number=m.ma_static" +
-        " join house h on h.house_uid=m.ma_house"+
+        " join house h on h.house_id=m.ma_house"+
         "   <where>\n" +
         "      <if test=\"ma_house!=null and ma_house!=''\">\n" +
         "        and (ma_house like \"%\"#{ma_house}\"%\")\n" +
@@ -112,7 +112,7 @@ public interface DMaintainMapping {
      * @return
      */
     @Select("<script> select count(*) FROM maintain m join code c  on c.code_number=m.ma_audit\n" +
-            " join house h on h.house_uid=m.ma_house" +
+            " join house h on h.house_id=m.ma_house" +
             " <where>" +
             "  <if test=\"ma_house!=null and ma_house!=''\">\n" +
             "        and (ma_house like \"%\"#{ma_house}\"%\")\n" +

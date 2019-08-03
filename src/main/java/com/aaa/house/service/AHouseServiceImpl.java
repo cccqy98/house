@@ -3,8 +3,6 @@ package com.aaa.house.service;
 import com.aaa.house.dao.AHouseMapping;
 import com.aaa.house.entity.*;
 import com.aaa.house.utils.CusUtil;
-import com.aaa.house.utils.ISysConstants;
-import com.aaa.house.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,63 +78,9 @@ public class AHouseServiceImpl implements AHouseService{
      * @return
      */
     @Override
-    public List<HouseLaIm> getHouse(Map map) {
+    public List<Map> getHouse(Map map) {
         return aHouseMapping.getHouse(map);
     }
-
-    @Override
-    public int getHouseNum(Map map) {
-        return aHouseMapping.getHouseNum(map);
-    }
-
-    /**
-     * 修改房屋
-     * @param map
-     * @return
-     */
-    @Override
-    public ResultUtil UpdaHouse(Map map) {
-        int a= 0;
-        ResultUtil resultUtil=new ResultUtil();//交互类
-        try {//防止sql报错
-            a = aHouseMapping.updaHouse(map);
-        } catch (Exception e) {
-            e.printStackTrace();
-            resultUtil.setCode(ISysConstants.OTHERTIPS);
-            return resultUtil;
-        }
-        if (a>0){
-            resultUtil.setCode(ISysConstants.SUCCESSCODE);
-            return resultUtil;
-        }
-        resultUtil.setCode(ISysConstants.OTHERTIPS);
-        return resultUtil;
-    }
-
-    /**
-     * 房屋删除
-     * @return
-     */
-    @Override
-    public ResultUtil updateHouseDelete(Map map) {
-
-        int a= 0;
-        ResultUtil resultUtil=new ResultUtil();//交互类
-        try {//防止sql报错
-            a = aHouseMapping.deleteHouse(map);
-        } catch (Exception e) {
-            e.printStackTrace();
-            resultUtil.setCode(ISysConstants.OTHERTIPS);
-            return resultUtil;
-        }
-        if (a>0){
-            resultUtil.setCode(ISysConstants.SUCCESSCODE);
-            return resultUtil;
-        }
-        resultUtil.setCode(ISysConstants.OTHERTIPS);
-        return resultUtil;
-    }
-
 
     /**
      * 添加房屋

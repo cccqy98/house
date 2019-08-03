@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>房屋审核</title>
+    <script src="../front/resources/js/jquery.js"></script>
+    <script src="../front/resources/vue/vue.js"></script>
+    <script src="../front/resources/js/ele.js"></script>
+    <link href="../front/resources/css/ele.css" rel="stylesheet">
+    <!--<link href="../front/resources/css/ele.css" rel="stylesheet">-->
+    <script src="../front/resources/js/axios.js"></script>
+</head>
+<body>
+<div id="app">
+    <el-row>
+        <el-form :inline="true" :model="formInline" class="demo-form-inline">
+
+            <el-form-item label="审核状态">
+                <el-select v-model="formInline.code_number">
+                    <el-option
+                            v-for="item in options"
+                            :key="item.code_number"
+                            :label="item.code_state"
+                            :value="item.code_number">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onSubmit">查询</el-button>
+            </el-form-item>
+        </el-form>
+    </el-row>
+    <template>
+        <el-table
+                :data="tableData"
+                style="width: 100%">
+            <el-table-column type="expand">
+                <template slot-scope="props">
+                    <el-form label-position="left" inline class="demo-table-expand">
+                        <el-form-item label="房屋标题">
+                            <span>{{ props.row.house_title }}</span>
+                        </el-form-item>
+                        <el-form-item label="市区">
+                            <span>{{ props.row.house_urban }}</span>
+                        </el-form-item>
+                        <el-form-item label="街道">
+                            <span>{{ props.row.house_street }}</span>
+                        </el-form-item>
+                        <el-form-item label="详细地址">
+                            <span>{{ props.row.house_district }}</span>
+                        </el-form-item>
+                        <el-form-item label="房屋租金">
+                            <span>{{ props.row.house_rent }}</span>
+                        </el-form-item>
+                        <el-form-item label="房屋状态">
+                            <span>{{ props.row.house_state }}</span>
+                        </el-form-item>
+                        <el-form-item label="房屋面积">
+                        <span>{{ props.row.house_area }}</span>
+                    </el-form-item>
+                        <el-form-item label="楼层">
+                        <span>{{ props.row.house_floor }}</span>
+                    </el-form-item>
+                        <el-form-item label="房屋朝向">
+                        <span>{{ props.row.house_orientation }}</span>
+                    </el-form-item>
+                        <el-form-item label="发布日期">
+                        <span>{{ props.row.house_date }}</span>
+                    </el-form-item>
+                        <el-form-item label="房屋布局">
+                            <span>{{ props.row.house_layout }}</span>
+                        </el-form-item>
+                        <el-form-item label="经纪人编号">
+                            <span>{{ props.row.house_staffid }}</span>
+                        </el-form-item>
+                        <el-form-item label="审核状态">
+                            <span>{{ props.row.house_audit }}</span>
+                        </el-form-item>
+                        <el-form-item label="房产证图">
+                            <span>{{ props.row.house_certificate }}</span>
+                        </el-form-item>
+                        <el-form-item label="房屋封面图">
+                            <span>{{ props.row.house_cover }}</span>
+                        </el-form-item>
+                        <el-form-item label="房屋id">
+                            <span>{{ props.row.house_id }}</span>
+                        </el-form-item>
+                    </el-form>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="ID"
+                    prop="id">
+            </el-table-column>
+            <el-table-column
+                    label="经纪人"
+                    prop="house_staffid">
+            </el-table-column>
+            <el-table-column
+                    label="发布日期"
+                    prop="house_date">
+            </el-table-column>
+            <el-table-column
+                    label="审核状态"
+                    prop="house_audit">
+            </el-table-column>
+            <el-table-column label="操作">
+                <template slot-scope="props">
+                    <el-button size="mini" v-if="props.row.house_audit=='待审核'" type="success" @click="updatelstate(props.row.id)">审核</el-button>
+                    <el-button size="mini" v-if="props.row.house_audit=='已审核'" type="primary" disabled plain>已审核</el-button>
+                    <el-button size="mini" v-if="props.row.house_audit=='待审核'" type="primary" @click="updatelstate1(props.$index, props.row)">不审核</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </template>
+    <el-row>
+        <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage"
+                :page-sizes="[5,6,7]"
+                :page-size="pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total">
+        </el-pagination>
+    </el-row>
+    <el-row>
+        <!--添加修改弹出框-->
+        <!--<el-dialog :title="title" :visible.sync="dialogFormVisible">-->
+            <!--<el-form :model="form">-->
+                <!--&lt;!&ndash;隐藏主键&ndash;&gt;-->
+                <!--<el-input v-model="form.id" type="hidden" autocomplete="off"></el-input>-->
+                <!--<el-form-item label="拒绝修理原因" :label-width="formLabelWidth">-->
+                    <!--<el-input v-model="form.maFalse" ></el-input>-->
+                <!--</el-form-item>-->
+            <!--</el-form>-->
+            <!--<div slot="footer" class="dialog-footer">-->
+                <!--<el-button type="danger" @click="dialogFormVisible = false">取 消</el-button>-->
+                <!--<el-button type="primary" @click="saveData">确 定</el-button>-->
+            <!--</div>-->
+        <!--</el-dialog>-->
+    </el-row>
+</div>
+<style>
+    .demo-table-expand {
+        font-size: 0;
+    }
+    .demo-table-expand label {
+        width: 90px;
+        color: #99a9bf;
+    }
+    .demo-table-expand .el-form-item {
+        margin-right: 0;
+        margin-bottom: 0;
+        width: 50%;
+    }
+</style>
+
+<script>
+    var vue =new Vue({
+        el: "#app",
+        data: {
+            tableData: [],
+            currentPage: 1,
+            pageSize: 5,
+            total: 0,
+            formInline: {
+                code_number: ''
+            },
+            options: [],
+            title: '',
+            dialogFormVisible: false,
+            form: {
+            },
+            formLabelWidth: '120px',
+            url:''
+        },
+        created:function(){
+            this.loadData();
+            var self=this;
+            axios.post('/queryCode2')
+                .then(function (response) {
+                    self.options=response.data;
+                });
+        },
+        methods: {
+            loadData:function(){
+                var self = this;
+                //开始位置  (currentPage-1)*pageSize
+                var start = (this.currentPage-1)*this.pageSize;
+                axios.post('/getHouse1',{start:start,pageSize:this.pageSize,
+                    code_number:this.formInline.code_number})
+                    .then(function (response) {
+                        // handle success
+                        console.log(response);
+                        //JSON.stringify  把json对象转换为json字符串
+                        console.log(JSON.stringify(response.data));
+                        //JSON.parse()把json字符串转换为json对象
+                        console.log(response);
+                        self.tableData=response.data.houseList;
+                        self.total=response.data.total;
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+                    .then(function () {
+                        // always executed
+                    });
+            },
+            // updatelstate1:function (index,row) {//联系
+            //     this.title='拒修原因';
+            //     this.url="/updateMa";
+            //     //赋值
+            //     this.form=row;
+            //     //让弹出框显示
+            //     this.dialogFormVisible=true;
+            // },
+            saveData:function(){
+                var self=this;
+                axios.post(this.url, this.form)
+                    .then(function (response) {
+                        //修改成功
+                        if(response.data==1){
+                            self.$message({
+                                message: '恭喜你， 操作成功',
+                                type: 'success'
+                            });
+                            //关闭弹出框
+                            self.dialogFormVisible=false;
+                            //刷新页面
+                            self.loadData();
+                        }else{ //添加或者修改错误
+                            self.$message.error('错了哦， 操作错误');
+                        }
+                    })
+            },
+            updatelstate:function (id) {//已审核
+                var self=this;
+                axios.post('/upAudit1',{
+                    id:id
+                })
+                    .then(function (response) {
+                        //添加或者修改成功
+                        if (response.data.code==200){
+                            self.$message({
+                                message: '恭喜你，这是一条成功消息',
+                                type: 'success'
+                            });
+                            //刷新界面
+                            self.loadData(1); //刷新数据表格
+                        }else {
+                            self.$message.error('错了哦，这是一条错误消息');
+                        }
+                    })
+            },
+
+
+            handleSizeChange:function(val) {
+                console.log('每页条数:'+val);
+                this.pageSize=val;
+                this.loadData();
+            },
+            handleCurrentChange:function(val) {
+                console.log('当前页:'+ val);
+                this.currentPage=val;
+                this.loadData();
+            },
+            onSubmit:function() {
+                console.log('submit!');
+                this.loadData();
+            },
+
+
+        }
+    })
+</script>
+
+</body>
+</html>

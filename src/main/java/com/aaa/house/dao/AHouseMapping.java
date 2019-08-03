@@ -77,7 +77,7 @@ public interface AHouseMapping {
      * @param uh_staff
      * @return
      */
-    @Select("select uh_useid,uh_name from house_user where  uh_staff=#{uh_staff} and uh_state=1 group by uh_useid")
+    @Select("select uh_useid,uh_name from house_user where  uh_staff=#{uh_staff} and uh_state=2 group by uh_useid")
     List<Map> getStaffUser(String uh_staff);
 
     /**
@@ -88,68 +88,11 @@ public interface AHouseMapping {
     @Select("SELECT uh_id,uh_urban,uh_street,uh_district,uh_name FROM house_user where uh_useid=#{uh_useid}")
     List<HouseUser> getUserHouse(Map map);
 
-
-    //******************************查询***********************************************
     /**
      * 查询所有房屋  嵌套查询**一对多
      * @return
      */
-    List<HouseLaIm> getHouse(Map map);
-
-    /**
-     * 查询所有房屋数量
-     * @return
-     */
-    @Select("<script>SELECT COUNT(*)\n" +
-            "from house h join code aa\n" +
-            "on h.house_urban=aa.code_number\n" +
-            "join code bb\n" +
-            "on h.house_street=bb.code_number\n" +
-            "join code cc\n" +
-            "on h.house_state=cc.code_number\n" +
-            "join code dd\n" +
-            "on h.house_orientation=dd.code_number\n" +
-            "join code ee\n" +
-            "on h.house_layout=ee.code_number\n" +
-            "join code ff\n" +
-            "on h.house_audit=ff.code_number\n" +
-            "\n" +
-            "join staff\n" +
-            "on h.house_staffid=staff_num\n" +
-            "<where>\n" +
-            "            <if test=\"house_state != null and house_state !=''\">\n" +
-            "                and house_state = #{house_state}\n" +
-            "            </if>\n" +
-            "            <if test=\"house_district !=null and house_district !=''\">\n" +
-            "                and house_district like \"%\"#{house_district}\"%\"\n" +
-            "            </if>\n" +
-            "        </where>\n" +
-            "and cc.code_type=8 and dd.code_type=6 and ee.code_type=7 and ff.code_type=5 </script>")
-    int getHouseNum(Map map);
-
-    //*******************************房屋修改*****************************************
-
-    /**
-     * 修改
-     * @return
-     */
-    @Update("update house set house_title=#{house_title},house_district=#{house_district}," +
-            "house_rent=#{house_rent},house_state=#{house_state},house_audit=#{house_audit} where house_id=#{house_id}")
-    int updaHouse(Map map);
-
-    //*******************************************房屋假删除***************************************************
-
-    /**
-     * 房屋假删除
-     * @return
-     */
-    @Update("update house set house_delete=2 where house_id=#{house_id}")
-    int deleteHouse(Map map);
-
-
-
-    //*******************************************房屋添加***************************************************
-
+    List<Map> getHouse(Map map);
 
     /**
      * 添加房屋
