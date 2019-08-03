@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,4 +31,17 @@ public class ACodeController {
     public List<Map> getHouseCode(@RequestBody Map map){
         return aCodeService.HouseCode(map);
     }
+
+    /**
+     * 查询房屋审核+发布状态
+     * @return
+     */
+    @RequestMapping("getHouseState")
+    public Map getHouseState(){
+        Map map=new HashMap();
+        map.put("housestate",aCodeService.getHouseState());
+        map.put("houseaudit",aCodeService.getHouseAudit());
+        return map;
+    }
+
 }

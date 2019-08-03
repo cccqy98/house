@@ -28,4 +28,22 @@ public class ACodeServiceImpl implements ACodeService {
     public List<Map> HouseCode(Map map) {
         return aCodeMapping.getHouseCode(map);
     }
+
+    /**
+     * 房屋状态
+     * @return
+     */
+    @Override
+    public List<Map> getHouseState() {
+        return aCodeMapping.getHouseState();
+    }
+
+    /**
+     * 审核状态
+     * @return
+     */
+    @Override
+    public List<Map> getHouseAudit() {
+        return aCodeMapping.getHouseAudit();
+    }
 }

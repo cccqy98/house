@@ -16,4 +16,19 @@ public interface ACodeMapping {
      */
     @Select("SELECT code_number,code_state from code where code_type=#{code_type}")
     List<Map> getHouseCode(Map map);
+
+    /**
+     * 查询所有房屋状态
+     * @return
+     */
+    @Select("select code_number,code_state from code where code_type=8")
+    List<Map> getHouseState();
+
+    /**
+     * 查询审核状态
+     * @return
+     */
+    @Select("select code_number,code_state from code where code_type=5")
+    List<Map> getHouseAudit();
+
 }

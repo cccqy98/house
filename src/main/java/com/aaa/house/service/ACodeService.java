@@ -12,4 +12,17 @@ public interface ACodeService {
      * @return
      */
     List<Map> HouseCode(Map map);
+
+
+    /**
+     * 查询所有房屋状态
+     * @return
+     */
+    List<Map> getHouseState();
+
+    /**
+     * 查询审核状态
+     * @return
+     */
+    List<Map> getHouseAudit();
 }
