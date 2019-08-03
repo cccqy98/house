@@ -108,7 +108,7 @@
         <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
             <div class="logo"><img src="resources/images/logoko.png"></div>
             <a-menu theme="dark" mode="horizontal" :defaultSelectedKeys="['2']" :style="{ lineHeight: '64px' }">
-                <a-menu-item key="1"><a href="index.html">首页</a></a-menu-item>
+                <a-menu-item key="1"><a href="main.html">首页</a></a-menu-item>
                 <a-menu-item key="2"><a href="">租房</a></a-menu-item>
                 <a-menu-item key="3"><a href="housingresource.html">发布房源</a></a-menu-item>
                 <a-menu-item key="4">
@@ -121,7 +121,7 @@
                 </a-menu-item>
                 <a-menu-item key="5" class="lr"><a href="register.html">注册</a></a-menu-item>
                 <a-menu-item key="6" class="lr">/</a-menu-item>
-                <a-menu-item key="7" class="lr"><a  href="rlogin.html">登录</a></a-menu-item>
+                <a-menu-item key="7" class="lr"><a  href="login.html">登录</a></a-menu-item>
                 <a-menu-item id="cuslog">
                     <a-dropdown>
 						<span class="ant-dropdown-link cname">
@@ -199,7 +199,7 @@
                                         <ul id="ulinfo" slot="description" style="padding-left: 10px;">
                                             <li slot="description" v-for="(k,index) in item.houseLabel">{{k}}</li>
                                         </ul>
-                                        <img slot="avatar" :src="item.houseCover"/>
+                                        <img slot="avatar" :src="'http://localhost:8080/loginReg/show?fileName='+item.houseCover"/>
                                     </a-list-item-meta>
                                 </a-list-item>
                             </a-list>

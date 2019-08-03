@@ -35,6 +35,7 @@
         join (select * from code where code_type=6) g on a.house_orientation=g.code_number
         join house_attention h on a.house_id=h.ah_hid
         <where>
+            a.house_delete=1
             <if test="userId!=null and userId!=''">
                 and h.ah_uid =#{userId}
             </if>
@@ -64,6 +65,7 @@
         join (select * from code where code_type=6) g on a.house_orientation=g.code_number
         join house_attention h on a.house_id=h.ah_hid
         <where>
+            a.house_delete=1
             <if test="userId!=null and userId!=''">
                 and h.ah_uid =#{userId}
             </if>
