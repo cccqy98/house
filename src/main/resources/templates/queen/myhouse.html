@@ -176,7 +176,7 @@
                         <!--<el-button v-if="props.row.house_audit=='已审核'" size="mini" @click="release(props.row)" type="success">发布</el-button>-->
                         <el-button v-if="props.row.house_state=='待发布' && props.row.house_audit=='已审核'" size="mini" @click="release(props.row)" type="success">发布</el-button>
                         <el-button v-if="props.row.house_state=='已发布' && props.row.house_audit=='已审核' " size="mini" @click="upfour(props.row)" type="warning">下架</el-button>
-                        <el-button v-if="props.row.house_state=='已出租' && props.row.house_audit=='已审核' " size="mini" @click="openCus(props.row.id)" type="primary">查看租客</el-button>
+                        <el-button v-if="props.row.house_state=='已出租' && props.row.house_audit=='已审核' " size="mini" @click="openCus(props.row)" type="primary">查看租客</el-button>
 
                     </template>
                 </el-table-column>
@@ -266,23 +266,23 @@
 
         <el-dialog title="房客信息" :visible.sync="cusfrom" width="35%" center>
             <el-form :model="cfrom" label-width="100px" :inline="false">
-                <el-form-item label="房客编号:">
-                    <el-input v-model="cfrom.cname" :disabled="true" style="width: 200px;"></el-input>
+                <el-form-item label="房客姓名:">
+                    <el-input v-model="cfrom.pact_usename" :disabled="true" style="width: 200px;"></el-input>
                 </el-form-item>
                 <el-form-item label="房东电话:">
-                    <el-input v-model="cfrom.cphone" :disabled="true" style="width: 200px;"></el-input>
+                    <el-input v-model="cfrom.pact_uphone" :disabled="true" style="width: 200px;"></el-input>
                 </el-form-item>
                 <el-form-item label="身份证号:">
-                    <el-input v-model="cfrom.ccard" :disabled="true" style="width: 200px;"></el-input>
+                    <el-input v-model="cfrom.pact_usecard" :disabled="true" style="width: 200px;"></el-input>
                 </el-form-item>
                 <el-form-item label="开始时间:">
-                    <el-input v-model="cfrom.begintime" :disabled="true" style="width: 200px;"></el-input>
+                    <el-input v-model="cfrom.pact_begin" :disabled="true" style="width: 200px;"></el-input>
                 </el-form-item>
                 <el-form-item label="结束时间:">
-                    <el-input v-model="cfrom.endtime" :disabled="true" style="width: 200px;"></el-input>
+                    <el-input v-model="cfrom.pact_end" :disabled="true" style="width: 200px;"></el-input>
                 </el-form-item>
                 <el-form-item label="手续费:">
-                    <el-input v-model="cfrom.charge" :disabled="true" style="width: 200px;"></el-input>
+                    <el-input v-model="cfrom.pact_poundage" :disabled="true" style="width: 200px;"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -366,25 +366,22 @@
                     confirmButtonText: '确定',
                 })
             },
-            release: function (row) {
-                var _this = this;
-                $.ajax({
-                    type: "post",
-                    url: "/house/updateThree",
-                    data:{id:row.id},
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.code == 200) {
-                            _this.$message({
-                                message: data.msg,
+            release: function (row) {//发布upMYHouse
+                var self = this;
+                axios.post('/upMYHouse',{'house_id':row.house_id})
+                    .then(function (response) {
+                        //添加或者修改成功
+                        if (response.data.code==200){
+                            self.$message({
+                                message: '发布成功',
                                 type: 'success'
                             });
-                            _this.load(1); //刷新数据表格
-                        } else {
-                            _this.$message.error(data.msg);
+                            //刷新界面
+                            self.loadData(); //刷新数据表格
+                        }else {
+                            self.$message.error('错了哦，这是一条错误消息');
                         }
-                    }
-                });
+                    });
             },
             upfour: function (row) {//下架
                 var self = this;
@@ -407,42 +404,18 @@
                 this.housefrom=true;
                 this.hfrom=row;
             },
-            openCus:function(row){
-                var _this=this;
-                _this.cusfrom=true;
-                $.ajax({
-                    type: "post",
-                    url: "/house/getAllRenCus",
-                    data: {id:row},
-                    dataType: "json",
-                    success: function (data) {
-                        for (var i = 0; i < data.length; i++) {
-                            _this.cfrom=data[i];
-                        }
-                    }
-                });
+            openCus:function(row){//查看
+                var self = this;
+                self.cusfrom=true;
+                axios.post('/getpact',{'house_id':row.house_id})
+                    .then(function (response) {
+                        //JSON.stringify 把json对象装换为json字符串
+                        console.log(JSON.stringify(response.data));
+                        //json.parse()把json字符串转换为json对象
+                        self.cfrom = response.data;
+                    })
             },
-           /* updateHos:function() {
-                var _this=this;
-                $.ajax({
-                    type: "post",
-                    url: "/house/updateTwoHouse",
-                    data: _this.hfrom,
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.code == 200) {
-                            _this.$message({
-                                message: data.msg,
-                                type: 'success'
-                            });
-                            _this.housefrom = false;
-                            _this.load(1); //刷新数据表格
-                        } else {
-                            this.$message.error(data.msg);
-                        }
-                    }
-                });
-            },*/
+
         }
     })
 </script>

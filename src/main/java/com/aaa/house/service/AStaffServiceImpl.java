@@ -3,11 +3,15 @@ package com.aaa.house.service;
 import com.aaa.house.dao.AStaffMappng;
 import com.aaa.house.entity.Staff;
 import com.aaa.house.utils.CusUtil;
+import com.aaa.house.utils.ISysConstants;
 import com.aaa.house.utils.PasswordHelper;
+import com.aaa.house.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * FileName: AStaffServiceImpl
@@ -60,4 +64,30 @@ public class AStaffServiceImpl implements AStaffService{
     public int insertStaff(Staff staff) {
         return aStaffMappng.insertStaff(staff);
     }
+
+    /**
+     * 查询所有员工
+     * @return
+     */
+    @Override
+    public Map getUser(Map map) {
+        Map map1=new HashMap();
+        map1.put("personlist",aStaffMappng.getUser( map));
+        map1.put("total",aStaffMappng.getUserNum(map));
+        return map1;
+    }
+
+    @Override
+    public ResultUtil upUser(Map map) {
+        int aa=aStaffMappng.upUser(map);
+        ResultUtil resultUtil=new ResultUtil();
+        if (aa>0){
+            resultUtil.setCode(ISysConstants.SUCCESSCODE);
+            return resultUtil;
+        }
+        resultUtil.setCode(ISysConstants.OTHERTIPS);
+        return resultUtil;
+    }
+
+
 }

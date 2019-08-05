@@ -121,6 +121,24 @@ public interface AHouseService {
     ResultUtil upMyHouseXiajia(Map map);
 
 
+
+    /**
+     * 房屋发布
+     * @return
+     */
+    ResultUtil upMYHouse(Map map);
+
+
+
+    /**
+     * 查询我的租客
+     * @param map
+     * @return
+     */
+    Map getpact(Map map);
+
+
+
     /**
      * 预约人数+信息+分页=房源出租
      * @return

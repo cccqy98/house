@@ -281,6 +281,25 @@ public interface AHouseMapping {
     int getLookMyHouseNum(Map map);
 
     /**
+     * 房屋发布
+     * @return
+     */
+    @Update("update house set house_state=2 where house_id=#{house_id}")
+    int upMYHouse(Map map);
+
+    /**
+     * 查询我的租客
+     * @param map
+     * @return
+     */
+    @Select("select * from pact where pact_houseid=#{house_id}")
+    Map getpact(Map map);
+
+    //*******************************************出租房屋***************************************************
+
+
+
+    /**
      * 获取该房屋的预约信息
      * @return
      */

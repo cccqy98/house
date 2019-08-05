@@ -233,6 +233,33 @@ public class AHouseServiceImpl implements AHouseService{
     }
 
     /**
+     * 房屋发布
+     * @param map
+     * @return
+     */
+    @Override
+    public ResultUtil upMYHouse(Map map) {
+        int aa=aHouseMapping.upMYHouse(map);
+        ResultUtil resultUtil=new ResultUtil();
+        if (aa>0){
+            resultUtil.setCode(ISysConstants.SUCCESSCODE);
+            return resultUtil;
+        }
+        resultUtil.setCode(ISysConstants.OTHERTIPS);
+        return resultUtil;
+    }
+
+    /**
+     * 查询我的租客
+     * @param map
+     * @return
+     */
+    @Override
+    public Map getpact(Map map) {
+        return aHouseMapping.getpact(map);
+    }
+
+    /**
      * 预约人数+信息+分页=房源出租
      * @return
      */

@@ -31,4 +31,18 @@ public interface ACodeMapping {
     @Select("select code_number,code_state from code where code_type=5")
     List<Map> getHouseAudit();
 
+    /**
+     * 查询员工状态
+     * @return
+     */
+    @Select("select * from code where code_type=2")
+    List<Map> getUserState();
+
+    /**
+     * 查询员工性别
+     * @return
+     */
+    @Select("select * from code where code_type=1")
+    List<Map>getUserSet();
+
 }
