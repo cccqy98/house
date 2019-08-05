@@ -1,6 +1,7 @@
 package com.aaa.house.controller;
 
 import com.aaa.house.entity.User;
+import com.aaa.house.service.HouseService;
 import com.aaa.house.service.UserService;
 import com.aaa.house.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ public class UserController {
 
     //交互前台显示状态类
     ResultUtil resultUtil = new ResultUtil();
+
     /**
      * 获取验证码
      *
@@ -115,6 +117,7 @@ public class UserController {
         } else {
             resultUtil.setCode(ISysConstants.SUCCESSCODE);
             resultUtil.setObject(judgeCusLogin);
+            resultUtil.setHouse(CusUtil.getHouseFromSession());
         }
         return resultUtil;
     }
@@ -214,6 +217,29 @@ public class UserController {
         }
         return resultUtil;
     }
+
+    @Autowired
+    private HouseService houseService;
+
+    /**
+     * 查询关注房源
+     *
+     * @return
+     */
+    @RequestMapping("queryLike")
+    public Object queryLike() {
+        Map mapParam = new HashMap();
+        User user = CusUtil.getCusFromSession();
+        mapParam.put("userId", user.getId());
+        mapParam.put("pageSize", 2);
+        mapParam.put("start", 0);
+        Map map = new HashMap();
+        //判断
+        map.put("empList", houseService.queryHouseAll(mapParam));
+        map.put("total", houseService.queryHousePageCount(mapParam));
+        return map;
+    }
+
 
 
 }

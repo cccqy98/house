@@ -97,6 +97,7 @@
                         <el-option label="待发布" value="1"></el-option>
                         <el-option label="已发布" value="2"></el-option>
                         <el-option label="已出租" value="3"></el-option>
+                        <el-option label="已下架" value="4"></el-option>
                     </el-select>
                 </el-form-item>
 
@@ -134,6 +135,9 @@
                                 </el-form-item>
                                 <el-form-item label="房屋布局:">
                                     <span>{{ props.row.house_layout }}</span>
+                                </el-form-item>
+                                <el-form-item label="审核人编号:">
+                                    <span>{{ props.row.house_ditstaff }}</span>
                                 </el-form-item>
                             </div>
                             <div class="yc">

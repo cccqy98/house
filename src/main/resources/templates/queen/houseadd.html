@@ -384,8 +384,7 @@
 						house_date: '', //发布日期
 						headPic:'',//封面
 						headPic1:'',//房产证图
-						headPic2:[]//房图
-
+						headPic2:''//房图
 					},
 						pickerOptions: {
 							disabledDate:function(time) {
@@ -567,7 +566,12 @@
 					handleAvatarSuccess2:function(res,file) {
 						this.dialogImageUrl = URL.createObjectURL(file.raw);
 						this.eform.headPicName1= file.response.originalFilename;
-						this.eform.headPic2+=file.response.newFileName+",";
+						if (this.eform.headPic2=='' || this.eform.headPic2==undefined) {
+							this.eform.headPic2=file.response.newFileName+",";
+						}else{
+							this.eform.headPic2+=file.response.newFileName;
+						}
+
 					},
 					beforeAvatarUpload:function(file) {
 						const isJPG = file.type === 'image/jpeg';
@@ -593,8 +597,7 @@
 						"uh_name":this.eform.uh_name,"house_id":this.eform.uhouse,"house_title":this.eform.house_title,"uh_urban":this.eform.uh_urban,"uh_street":this.eform.uh_street,
 								"uh_district":this.eform.uh_district,"house_floor":this.eform.house_floor,"headPic":this.eform.headPic,
 							"house_orientation":this.eform.house_orientation,"house_layout":this.eform.house_layout,"house_area":this.eform.house_area,
-							"house_rent":this.eform.house_rent,"house_date":this.eform.house_date,"headPic1":this.eform.headPic1,
-							"headPic2":this.eform.headPic2})
+							"house_rent":this.eform.house_rent,"house_date":this.eform.house_date,"headPic1":this.eform.headPic1,"headPic2":this.eform.headPic2})
 								.then(function (response) {
 									//添加或者修改成功
 									if (response.data.code==200){

@@ -1,6 +1,7 @@
 package com.aaa.house.service;
 
 import com.aaa.house.dao.UserMapper;
+import com.aaa.house.entity.House;
 import com.aaa.house.entity.User;
 import com.aaa.house.utils.CusUtil;
 import com.aaa.house.utils.OtherUtil;
@@ -9,6 +10,8 @@ import com.aliyuncs.exceptions.ClientException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.aaa.house.utils.OtherUtil.checkIDCard;
@@ -28,6 +31,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private HouseService houseService;
 
     /**
      * 获取验证码
@@ -92,8 +97,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User checkLogin(User record) {
-        System.out.println("验证登录");
-        System.out.println(record);
         //获取手机号
         String phone = record.getUPhone();
         //根据手机号查询用户
@@ -107,6 +110,44 @@ public class UserServiceImpl implements UserService {
             //得到原始密码
             String password = user.getUPassword();
             if (password.equals(paramPassword)) {
+//                house.put("s",1);
+//                house.put("ss",2);
+//
+                System.out.println("======================");
+                System.out.println(user);
+                System.out.println("======================");
+                Map map = new HashMap();
+                map.put("userId", user.getId());
+                map.put("pageSize", 2);
+                map.put("start", 0);
+                System.out.println(map);
+//                System.out.println("======================");
+
+//                List<House> house=houseService.queryHouseAll(map);
+                Map house = new HashMap();
+//                //判断
+                house.put("empList", houseService.queryHouseAll(map));
+                house.put("total", houseService.queryHousePageCount(map));
+                System.out.println(house);
+                System.out.println("==================================");
+                System.out.println(house.get("empList"));
+                System.out.println("===================================");
+                System.out.println(house.get("total"));
+                System.out.println("===================================");
+//                Map mapParam = new HashMap();
+//                User user = CusUtil.getCusFromSession();
+//                mapParam.put("userId",user.getId());
+//                mapParam.put("pageSize",2);
+//                mapParam.put("start",0);
+//                Map map = new HashMap();
+//                //判断
+//                map.put("empList", houseService.queryHouseAll(mapParam));
+//                map.put("total", houseService.queryHousePageCount(mapParam));
+//                return map;
+
+
+                CusUtil.saveHouse(house);
+
                 CusUtil.saveCus(user);
                 return user;
             }

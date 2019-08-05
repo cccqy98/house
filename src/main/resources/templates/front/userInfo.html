@@ -11,10 +11,17 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!--本html中css-->
     <style type="text/css">
+        body {
+            background: url("resources/images/1 (1).jpeg") no-repeat;
+            background-size: 100% 100%;
+            /*background-attachment: fixed;*/
+        }
+
         /*导航栏css*/
         a {
-            font-size: 18px;
+            /*font-size: 16px;*/
             text-decoration: none;
             color: white;
         }
@@ -52,11 +59,102 @@
         }
 
         .avatar {
-
             width: 120px;
             height: 120px;
             display: block;
         }
+
+        .bg {
+            background-color: rgba(255, 255, 255, 0.9);
+            opacity: 1;
+        }
+
+
+        /* #components-layout-demo-fixed .logo {*/
+        /*     width: 120px;*/
+        /*     height: 31px;*/
+        /*     background: rgba(255, 255, 255, .2);*/
+        /*     margin: 16px 24px 16px 0;*/
+        /*     float: left;*/
+        /* }*/
+
+        /*#components-layout-demo-fixed .logo img {*/
+        /*    width: 120px;*/
+        /*    height: 95px;*/
+        /*    margin-top: -35px;*/
+        /*}*/
+
+        /*.lr,#cuslog {*/
+        /*    padding-left: 0;*/
+        /*    padding-right: 0;*/
+        /*    float: right;*/
+        /*}*/
+
+        /*#allmap {*/
+        /*    display: inline-block;*/
+        /*    height: 30px;*/
+        /*    padding: 0 8px;*/
+        /*    line-height: 24px;*/
+        /*    text-align: center;*/
+        /*    cursor: pointer;*/
+        /*    border-radius: 14px;*/
+        /*    border: 2px solid #fff;*/
+        /*    font-size: 14px;*/
+        /*    margin-bottom: -7px;*/
+        /*}*/
+        /*#ulinfo li{*/
+        /*    list-style: none;*/
+        /*    float: left;*/
+        /*    padding: 5px;*/
+        /*    background-color: lightgray;*/
+        /*    border-radius: 5px;*/
+        /*    margin-right: 10px;*/
+        /*    font-size: 13px;*/
+        /*}*/
+        /*.zf span{*/
+        /*    margin-right: 15px;*/
+        /*}*/
+        /*.zf {*/
+        /*    margin-bottom: 10px;*/
+        /*    margin-top: 10px;*/
+        /*}*/
+        /*#bu {*/
+        /*    margin-right: 8px;*/
+        /*}*/
+        /*#zflist a{*/
+        /*    font-size: 20px;*/
+        /*    font-weight: bold;*/
+        /*}*/
+        /*.zf img{*/
+        /*    border-radius: 10px;*/
+        /*    width: 250px;*/
+        /*    height: 180px;*/
+        /*    margin-left: 20px;*/
+        /*}*/
+        /*.ant-list-item-meta-title{*/
+        /*    margin-bottom: 30px;*/
+        /*}*/
+        /*.ant-list-item-meta-content{*/
+        /*    margin-left: 30px;*/
+        /*}*/
+        /*.ant-form-item-children{*/
+        /*    margin-right: 0px;*/
+        /*}*/
+        /*.ant-list-item-meta-description span{*/
+        /*    font-size: 14px;*/
+        /*    font-weight: bold;*/
+        /*}*/
+        /*.ant-list-item-meta-description p{*/
+        /*    margin-top: 20px;*/
+        /*    font-size: 14px;*/
+        /*}*/
+        /*#price{*/
+        /*    color: red;*/
+        /*    font-size: 26px;*/
+        /*    float: right;*/
+        /*}*/
+
+
     </style>
 </head>
 
@@ -68,7 +166,7 @@
             <el-menu style="border-radius: 4px"
                      class="el-menu-demo"
                      mode="horizontal"
-                     background-color="#545c64"
+                     background-color="#000000"
                      text-color="#fff"
                      active-text-color="#ffd04b">
                 <el-col :span="2" :offset="3">
@@ -100,9 +198,7 @@
                     <el-menu-item index="4">
                         <a href="https://www.baidu.com">
                             <!--                        <img v-if="ruleForm.photo" :src="'http://localhost:8080/loginReg/show?fileName='+ruleForm.photo" height="60px;" width="60px;">-->
-                            <el-avatar shape="circle" :size="45" :src="imageUrl1">
-
-                            </el-avatar>
+                            <el-avatar shape="circle" :size="45" :src="imageUrl1"></el-avatar>
                         </a>
                     </el-menu-item>
                 </el-col>
@@ -121,7 +217,7 @@
         </el-row>
         <!--用户信息-->
         <el-row>
-            <el-col :span="16" :offset="4" style="border: 1px solid red">
+            <el-col :span="16" :offset="4" style="border: 1px solid red" class="bg">
                 <el-tabs tab-position="left">
                     <el-tab-pane label="个人资料">
                         <el-row>
@@ -166,19 +262,44 @@
                             </el-col>
                         </el-row>
                     </el-tab-pane>
-                    <el-tab-pane label="已收藏">
-                        <el-row>
-                            <el-col :span="10" :offset="6" style="height: 500px;">
-                                <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
+                    <el-tab-pane label="我的收藏">
+                        <el-row style="height: 500px;">
 
-                            </el-col>
+                            <div class="zf">
+                                <a-list id="zflist" itemLayout="horizontal">
+                                    <a-list-item v-for="item in houseLikeData" :id="item.id">
+                                        <a-list-item-meta>
+                                            <a slot="title" @click="houseDetail(item.houseId)" :hid="item.houseId">{{item.houseTitle}}</a>
+                                            <span slot="description">{{item.houurban}}-{{item.houstreet}}-{{item.houseDistrict}}&nbsp;&nbsp;&nbsp;/</span>
+                                            <span slot="description">{{item.houseArea}}㎡&nbsp;&nbsp;&nbsp;/</span>
+                                            <span slot="description">{{item.houorientation}}&nbsp;&nbsp;&nbsp;/</span>
+                                            <span slot="description">{{item.houlayout}}</span>
+                                            <span id="price" slot="description">{{item.houseRent}}<span
+                                                    slot="description">元/月</span></span>
+                                            <p slot="description">
+                                                <a-icon type="clock-circle"></a-icon>&nbsp;{{item.newstime}}天前发布
+                                            </p>
+                                            <ul id="ulinfo" slot="description" style="padding-left: 10px;">
+                                                <li slot="description" v-for="(k,index) in item.houseLabel">{{k}}</li>
+                                            </ul>
+                                            <img slot="avatar"
+                                                 :src="'http://localhost:8080/loginReg/show?fileName='+item.houseCover"/>
+                                        </a-list-item-meta>
+                                    </a-list-item>
+                                </a-list>
+                                <!--分页-->
+                                <!--                                <div style="text-align: center">-->
+                                <!--                                    <a-pagination :current-page="currentPage" :page-size="pageSize" :total="total"  @change="onChange"/>-->
+                                <!--                                </div>-->
+                            </div>
+
+
                         </el-row>
                     </el-tab-pane>
-                    <el-tab-pane label="已发布">
+                    <el-tab-pane label="我的发布">
                         <el-row>
                             <el-col :span="10" :offset="6" style="height: 500px;">
                                 <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
-
                             </el-col>
                         </el-row>
                     </el-tab-pane>
@@ -241,6 +362,7 @@
             </el-col>
         </el-row>
     </el-main>
+
 
     <!--页脚公司信息-->
     <el-footer>
@@ -355,7 +477,11 @@
                 checkPass: [{validator: validatePass2, trigger: 'blur'}]
             },
             state: '',
-            url: ''
+            url: '',
+            houseLikeData: [],
+            houseSelfData: '',
+            houseHerData: ''
+
         },
         created: function () {
             this.loadData();
@@ -400,6 +526,8 @@
                     } else {
                         img.state += "禁止使用";
                     }
+
+                    img.houseLikeData = response.data.house.empList;
                 });
             },
             submitForm(formName) {
