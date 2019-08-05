@@ -27,6 +27,10 @@ public class HouseLaIm {
     private String house_staffid;//经济人编号
     private String house_audit;//审核状态
     private String house_cover;//房屋封面
+    private String house_reason;//房屋驳回理由
+    private String house_ditstaff;//房屋驳回理由
+    private String loh;//预约人数
+    private String uh_rent;//住客期望租金
     //标签
     private List<HouseLable> houseLables;
     //图片

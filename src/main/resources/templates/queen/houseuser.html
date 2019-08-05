@@ -6,8 +6,7 @@
     <link rel="icon" href="../front/resources/images/fengye1.ico"/>
     <script src="../front/resources/vue/vue.js"></script>
     <script src="../front/resources/js/ele.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <!--<link href="../front/resources/css/ele.css" rel="stylesheet">-->
+    <link href="../front/resources/css/ele.css" rel="stylesheet">
     <script src="../front/resources/js/axios.js"></script>
     <style>
         #role {
@@ -40,13 +39,14 @@
         }
 
         .el-main {
-            height: 400px;
+            height: 490px;
             background-color: #EBEEF5;
             color: #333;
             text-align: center;
         }
 
         .el-main .el-table {
+            height: auto;
             background-color: #F2F6FC;
         }
 
@@ -76,8 +76,7 @@
             margin-bottom: 0px;
             margin-left: 27px;
         }
-
-        .el-input-group__append, .el-input-group__prepend {
+        .el-input-group__append, .el-input-group__prepend{
             padding: 0 5px;
         }
     </style>
@@ -123,9 +122,9 @@
             </el-table>
         </el-main>
 
-        <!-- ******************************** 分页************************-->
 
-        <el-row>
+        <el-footer>
+            <!-- ******************************** 分页************************-->
             <el-pagination
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
@@ -137,7 +136,7 @@
             </el-pagination>
             <!--page-size默认几条-->
             <!--total总数量-->
-        </el-row>
+        </el-footer>
     </el-container>
 </div>
 <script>

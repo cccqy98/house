@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>枫城</title>
+    <link rel="icon" href="../front/resources/images/fengye1.ico"/>
+    <script src="../front/resources/vue/vue.js"></script>
+    <script src="../front/resources/js/ele.js"></script>
+    <link href="../front/resources/css/ele.css" rel="stylesheet">
+    <script src="../front/resources/js/axios.js"></script>
+    <style>
+        #role {
+            height: 100%;
+            background-color: #DCDFE6;
+        }
+
+        #role img {
+            width: 50px;
+            margin-left: 5px;
+            margin-top: 0px;
+            float: left
+        }
+
+        #role h1 {
+            float: left;
+        }
+
+        body .el-container {
+            height: 100%;
+            margin-bottom: 40px;
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+        }
+
+        .el-header, .el-footer {
+            background-color: #E4E7ED;
+            color: #333;
+            text-align: center;
+        }
+
+        .el-main {
+            height: 490px;
+            background-color: #EBEEF5;
+            color: #333;
+            text-align: center;
+        }
+
+        .el-main .el-table {
+            background-color: #F2F6FC;
+        }
+
+        .el-pagination {
+            margin-top: 15px;
+        }
+
+        #eform {
+            text-align: left;
+            float: right;
+        }
+
+        .el-form-item {
+            margin-top: 10px;
+        }
+
+        .el-table td, .el-table th {
+            text-align: center;
+        }
+
+        .yc {
+            text-align: left;
+        }
+
+        .yc .el-form-item {
+            width: 250px;
+            margin-bottom: 0px;
+            margin-left: 27px;
+        }
+
+        .el-input-group__append, .el-input-group__prepend {
+            padding: 0 5px;
+        }
+    </style>
+</head>
+<body>
+<div id="role">
+    <el-container>
+
+        <el-header>
+
+            <image src="../front/resources/images/icon/房子.png"></image>
+            <h1>房源出租</h1>
+
+            <el-form :inline="true" class="demo-form-inline" id="eform">
+                <el-form-item label="状态" >
+                    <el-select v-model="formInline.house_state1" placeholder="请选择">
+                        <el-option label="请选择" value=""></el-option>
+                        <el-option label="待发布" value="1"></el-option>
+                        <el-option label="已发布" value="2"></el-option>
+                        <el-option label="已出租" value="3"></el-option>
+                        <el-option label="已下架" value="4"></el-option>
+                    </el-select>
+                </el-form-item>
+
+                <el-form-item label="地址">
+                    <el-input v-model="formInline.house_district1" placeholder="详细地址" size="medium"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="loadData" icon="el-icon-search">查询</el-button>
+                </el-form-item>
+            </el-form>
+
+        </el-header>
+        <el-main>
+            <el-table :data="tableData">
+                <el-table-column type="expand">
+                    <template slot-scope="props">
+                        <el-form label-position="left" inline class="demo-table-expand">
+                            <div class="yc">
+                                <el-form-item label="房屋租金:">
+                                    <span>{{ props.row.house_rent }}</span>
+                                </el-form-item>
+                                <el-form-item label="房东期望租金:">
+                                    <span>{{ props.row.uh_rent }}</span>
+                                </el-form-item>
+                                <el-form-item label="房屋楼层:">
+                                    <span>{{ props.row.house_floor }}</span>
+                                </el-form-item>
+                                <el-form-item label="房屋面积:">
+                                    <span>{{ props.row.house_area }}</span>
+                                </el-form-item>
+                                <!--</div>
+                                <div class="yc">-->
+                                <el-form-item label="房屋朝向:">
+                                    <span>{{ props.row.house_orintation }}</span>
+                                </el-form-item>
+                                <el-form-item label="发布日期:">
+                                    <span>{{ props.row.house_date }}</span>
+                                </el-form-item>
+                                <el-form-item label="房屋布局:">
+                                    <span>{{ props.row.house_layout }}</span>
+                                </el-form-item>
+                                <el-form-item label="审核人编号:">
+                                    <span>{{ props.row.house_ditstaff }}</span>
+                                </el-form-item>
+                            </div>
+                            <div class="yc">
+                                <el-form-item label="描述标签:" style="width: 900px">
+                                    <span v-for="k in props.row.houseLables" >{{ k.la_id }}&nbsp;&nbsp;</span>
+                                </el-form-item>
+                            </div>
+                        </el-form>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="house_id" label="房屋编号" width="100"></el-table-column>
+                <el-table-column prop="house_title" label="房屋标题"></el-table-column>
+                <el-table-column prop="house_district" label="房屋详细地址"></el-table-column>
+                <el-table-column prop="house_state" label="房屋状态" width="100"></el-table-column>
+                <el-table-column prop="loh" label="预约人数" width="100"></el-table-column>
+                <input type="hidden" v-model="cform.house_rent"/>
+                <el-table-column label="操作" style="width: auto;">
+                    <template slot-scope="props">
+                        <el-button v-if="props.row.lesscount!==0" size="mini" @click="getCus(props.row)" type="success">
+                            查看
+                        </el-button>
+                        <!-- <el-button v-if="props.row.lesscount==0" size="mini" type="success" plain disabled>
+                             暂无预约
+                         </el-button>-->
+                    </template>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-main>
+        <el-footer>
+            <!-- ******************************** 分页************************-->
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[2, 5, 7, 10]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </el-footer>
+
+        <el-dialog title="租客信息" :visible.sync="cusTable" width="99%" center>
+            <el-table :data="cusData">
+                <el-table-column width="200" property="u_name" label="租客姓名"></el-table-column>
+                <el-table-column width="200" property="u_name" label="租客姓名"></el-table-column>
+                <el-table-column width="240" property="u_phone" label="租客手机"></el-table-column>
+                <el-table-column width="240" property="look_data" label="看房日期"></el-table-column>
+                <el-table-column width="200" property="look_state" label="租客状态"></el-table-column>
+                <el-table-column label="操作" style="width: auto;">
+                    <template slot-scope="props">
+                        <el-button v-if="props.row.look_state=='未看房'" @click="upLessState(props.row)" size="mini" type="primary">
+                            看房
+                        </el-button>
+                        <el-button v-if="props.row.look_state=='已看房'" @click="upCus(props.row)" size="mini" type="primary">
+                            编辑
+                        </el-button>
+                        <el-button v-if="props.row.look_state=='有意租'" @click="addTenant(props.row)" size="mini" type="success">
+                            出租
+                        </el-button>
+                        <el-button v-if="props.row.look_state=='无意租'" @click="deleSee(props.row)" size="mini" type="danger">
+                            删除
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-dialog>
+
+
+
+
+
+        <el-dialog title="租户信息" :visible.sync="cusfrom" width="50%" center>
+            <el-form :model="cform" label-width="80px" :inline="true">
+                <input type="hidden" v-model="cform.look_userid"/>
+                <input type="hidden" v-model="cform.look_house"/>
+                <input type="hidden" v-model="cform.house_rent"/>
+                <el-form-item label="姓名">
+                    <el-input v-model="cform.u_name" :disabled="true"></el-input>
+                </el-form-item>
+                <el-form-item label="性别">
+                    <template>
+                        <el-radio-group v-model="cform.u_sex" :disabled="true">
+                            <el-radio :label="1">男</el-radio>
+                            <el-radio :label="2">女</el-radio>
+                        </el-radio-group>
+                    </template>
+                </el-form-item>
+                <el-form-item label="联系电话">
+                    <el-input v-model="cform.u_phone" :disabled="true"></el-input>
+                </el-form-item>
+                <el-form-item label="身份证">
+                    <el-input v-model="cform.u_card" :disabled="true"></el-input>
+                </el-form-item>
+
+                <el-form-item style="margin-top: 20px;" prop="house_date" label="看房日期" >
+                    <el-date-picker
+                            v-model="cform.look_date"
+                            align="right"
+                            type="date"
+                            placeholder="选择日期"
+                            value-format="yyyy-MM-dd"
+                            :picker-options="pickerOptions">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="租房意愿">
+                    <el-radio-group v-model="cform.look_state">
+                        <el-radio :label="3">有意租</el-radio>
+                        <el-radio :label="4">无意租</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <div style="margin-left: 180px">
+                    <el-button @click="cusfrom = false">取 消</el-button>
+                    <el-button @click="saveCus" type="primary">确 定</el-button>
+                </div>
+            </el-form>
+        </el-dialog>
+
+
+
+
+
+
+        <el-dialog title="出租房屋" :visible.sync="rentform" width="50%" center>
+            <el-form :model="rform" label-width="80px" :inline="true">
+                <input type="hidden"  v-model="rform.house_id"/>
+                <!-- <input type="hidden"  v-model="rform.renter"/>-->
+                <el-form-item label="选择租期">
+                    <el-date-picker
+                            v-model="rdate"
+                            type="daterange"
+                            @change="getRent"
+                            value-format="yyyy-MM-dd"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item>
+                    <span style="margin: 0 10px">月租金</span>
+                    <el-input style="width: 100px" v-model="rform.house_rent" :disabled="true">
+                        <template slot="append">元</template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item>
+                    <span style="margin: 0 10px">房东期望租金</span>
+                    <el-input style="width: 100px" v-model="rform.uh_rent" :disabled="true">
+                        <template slot="append">元</template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="手续费">
+                    <el-input v-model="pact_poundage" style="width: 100px" :disabled="true"></el-input>
+                    <template slot="append">元</template>
+                    <span style="font-size: 10px;color: red;">(收取费用=实际价格 - 房东期望价格 + (房东期望价格*5%))</span>
+                </el-form-item>
+                <div style="margin-left: 180px">
+                    <el-button @click="rentform = false">取 消</el-button>
+                    <el-button type="primary" @click="rent">确 定</el-button>
+                </div>
+            </el-form>
+        </el-dialog>
+    </el-container>
+</div>
+<script>
+    new Vue({
+        el: "#role",
+        data: {
+            tableData: [] //数据表格
+            ,currentPage:1/*当前页码*/
+            ,pageSize:2/*每页条数*/
+            ,total:0/*总页数*/
+            ,formInline: {
+                house_state1:'',
+                house_district1:''
+            }, //查询条件
+
+            cusTable:false, //租客表格弹框
+            cusData:[], //租客表格
+
+            cusfrom:false,//租客信息修改弹框
+            cform:{},//租客信息修改表单
+
+            rentform: false,//出租弹框
+            rform:{}, //出租弹框里的表单
+
+            house_rent:"", //当前行的房东卖的
+            uh_rent:"", //当前行的房东房源月租金
+            rdate:[], //弹框里的日期选择器
+            pact_poundage:"", //搜续费租金(由日期选择器动态获取)
+            pickerOptions: {
+                disabledDate:function(time) {
+                    return time.getTime() > Date.now();
+                },
+                shortcuts: [{
+                    text: '今天',
+                    onClick:function(picker) {
+                        picker.$emit('pick', new Date());
+                    }
+                }, {
+                    text: '昨天',
+                    onClick:function(picker) {
+                        const date = new Date();
+                        date.setTime(date.getTime() - 3600 * 1000 * 24);
+                        picker.$emit('pick', date);
+                    }
+                }, {
+                    text: '一周前',
+                    onClick:function(picker) {
+                        const date = new Date();
+                        date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                        picker.$emit('pick', date);
+                    }
+                }]
+            }
+        },
+        mounted: function () {
+            this.loadData();
+        },
+        methods: {
+            //房源表格加载
+            loadData: function () {
+                var self = this;
+                var start = (this.currentPage - 1) * this.pageSize;
+                axios.post('/getLookMyHouse',{
+                    'start': start, 'pageSize': this.pageSize,
+                    house_state:this.formInline.house_state1,
+                    house_district:self.formInline.house_district1})
+                    .then(function (response) {
+                        //JSON.stringify 把json对象装换为json字符串
+                        console.log(JSON.stringify(response.data));
+                        //json.parse()把json字符串转换为json对象
+                        self.tableData = response.data.personlist;
+                        self.total = response.data.total;
+                    })
+            },
+            handleSizeChange:function(val) {
+                console.log('每页条数：'+val);
+                this.pageSize=val;
+                this.loadData();
+            },
+            handleCurrentChange:function(val) {
+                console.log('当前页: '+val);
+                this.currentPage=val;
+                this.loadData();
+            },
+
+
+
+            //租客表格加载
+            getCus:function(row){
+                this.cusTable=true;
+                var self = this;
+                axios.post('/getUserLookHouse',{'look_house':row.house_id})
+                    .then(function (response) {
+                        //JSON.stringify 把json对象装换为json字符串
+                        console.log(JSON.stringify(response.data));
+                        console.log(row+"11111"+response.data);
+                        self.cusData = response.data;
+                    });
+
+            },
+            //修改未看房为已看房
+            upLessState:function(row) {
+                var self = this;
+                axios.post('/updaLookHouse',{'look_userid':row.look_userid,'look_house':row.look_house})
+                    .then(function (response) {
+                        //JSON.stringify 把json对象装换为json字符串
+                        console.log(JSON.stringify(response.data));
+                        //json.parse()把json字符串转换为json对象
+                        if (response.data.code==200){
+                            self.$message({
+                                message: '看房成功',
+                                type: 'success'
+                            });
+                            self.cusTable=false;
+                            //刷新界面
+                            self.loadData();
+
+                        }else {
+                            self.$message.error('错了哦，无法看房');
+                        }
+                    });
+            },
+            //租客信息修改
+            upCus:function(row){
+                this.cusfrom=true;
+                this.cform=row;
+            },
+            //保存租户信息cform
+            saveCus:function(){
+                var self = this;
+                axios.post('/upLookHousestate',self.cform)
+                    .then(function (response) {
+                        //JSON.stringify 把json对象装换为json字符串
+                        console.log(JSON.stringify(response.data));
+                        //json.parse()把json字符串转换为json对象
+                        if (response.data.code==200){
+                            self.$message({
+                                message: '恭喜你，成功了',
+                                type: 'success'
+                            });
+                            this.rentform = false;
+                            //刷新界面
+                            self.loadData();
+
+                        }else {
+                            self.$message.error('错了哦');
+                        }
+                    });
+
+
+
+            },
+            //删除租客看房记录deLookHouse
+            deleSee:function (row) {
+                var self = this;
+                axios.post('/deLookHouse',{'look_userid':row.look_userid,'look_house':row.look_house})
+                    .then(function (response) {
+                        //JSON.stringify 把json对象装换为json字符串
+                        console.log(JSON.stringify(response.data));
+                        //json.parse()把json字符串转换为json对象
+                        if (response.data.code==200){
+                            self.$message({
+                                message: '删除成功了',
+                                type: 'success'
+                            });
+                            self.cusTable=false;
+                            //刷新界面
+                            self.loadData();
+
+                        }else {
+                            self.$message.error('错了哦');
+                        }
+                    });
+            },
+            //租房弹框
+            addTenant: function (row) {
+                this.rentform = true;
+                this.rform = row;
+                this.house_rent = row.house_rent;//经济人标价
+                this.uh_rent = row.uh_rent;//原始租金
+                this.rdate = [];
+                this.pact_poundage = ""
+            },
+            rent: function () {//算钱
+                var self=this;
+                axios.post('/upPact',{'look_house':this.rform.look_house
+                ,'pact_begin':self.rdate[0],'pact_end':self.rdate[1],'pact_cost':this.rform.house_rent
+                ,'pact_poundage':self.pact_poundage})
+                    .then(function (response) {
+                        //添加或者修改成功
+                        if (response.data.code==200){
+                            self.$message({
+                                message: '恭喜你，修改成功',
+                                type: 'success'
+                            });
+                            //关闭弹出框
+                            self.rentform=false;
+                            self.cusTable=false;
+                            //刷新界面
+                            self.loadData(); //刷新数据表格
+                        }else {
+                            self.$message.error('错了哦，这是一条错误消息');
+                        }
+                    })
+            },
+            getRent: function () {  //处理日期  根据租期获取手续费
+                var _this = this;
+                //alert("开始日期====" + this.rdate[0])
+                //alert("结束日期====" + this.rdate[1])
+                var aDate, oDate1, oDate2, iDays;
+                aDate = _this.rdate[0].split("-");
+                oDate1 = new Date(aDate[0], aDate[1], aDate[2]);   //转换为12-18-2006格式
+                aDate = _this.rdate[1].split("-");
+                oDate2 = new Date(aDate[0], aDate[1], aDate[2]);
+                iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 / 24);
+                var month = Math.round(iDays / 30);
+                if (month > 0 ) {
+                    _this.pact_poundage = ((_this.house_rent - _this.uh_rent)+ _this.house_rent * 0.05) * month;
+                }  else {
+                    _this.pact_poundage = (_this.house_rent - _this.uh_rent)+ _this.house_rent * 0.05;
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

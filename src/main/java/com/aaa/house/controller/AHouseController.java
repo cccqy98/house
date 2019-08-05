@@ -268,11 +268,89 @@ public class AHouseController {
      */
     @RequestMapping("getMyHouse")
     public  Map getMyHouse(@RequestBody Map map){
-        System.out.println(map);
         Map map1=new HashMap();
         map1.put("personlist",aHouseService.getMyHouse(map));
-        map1.put("total",4);
-        System.out.println("1111111111"+map1);
+        map1.put("total",aHouseService.getMyhouseNum(map));
         return map1;
     }
+
+
+    /**
+     * MY房屋修改
+     * @return
+     */
+    @RequestMapping("setHouseMyAll")
+    public ResultUtil setHouseMyAll(@RequestBody Map map){
+        ResultUtil resultUtil=aHouseService.updaMyHouse(map);
+        return resultUtil;
+    }
+
+    /**
+     * MY房屋下架
+     * @return
+     */
+    @RequestMapping("setHouseMyXiajia")
+    public ResultUtil setHouseMyXiajia(@RequestBody Map map){
+        ResultUtil resultUtil=aHouseService.upMyHouseXiajia(map);
+        return resultUtil;
+    }
+
+    /**
+     * 出租
+     * @param map
+     * @return
+     */
+    @RequestMapping("getLookMyHouse")
+    public Map getLookMyHouse(@RequestBody Map map){
+        System.out.println("出租++++"+aHouseService.getLookMyHouse(map));
+        Map map1=new HashMap();
+        map1.put("personlist",aHouseService.getLookMyHouse(map));
+        map1.put("total",aHouseService.getLookMyHouseNum(map));
+        return map1;
+    }
+
+    /**
+     * 获取该房屋的预约信息
+     * @return
+     */
+    @RequestMapping("getUserLookHouse")
+    public List<Map> getUserLookHouse(@RequestBody Map map){
+        System.out.println("获取房屋的信息"+aHouseService.getUserLookHouse(map));
+        return aHouseService.getUserLookHouse(map);
+    }
+
+    /**
+     * 修改为以看房
+     * @return
+     */
+    @RequestMapping("updaLookHouse")
+    public ResultUtil updaLookHouse(@RequestBody Map map){
+        return aHouseService.updalookHouse(map);
+    }
+
+    /**
+     * 添加看房时间和状态
+     * @return
+     */
+    @RequestMapping("upLookHousestate")
+    public ResultUtil upLookHousestate(@RequestBody Map map){
+        System.out.println("111111111111111"+map);
+        return aHouseService.upLookHousestate(map);
+    }
+
+    /**
+     *删除无意租的看房用户
+     * @return
+     */
+    @RequestMapping("deLookHouse")
+    public ResultUtil deLookHouse(@RequestBody Map map){
+        return aHouseService.deLookHouse(map);
+    }
+
+
+    @RequestMapping("upPact")
+    public ResultUtil upPact(@RequestBody Map map){
+        return aHouseService.upPact(map);
+    }
+
 }

@@ -5,6 +5,7 @@ import com.aaa.house.entity.HouseLaIm;
 import com.aaa.house.entity.HouseLable;
 import com.aaa.house.entity.HouseUser;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -130,12 +131,13 @@ public interface AHouseMapping {
     //*******************************房屋修改*****************************************
 
     /**
-     * 修改
+     * 全部房屋修改
      * @return
      */
     @Update("update house set house_title=#{house_title},house_district=#{house_district}," +
             "house_rent=#{house_rent},house_state=#{house_state},house_audit=#{house_audit} where house_id=#{house_id}")
     int updaHouse(Map map);
+
 
     //*******************************************房屋假删除***************************************************
 
@@ -189,4 +191,161 @@ public interface AHouseMapping {
      * @return
      */
     List<HouseLaIm> getMyHouse(Map map);
+
+    /**
+     * 我的房屋数量
+     * @param map
+     * @return
+     */
+    @Select("<script>  SELECT COUNT(*) \n" +
+            "        from house\n" +
+            "       \n" +
+            "\n" +
+            "         h join code aa\n" +
+            "        on h.house_urban=aa.code_number\n" +
+            "        join code bb\n" +
+            "        on h.house_street=bb.code_number\n" +
+            "        join code cc\n" +
+            "        on h.house_state=cc.code_number\n" +
+            "        join code dd\n" +
+            "        on h.house_orientation=dd.code_number\n" +
+            "        join code ee\n" +
+            "        on h.house_layout=ee.code_number\n" +
+            "        join code ff\n" +
+            "        on h.house_audit=ff.code_number\n" +
+            " <where>\n" +
+            "            <if test=\"house_state != null and house_state !=''\">\n" +
+            "                and house_state = #{house_state}\n" +
+            "            </if>\n" +
+            "            <if test=\"house_district !=null and house_district !=''\">\n" +
+            "                and house_district like \"%\"#{house_district}\"%\"\n" +
+            "            </if>\n" +
+            "            and house_delete=1 and house_staffid=#{house_staffid} and  cc.code_type=8 and dd.code_type=6 and ee.code_type=7 and ff.code_type=5 \n" +
+            "        </where></script>")
+    int getMyhouseNum(Map map);
+
+
+    /**
+     * 我的房屋修改
+     * @return
+     */
+    @Update("update house set house_area=#{house_area},house_floor=#{house_floor}," +
+            "house_title=#{house_title},house_district=#{house_district}," +
+            "house_rent=#{house_rent} where house_id=#{house_id}")
+    int updaMyHouse(Map map);
+
+    /**
+     * 房屋下架
+     * @param map
+     * @return
+     */
+    @Update("update house set house_state=4 where house_id=#{house_id}")
+    int upMyHouseXiajia(Map map);
+
+    /**
+     * 预约人数+信息+分页=房源出租
+     * @return
+     */
+    List<HouseLaIm> getLookMyHouse(Map map);
+
+    /**
+     * 获取 房屋发布的数量
+     * @param map
+     * @return
+     */
+    @Select("<script>  SELECT COUNT(*) \n" +
+            "        from house\n" +
+            "       \n" +
+            "\n" +
+            "         h join code aa\n" +
+            "        on h.house_urban=aa.code_number\n" +
+            "        join code bb\n" +
+            "        on h.house_street=bb.code_number\n" +
+            "        join code cc\n" +
+            "        on h.house_state=cc.code_number\n" +
+            "        join code dd\n" +
+            "        on h.house_orientation=dd.code_number\n" +
+            "        join code ee\n" +
+            "        on h.house_layout=ee.code_number\n" +
+            "        join code ff\n" +
+            "        on h.house_audit=ff.code_number\n" +
+            " <where>\n" +
+            "            <if test=\"house_state != null and house_state !=''\">\n" +
+            "                and house_state = #{house_state}\n" +
+            "            </if>\n" +
+            "            <if test=\"house_district !=null and house_district !=''\">\n" +
+            "                and house_district like \"%\"#{house_district}\"%\"\n" +
+            "            </if>\n" +
+            "           and house_state=2 and house_delete=1 and house_staffid=#{house_staffid} and  cc.code_type=8 and dd.code_type=6 and ee.code_type=7 and ff.code_type=5 \n" +
+            "        </where></script>")
+    int getLookMyHouseNum(Map map);
+
+    /**
+     * 获取该房屋的预约信息
+     * @return
+     */
+
+    @Select("select loh.look_userid,loh.look_house,loh.look_data,cc.code_state as look_state," +
+            "user.u_name,user.u_phone,u_card,u_sex,hu.uh_rent,house_rent\n" +
+            "from look_house loh\n" +
+            "JOIN code cc\n" +
+            "on loh.look_state=cc.code_number\n" +
+            "join user \n" +
+            "on loh.look_userid=user.id\n" +
+            "join house_user hu\n" +
+            "on loh.look_house=hu.uh_id\n" +
+            "join house\n" +
+            "on loh.look_house=house.house_id\n" +
+            "where loh.look_house=#{look_house} and cc.code_type=10")
+    List<Map> getUserLookHouse(Map map);
+
+    /**
+     * 修改允许看房
+     * @param map
+     * @return
+     */
+    @Update("UPDATE look_house set look_state=2 WHERE look_userid=#{look_userid} and look_house=#{look_house}")
+    int updalookHouse(Map map);
+
+    /**
+     * 添加看房时间和状态
+     * @param map
+     *@return
+     */
+    @Update("update look_house set look_state=#{look_state},look_data=#{look_date} where look_userid=#{look_userid} and look_house=#{look_house}")
+    int upLookHousestate(Map map);
+
+    /**
+     * 删除无意租的看房用户
+     * @param map
+     * @return
+     */
+    @Delete("DELETE from look_house where look_userid=#{look_userid} and look_house=#{look_house}")
+    int deLookHouse(Map map);
+
+    /**
+     * 添加合同基础信息
+     * @param map
+     * @return
+     */
+    @Insert("INSERT into pact(pact_usename,pact_uphone,pact_staffname,pact_sphone,pact_houseid,pact_stacard,pact_usecard)\n" +
+            "VALUES(#{u_name},#{u_phone},#{staff_name},#{staff_phone},#{look_house},#{staff_card},#{u_card}) ")
+    int setPact(Map map);
+
+    /**
+     * 合同添加时间
+     * @param map
+     * @return
+     */
+    @Update("update pact set pact_begin=#{pact_begin},pact_end=#{pact_end},pact_cost=#{pact_cost},pact_poundage=#{pact_poundage} " +
+            " where pact_houseid=#{look_house}")
+    int upPact(Map map);
+
+    /**
+     * 修改房屋为已出租状态
+     * @return
+     */
+    @Update("update house set house_state=3 where house_id=#{look_house}")
+    int upHousestate(Map map);
+
 }

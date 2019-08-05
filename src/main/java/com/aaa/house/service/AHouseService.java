@@ -61,6 +61,13 @@ public interface AHouseService {
      */
     ResultUtil UpdaHouse(Map map);
 
+    /**
+     * 我的房屋修改
+     * @return
+     */
+    ResultUtil updaMyHouse(Map map);
+
+
 
     /**
      * 房屋假删除
@@ -98,5 +105,68 @@ public interface AHouseService {
      * @return
      */
     List<HouseLaIm> getMyHouse(Map map);
+
+    /**
+     * 经级人房屋数量
+     * @param map
+     * @return
+     */
+    int getMyhouseNum(Map map);
+
+    /**
+     * 房屋下架
+     * @param map
+     * @return
+     */
+    ResultUtil upMyHouseXiajia(Map map);
+
+
+    /**
+     * 预约人数+信息+分页=房源出租
+     * @return
+     */
+    List<HouseLaIm> getLookMyHouse(Map map);
+
+    /**
+     * 获取我的以发布房屋的数量
+     * @param map
+     * @return
+     */
+    int getLookMyHouseNum(Map map);
+
+    /**
+     * 获取该房屋的预约信息获取该房屋的预约信息
+     * @param map
+     * @return
+     */
+    List<Map> getUserLookHouse(Map map);
+
+    /**
+     * 修改允许看房
+     * @param map
+     * @return
+     */
+    ResultUtil updalookHouse(Map map);
+
+    /**
+     * 添加看房时间和状态
+     * @param map
+     *@return
+     */
+    ResultUtil upLookHousestate(Map map);
+
+    /**
+     * 删除无意租的看房用户
+     * @param map
+     * @return
+     */
+    ResultUtil deLookHouse(Map map);
+
+    /**
+     * 合同添加时间
+     * @param map
+     * @return
+     */
+    ResultUtil upPact(Map map);
 
 }
