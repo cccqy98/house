@@ -46,4 +46,22 @@ public class ACodeServiceImpl implements ACodeService {
     public List<Map> getHouseAudit() {
         return aCodeMapping.getHouseAudit();
     }
+
+    /**
+     * 查询用户状态
+     * @return
+     */
+    @Override
+    public List<Map> getUserState() {
+        return aCodeMapping.getUserState();
+    }
+
+    /**
+     * 性别
+     * @return
+     */
+    @Override
+    public List<Map> getUserSet() {
+        return aCodeMapping.getUserSet();
+    }
 }

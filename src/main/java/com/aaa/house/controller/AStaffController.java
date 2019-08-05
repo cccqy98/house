@@ -7,10 +7,12 @@ import com.aaa.house.utils.ISysConstants;
 import com.aaa.house.utils.ResultUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * FileName: AStaffController
@@ -93,4 +95,26 @@ public class AStaffController {
     public int insertStaff(Staff staff){
         return aStaffService.insertStaff(staff);
     }
+
+
+    /**
+     * 查询所有用户
+     * @return
+     */
+    @RequestMapping("getUser")
+    public Map getUser(@RequestBody Map map){
+        return aStaffService.getUser(map);
+    }
+
+
+    /**
+     * 修改用户信息
+     * @param map
+     * @return
+     */
+    @RequestMapping("upUser")
+    public ResultUtil upUser(@RequestBody Map map){
+        return aStaffService.upUser(map);
+    }
+
 }

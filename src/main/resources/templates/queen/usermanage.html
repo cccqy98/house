@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>枫城</title>
+    <link rel="icon" href="../front/resources/images/fengye1.ico"/>
+    <script src="../front/resources/vue/vue.js"></script>
+    <script src="../front/resources/js/ele.js"></script>
+    <link href="../front/resources/css/ele.css" rel="stylesheet">
+    <script src="../front/resources/js/axios.js"></script>
+    <style>
+        #cus {
+            height: 100%;
+            background-color: #DCDFE6;
+        }
+
+        #cus img {
+            width: 50px;
+            margin-left: 15px;
+            margin-top: 10px;
+            float: left
+        }
+
+        #cus h1 {
+            float: left;
+        }
+
+        body .el-container {
+            height: 100%;
+            margin-bottom: 40px;
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+        }
+
+        .el-header, .el-footer {
+            background-color: #E4E7ED;
+            color: #333;
+            text-align: center;
+        }
+
+        .el-main {
+            height: 490px;
+            background-color: #EBEEF5;
+            color: #333;
+            text-align: center;
+        }
+
+        .el-main .el-table {
+            height: auto;
+            background-color: #F2F6FC;
+        }
+
+        .el-pagination {
+            margin-top: 15px;
+        }
+
+        #cform {
+            text-align: left;
+            float: right;
+        }
+
+        .el-form-item {
+            margin-top: 10px;
+        }
+
+        .el-table td, .el-table th {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div id="cus">
+    <el-container>
+
+        <el-header>
+
+            <image src="../front/resources/images/icon/用户管理.png"></image>
+            <h1>&nbsp;客户管理</h1>
+
+            <el-form :inline="true" :model="formInline" class="demo-form-inline" id="cform">
+                <el-form-item label="客户姓名">
+                    <el-input v-model="formInline.u_name" placeholder="请输入客户姓名"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="loadData" icon="el-icon-search">查询</el-button>
+                </el-form-item>
+            </el-form>
+
+        </el-header>
+        <el-main>
+            <el-table :data="tableData">
+                <el-table-column prop="id" label="客户编号" sortable></el-table-column>
+                <el-table-column prop="u_name" label="客户名字"></el-table-column>
+                <el-table-column prop="u_sex" label="客户性别"></el-table-column>
+                <el-table-column prop="u_phone" label="客户手机"></el-table-column>
+                <el-table-column prop="u_card" label="身份证号"></el-table-column>
+                <el-table-column prop="u_petname" label="网名"></el-table-column>
+                <el-table-column prop="u_state" label="账号状态"></el-table-column>
+                <el-table-column prop="u_cardstate" label="实名状态"></el-table-column>
+                <el-table-column label="操作">
+                    <template slot-scope="role">
+                        <el-button size="mini" @click="update(role.row)" type="primary">
+                            编辑
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-main>
+
+        <el-footer>
+            <!-- ******************************** 分页************************-->
+            <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-sizes="[2, 5, 7, 10]"
+                    :page-size="pageSize"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </el-footer>
+    </el-container>
+
+    <el-dialog title="客户" :visible.sync="cusfrom" width="40%" center>
+
+        <el-form :model="cfrom" label-width="80px">
+            <input type="hidden" v-model="cfrom.id"/>
+            <el-form-item label="客户名字">
+                <el-input v-model="cfrom.u_name"></el-input>
+            </el-form-item>
+            <el-form-item label="客户性别">
+                <el-select v-model="cfrom.usex" placeholder="请选择">
+                    <el-option
+                            v-for="item in options1"
+                            :key="item.code_state"
+                            :label="item.code_state"
+                            :value="item.code_number">
+                    </el-option>
+                </el-select>
+
+            </el-form-item>
+            <el-form-item label="客户状态">
+                <el-select v-model="cfrom.ustate" placeholder="请选择">
+                    <el-option
+                            v-for="item in options"
+                            :key="item.code_state"
+                            :label="item.code_state"
+                            :value="item.code_number">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+        </el-form>
+
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="cusfrom = false">取 消</el-button>
+            <el-button type="primary" @click="save">确 定</el-button>
+        </div>
+    </el-dialog>
+
+</div>
+<script>
+    new Vue({
+        el: "#cus",
+        data: {
+            tableData: [] //数据表格
+            ,options:[]//状态
+            ,options1:[]//性别
+            ,currentPage:1/*当前页码*/
+            ,pageSize:2/*每页条数*/
+            ,total:0,/*总页数*/
+            formInline: {
+                u_name:'',
+            }, //查询条件
+            cusfrom: false,
+            cfrom:{},
+            cusstate:[],//角色状态
+        },
+        mounted: function () {
+            this.loadData();
+            this.useState();
+        },
+        methods:{
+                loadData: function () {
+                    var self = this;
+                    var start = (this.currentPage - 1) * this.pageSize;
+                    axios.post('/getUser',{
+                        'start': start, 'pageSize': this.pageSize,
+                        u_name:this.formInline.u_name})
+                        .then(function (response) {
+                            //JSON.stringify 把json对象装换为json字符串
+                            console.log(JSON.stringify(response.data));
+                            //json.parse()把json字符串转换为json对象  getUserState
+                            self.tableData = response.data.personlist;
+                            self.total = response.data.total;
+                        })
+            },
+            useState:function(){//状态
+                    var self = this;
+                axios.post('/getUserState')
+                    .then(function (response) {
+                        //JSON.stringify 把json对象装换为json字符串
+                        console.log(JSON.stringify(response.data));
+                        //json.parse()把json字符串转换为json对象
+                        self.options = response.data;
+
+                    });//性别
+                axios.post('/getUserSet')
+                    .then(function (response) {
+                        //JSON.stringify 把json对象装换为json字符串
+                        console.log(JSON.stringify(response.data));
+                        //json.parse()把json字符串转换为json对象
+                        self.options1 = response.data;
+
+                    })
+            },
+            update:function(row){//编辑
+                this.cusfrom = true;
+                this.cfrom = row;
+            },
+            save:function () {//提交编辑
+                var self=this;
+                axios.post('/upUser',self.cfrom)
+                    .then(function (response) {
+                        //添加或者修改成功
+                        if (response.data.code==200){
+                            self.$message({
+                                message: '恭喜你，修改成功',
+                                type: 'success'
+                            });
+                            //关闭弹出框
+                            self.cusfrom=false;
+                            //刷新界面
+                            self.loadData(); //刷新数据表格
+                        }else {
+                            self.$message.error('错了哦，这是一条错误消息');
+                        }
+                    })
+
+
+            },
+            handleSizeChange:function(val) {
+                console.log('每页条数：'+val);
+                this.pageSize=val;
+                this.loadData();
+            },
+            handleCurrentChange:function(val) {
+                console.log('当前页: '+val);
+                this.currentPage=val;
+                this.loadData();
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -44,4 +44,25 @@ public class ACodeController {
         return map;
     }
 
+    /**
+     * 查询所有用户状态
+     * @return
+     */
+    @RequestMapping("getUserState")
+    public List<Map> getUserState(){
+        return aCodeService.getUserState();
+    }
+
+
+    /**
+     * 查询所有用户性别
+     * @return
+     */
+    @RequestMapping("getUserSet")
+    public List<Map> getUserSet(){
+        return aCodeService.getUserSet();
+    }
+
+
+
 }

@@ -25,4 +25,17 @@ public interface ACodeService {
      * @return
      */
     List<Map> getHouseAudit();
+
+
+    /**
+     * 查询员工状态
+     * @return
+     */
+    List<Map> getUserState();
+
+    /**
+     * 查询员工性别
+     * @return
+     */
+    List<Map>getUserSet();
 }

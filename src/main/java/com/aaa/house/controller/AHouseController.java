@@ -302,7 +302,6 @@ public class AHouseController {
      */
     @RequestMapping("getLookMyHouse")
     public Map getLookMyHouse(@RequestBody Map map){
-        System.out.println("出租++++"+aHouseService.getLookMyHouse(map));
         Map map1=new HashMap();
         map1.put("personlist",aHouseService.getLookMyHouse(map));
         map1.put("total",aHouseService.getLookMyHouseNum(map));
@@ -315,7 +314,6 @@ public class AHouseController {
      */
     @RequestMapping("getUserLookHouse")
     public List<Map> getUserLookHouse(@RequestBody Map map){
-        System.out.println("获取房屋的信息"+aHouseService.getUserLookHouse(map));
         return aHouseService.getUserLookHouse(map);
     }
 
@@ -334,7 +332,6 @@ public class AHouseController {
      */
     @RequestMapping("upLookHousestate")
     public ResultUtil upLookHousestate(@RequestBody Map map){
-        System.out.println("111111111111111"+map);
         return aHouseService.upLookHousestate(map);
     }
 
@@ -347,10 +344,33 @@ public class AHouseController {
         return aHouseService.deLookHouse(map);
     }
 
-
+    /**
+     * 合同添加时间
+     * @param map
+     * @return
+     */
     @RequestMapping("upPact")
     public ResultUtil upPact(@RequestBody Map map){
         return aHouseService.upPact(map);
+    }
+
+    /**
+     * 合同添加时间
+     * @param map
+     * @return
+     */
+    @RequestMapping("upMYHouse")
+    public ResultUtil upMYHouse(@RequestBody Map map){
+        return aHouseService.upMYHouse(map);
+    }
+
+    /**
+     * 查询我的租客
+     * @return
+     */
+    @RequestMapping("getpact")
+    public Map getpact(@RequestBody Map map){
+        return aHouseService.getpact(map);
     }
 
 }
