@@ -1,7 +1,10 @@
 package com.aaa.house.dao;
 
 import com.aaa.house.entity.User;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.stereotype.Repository;
+
+import java.util.Map;
 
 /**
  * @Classname：UserMapper
@@ -33,14 +36,20 @@ public interface UserMapper {
      */
     int updateByPrimaryKeySelective(User record);
 
+    /**
+     * 取消关注房源
+     *
+     * @param map
+     * @return
+     */
+    @Delete("DELETE FROM house_attention WHERE ah_uid=#{userId} and ah_hid=#{houseId};")
+    int delHouse(Map map);
 
 
 
     int deleteByPrimaryKey(Integer id);
 
     int insert(User record);
-
-
 
     int updateByPrimaryKey(User record);
 
