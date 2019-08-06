@@ -18,13 +18,9 @@ public interface ACodeService {
      * 查询所有房屋状态
      * @return
      */
-    List<Map> getHouseState();
+    Map getHouseState();
 
-    /**
-     * 查询审核状态
-     * @return
-     */
-    List<Map> getHouseAudit();
+
 
 
     /**

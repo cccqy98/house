@@ -39,10 +39,7 @@ public class ACodeController {
      */
     @RequestMapping("getHouseState")
     public Map getHouseState(){
-        Map map=new HashMap();
-        map.put("housestate",aCodeService.getHouseState());
-        map.put("houseaudit",aCodeService.getHouseAudit());
-        return map;
+        return aCodeService.getHouseState();
     }
 
     /**
