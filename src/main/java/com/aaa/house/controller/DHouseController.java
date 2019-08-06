@@ -27,14 +27,15 @@ import java.util.Map;
  */
 @RestController
 public class DHouseController {
-    @Autowired
-    private AHouseService service;
+
     @Autowired
     private DHouseService service1;
+
     @RequestMapping("/getHouse1")
     public Object getHouse(@RequestBody Map map){
         Map mapResult = new HashMap();
-        mapResult.put("houseList",service.getHouse(map));
+
+        mapResult.put("houseList",service1.getHouse1(map));
         mapResult.put("total",service1.queryPageCount(map));
         return mapResult;
     }
@@ -47,7 +48,10 @@ public class DHouseController {
     public List<Map> queryCode2(){
         return service1.queryCode2();
     }
-
+@RequestMapping("updateHouse")
+    public Object updateHouse(@RequestBody HouseLaIm houseLaIm){
+        return service1.updateHouse(houseLaIm);
+}
     /**
      *
      * @param map

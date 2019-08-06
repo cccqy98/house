@@ -6,12 +6,12 @@ package com.aaa.house.service;/**
  */
 
 import com.aaa.house.dao.DHouseMapper;
-import com.aaa.house.entity.HouseImg;
 import com.aaa.house.entity.HouseLaIm;
 import com.aaa.house.utils.CusUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,9 +27,20 @@ public class DHouseServiceImpl implements DHouseService {
   private DHouseMapper dHouseMapper;
 
   @Override
+  public int updateHouse(HouseLaIm houseLaIm) {
+
+    return dHouseMapper.updateHouse(houseLaIm);
+  }
+
+  @Override
+  public List<Map> getHouse1(Map map) {
+    return dHouseMapper.getHouse1(map);
+  }
+
+  @Override
   public int upAudit1(Map map) {
-    String house_staffid = CusUtil.getStaff().getStaff_num();
-    map.put("house_staffid",house_staffid);
+    String house_ditstaff = CusUtil.getStaff().getStaff_num();
+    map.put("house_ditstaff",house_ditstaff);
     return dHouseMapper.upAudit1(map);
   }
 

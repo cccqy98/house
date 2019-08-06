@@ -1,6 +1,8 @@
 package com.aaa.house.service;
 
 
+import com.aaa.house.entity.HouseLaIm;
+
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +13,7 @@ import java.util.Map;
  * @Modified By:
  */
 public interface DHouseService {
+    List<Map> getHouse1(Map map);
     /**
      * 数量
      * @return
@@ -22,6 +25,11 @@ public interface DHouseService {
      */
     List<Map> queryCode2();
 
+    /**
+     * 审核驳回
+     * @return
+     */
+    int updateHouse(HouseLaIm houseLaIm);
     /**
      * 审核通过
      * @param map

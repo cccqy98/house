@@ -14,6 +14,7 @@ import java.util.Date;
  */
 @Data
 public class Maintain implements Serializable {
+
     private Integer id;
 
     private String maUser;

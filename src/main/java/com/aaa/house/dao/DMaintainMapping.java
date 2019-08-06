@@ -26,10 +26,11 @@ public interface DMaintainMapping {
      * 根据报修状态查询，两表联查
      * @return
      */
-    @Select("<script>   select m.id,m.ma_user as maUser,m.ma_cause as maCause,m.ma_time maTime,m.ma_staff as maStaff,\n" +
+    @Select("<script>   select m.id,m.ma_user as u_name,m.ma_cause as maCause,m.ma_time maTime,m.ma_staff as maStaff,u.u_name,\n" +
             "m.ma_static as code_number,m.ma_false as maFalse,m.ma_house,c.code_state as ma_static\n" +
             "              FROM  maintain m join code c on c.code_number=m.ma_static\n" +
             "               join house h on h.house_id=m.ma_house"+
+            "               join user u on u.u_name=m.ma_user"+
             "    <where>\n" +
             "      <if test=\"ma_house!=null and ma_house!=''\">\n" +
             "        and (ma_house like \"%\"#{ma_house}\"%\")\n" +
@@ -69,7 +70,7 @@ public interface DMaintainMapping {
      *修改维修员工和不维修的原因
      * @return
      */
-    @Update("UPDATE maintain set ma_false=#{maFalse} where id=#{id}")
+    @Update("UPDATE maintain set ma_false=#{maFalse},ma_static=3 where id=#{id}")
     int updateMa(Maintain maintain);
 
     /**
@@ -77,15 +78,22 @@ public interface DMaintainMapping {
      * @param map
      * @return
      */
-    @Update("update maintain set ma_staff=#{ma_staff},ma_static=2 where id=#{id}")
+    @Update("update maintain set ma_staff=#{ma_staff},ma_false=null,ma_static=2 where id=#{id}")
     int upMaintain(Map map);
 
+    /**
+     * 驳回原因
+     * @param maintain
+     * @return
+     */
+    @Update("UPDATE maintain set ma_false=#{maFalse},ma_staff=null,ma_audit=3 where id=#{id}")
+    int updateAu(Maintain maintain);
     /**
      * 审核状态
      * @param map
      * @return
      */
-    @Update("update maintain set ma_staff=#{ma_staff},ma_audit=2 where id=#{id}")
+    @Update("update maintain set ma_staff=#{ma_staff},ma_false，ma_audit=2 where id=#{id}")
     int upAudit(Map map);
 
     /**

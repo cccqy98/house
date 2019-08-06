@@ -80,6 +80,11 @@ private DMaintainMapping maintainMapping;
     }
 
     @Override
+    public int updateAu(Maintain maintain) {
+        return maintainMapping.updateAu(maintain);
+    }
+
+    @Override
     public int updateMa(Maintain maintain) {
         return maintainMapping.updateMa(maintain);
     }

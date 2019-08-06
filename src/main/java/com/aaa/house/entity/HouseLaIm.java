@@ -2,6 +2,7 @@ package com.aaa.house.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  * Description: 房屋图片标签类
  */
 @Data
-public class HouseLaIm {
+public class HouseLaIm implements Serializable {
     private String house_id; //房屋id
     private String house_title;//房屋标题
     private String house_urban;//市
@@ -28,7 +29,7 @@ public class HouseLaIm {
     private String house_audit;//审核状态
     private String house_cover;//房屋封面
     private String house_reason;//房屋驳回理由
-    private String house_ditstaff;//房屋驳回理由
+    private String house_ditstaff;//当前登录人
     private String loh;//预约人数
     private String uh_rent;//住客期望租金
     //标签

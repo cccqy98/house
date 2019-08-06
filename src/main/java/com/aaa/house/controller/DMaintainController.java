@@ -62,6 +62,16 @@ public class DMaintainController {
         return service.updateMa(maintain);
     }
 
+    /**
+     * 审核驳回
+     * @param maintain
+     * @return
+     */
+    @RequestMapping("updateAu")
+    public Object updateAu(@RequestBody  Maintain maintain){
+        return service.updateAu(maintain);
+    }
+
     @RequestMapping("list")
     public String list() {
         return "list";

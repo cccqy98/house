@@ -1,11 +1,6 @@
 package com.aaa.house.service;
 
 import com.aaa.house.entity.Maintain;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +40,12 @@ public interface DMaintainService {
      */
    int updateMa(Maintain maintain);
 
+    /**
+     * 审核驳回
+     * @param maintain
+     * @return
+     */
+    int updateAu(Maintain maintain);
     /**
      * 查询分页总数量
      * @param map

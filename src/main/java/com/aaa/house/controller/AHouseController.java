@@ -219,7 +219,7 @@ public class AHouseController {
      * @return
      */
     @RequestMapping("getHouse")
-    public List<Map> getHouse(Map map){
+    public List<HouseLaIm> getHouse(Map map){
         return aHouseService.getHouse(map);
     }
 
