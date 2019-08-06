@@ -26,6 +26,15 @@ public class PasswordHelper {
     }
 
 
-
+    /**
+     * 通用md5
+     */
+    public static String passwordStaff(String name,String password){
+        //盐 账号加密
+        ByteSource bytes = ByteSource.Util.bytes(name);
+        String credentials=new SimpleHash(hashAlgorithmName,password,bytes,hashIterations).toHex();
+        //返回新密码
+        return credentials;
+    }
 
 }

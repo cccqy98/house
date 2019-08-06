@@ -174,7 +174,7 @@
                         <el-button v-if="props.row.house_audit=='未通过'" size="mini" @click="why(props.row)" type="primary">查看原因</el-button>
                         <el-button v-if="props.row.house_audit=='待审核'" size="mini" type="info" disabled>不可操作</el-button>
                         <!--<el-button v-if="props.row.house_audit=='已审核'" size="mini" @click="release(props.row)" type="success">发布</el-button>-->
-                        <el-button v-if="props.row.house_state=='待发布' && props.row.house_audit=='已审核'" size="mini" @click="release(props.row)" type="success">发布</el-button>
+                        <el-button v-if="props.row.house_state=='待发布'|| props.row.house_state=='已下架' && props.row.house_audit=='已审核'" size="mini" @click="release(props.row)" type="success">发布</el-button>
                         <el-button v-if="props.row.house_state=='已发布' && props.row.house_audit=='已审核' " size="mini" @click="upfour(props.row)" type="warning">下架</el-button>
                         <el-button v-if="props.row.house_state=='已出租' && props.row.house_audit=='已审核' " size="mini" @click="openCus(props.row)" type="primary">查看租客</el-button>
 
@@ -300,7 +300,6 @@
             ,currentPage:1/*当前页码*/
             ,pageSize:2/*每页条数*/
             ,total:0,/*总页数*/
-            hadr: "", //查询条件
             housefrom: false,
             formInline: {
                 house_state1:'',

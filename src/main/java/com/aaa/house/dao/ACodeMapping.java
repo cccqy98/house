@@ -1,5 +1,7 @@
 package com.aaa.house.dao;
 
+import com.aaa.house.entity.StaffRole;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -32,7 +34,7 @@ public interface ACodeMapping {
     List<Map> getHouseAudit();
 
     /**
-     * 查询员工状态
+     * 查询用户状态
      * @return
      */
     @Select("select * from code where code_type=2")
@@ -44,5 +46,30 @@ public interface ACodeMapping {
      */
     @Select("select * from code where code_type=1")
     List<Map>getUserSet();
+
+    /**
+     * 查询用户状态
+     * @return
+     */
+    @Select("select * from code where code_type=3")
+    List<Map> getStaffState();
+
+
+    /**
+     * 查询所有角色
+     * @return
+     */
+    @Select("select * from role ")
+    List<Map> getRole();
+
+    /**
+     * 查询单个用户角色
+     * @return
+     */
+    @Select("select rid from staff_role where sid=#{sid}")
+    List<Map> getRoleStaff(Map map);
+
+
+
 
 }

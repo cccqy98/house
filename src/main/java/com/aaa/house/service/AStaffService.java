@@ -16,11 +16,6 @@ public interface AStaffService {
     //判断员工是否登录
     Staff selectSession();
 
-    //查询所有员工
-    List<Staff> selectStaffAll();
-
-    //员工添加
-    int insertStaff(Staff staff);
 
     /**
      * 查询所有用户
@@ -33,4 +28,31 @@ public interface AStaffService {
      * @return
      */
     ResultUtil upUser(Map map);
+    /*6******************员工信息********************9*/
+
+    /**
+     * 查询所有员工
+     * @return
+     */
+    Map getStaffAll(Map map);
+
+    /**
+     * 添加员工
+     * @param map
+     * @return
+     */
+    ResultUtil insertStaff(Map map);
+
+    /**
+     * 获取最后一个编号
+     * @return
+     */
+    Map getStaffnum();
+
+    /**
+     * 修改员工信息
+     * @param map
+     * @return
+     */
+    ResultUtil updateStaff(Map map);
 }

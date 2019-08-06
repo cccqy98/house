@@ -3,6 +3,7 @@ package com.aaa.house.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * FileName: Staff
@@ -10,104 +11,28 @@ import java.io.Serializable;
  * Date:     2019/7/26 9:50
  * Description: 员工实体类
  */
+@Data
 public class Staff implements Serializable {
     private int staff_id;
     private String staff_num;//员工编号
     private String staff_name;//员工名字
-    private int staff_phone;//电话
+    private String staff_phone;//电话
     private int staff_sex;//性别
     private String staff_password;//密码
     private String staff_card;//身份证号
     private int staff_state;//状态
     private String staff_portrait;//路径
 
+    private String staffsex;//汉字性别
+    private String staffstate;//汉字状态
+
+
+    //角色
+    private List<Role> roles;
+
+
     public Staff() {
     }
 
-    public String getStaff_card() {
-        return staff_card;
-    }
 
-    public void setStaff_card(String staff_card) {
-        this.staff_card = staff_card;
-    }
-
-    public int getStaff_id() {
-        return staff_id;
-    }
-
-    public void setStaff_id(int staff_id) {
-        this.staff_id = staff_id;
-    }
-
-    public String getStaff_num() {
-        return staff_num;
-    }
-
-    public void setStaff_num(String staff_num) {
-        this.staff_num = staff_num;
-    }
-
-    public String getStaff_name() {
-        return staff_name;
-    }
-
-    public void setStaff_name(String staff_name) {
-        this.staff_name = staff_name;
-    }
-
-    public int getStaff_phone() {
-        return staff_phone;
-    }
-
-    public void setStaff_phone(int staff_phone) {
-        this.staff_phone = staff_phone;
-    }
-
-    public int getStaff_sex() {
-        return staff_sex;
-    }
-
-    public void setStaff_sex(int staff_sex) {
-        this.staff_sex = staff_sex;
-    }
-
-    public String getStaff_password() {
-        return staff_password;
-    }
-
-    public void setStaff_password(String staff_password) {
-        this.staff_password = staff_password;
-    }
-
-    public int getStaff_state() {
-        return staff_state;
-    }
-
-    public void setStaff_state(int staff_state) {
-        this.staff_state = staff_state;
-    }
-
-    public String getStaff_portrait() {
-        return staff_portrait;
-    }
-
-    public void setStaff_portrait(String staff_portrait) {
-        this.staff_portrait = staff_portrait;
-    }
-
-    @Override
-    public String toString() {
-        return "Staff{" +
-                "staff_id=" + staff_id +
-                ", staff_num='" + staff_num + '\'' +
-                ", staff_name='" + staff_name + '\'' +
-                ", staff_phone=" + staff_phone +
-                ", staff_sex=" + staff_sex +
-                ", staff_password='" + staff_password + '\'' +
-                ", staff_card='" + staff_card + '\'' +
-                ", staff_state=" + staff_state +
-                ", staff_portrait='" + staff_portrait + '\'' +
-                '}';
-    }
 }
