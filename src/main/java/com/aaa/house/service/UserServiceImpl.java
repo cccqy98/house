@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
         //获取手机号
         String phone = record.getUPhone();
         //根据手机号查询用户
-        User user = userMapper.selectByPrimaryKey(phone);
+        user = userMapper.selectByPrimaryKey(phone);
         //如果用户部位null
         if (user != null) {
             //对前台传输密码进行MD5加密
@@ -110,44 +110,12 @@ public class UserServiceImpl implements UserService {
             //得到原始密码
             String password = user.getUPassword();
             if (password.equals(paramPassword)) {
-//                house.put("s",1);
-//                house.put("ss",2);
-//
-                System.out.println("======================");
-                System.out.println(user);
-                System.out.println("======================");
+
+
                 Map map = new HashMap();
-                map.put("userId", user.getId());
-                map.put("pageSize", 2);
+                map.put("pageSize", 3);
                 map.put("start", 0);
-                System.out.println(map);
-//                System.out.println("======================");
-
-//                List<House> house=houseService.queryHouseAll(map);
-                Map house = new HashMap();
-//                //判断
-                house.put("empList", houseService.queryHouseAll(map));
-                house.put("total", houseService.queryHousePageCount(map));
-                System.out.println(house);
-                System.out.println("==================================");
-                System.out.println(house.get("empList"));
-                System.out.println("===================================");
-                System.out.println(house.get("total"));
-                System.out.println("===================================");
-//                Map mapParam = new HashMap();
-//                User user = CusUtil.getCusFromSession();
-//                mapParam.put("userId",user.getId());
-//                mapParam.put("pageSize",2);
-//                mapParam.put("start",0);
-//                Map map = new HashMap();
-//                //判断
-//                map.put("empList", houseService.queryHouseAll(mapParam));
-//                map.put("total", houseService.queryHousePageCount(mapParam));
-//                return map;
-
-
-                CusUtil.saveHouse(house);
-
+                this.houseLike(map);
                 CusUtil.saveCus(user);
                 return user;
             }
@@ -232,4 +200,41 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
+
+    /**
+     * 关注房源
+     *
+     * @param map
+     * @return
+     */
+    @Override
+    public boolean houseLike(Map map) {
+        map.put("userId", user.getId());
+        Map house = new HashMap();
+        house.put("empList", houseService.queryHouseAll(map));
+        house.put("total", houseService.queryHousePageCount(map));
+        CusUtil.saveHouse(house);
+        return true;
+    }
+
+    /**
+     * 取关房源
+     *
+     * @param map
+     * @return
+     */
+    @Override
+    public boolean houseNotLike(Map map) {
+        System.out.println("取关房源");
+        map.put("userId", user.getId());
+        if (userMapper.delHouse(map) > 0) {
+            Map map1 = new HashMap();
+            map1.put("pageSize", 3);
+            map1.put("start", 0);
+            return true;
+        }
+        return false;
+    }
+
+
 }

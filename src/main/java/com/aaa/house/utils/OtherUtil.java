@@ -170,6 +170,7 @@ public class OtherUtil {
     }
 
     public static void main(String[] args) {
+        String str = MD5("123456", "159");
         System.out.println(GetCnum());
     }
 }

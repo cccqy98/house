@@ -69,91 +69,22 @@
             opacity: 1;
         }
 
+        #price, #price1 {
+            margin-top: 20px;
+            color: red;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
 
-        /* #components-layout-demo-fixed .logo {*/
-        /*     width: 120px;*/
-        /*     height: 31px;*/
-        /*     background: rgba(255, 255, 255, .2);*/
-        /*     margin: 16px 24px 16px 0;*/
-        /*     float: left;*/
-        /* }*/
+        .at {
+            font-size: 20px;
+            color: black;
+            margin-bottom: 10px;
+        }
 
-        /*#components-layout-demo-fixed .logo img {*/
-        /*    width: 120px;*/
-        /*    height: 95px;*/
-        /*    margin-top: -35px;*/
-        /*}*/
-
-        /*.lr,#cuslog {*/
-        /*    padding-left: 0;*/
-        /*    padding-right: 0;*/
-        /*    float: right;*/
-        /*}*/
-
-        /*#allmap {*/
-        /*    display: inline-block;*/
-        /*    height: 30px;*/
-        /*    padding: 0 8px;*/
-        /*    line-height: 24px;*/
-        /*    text-align: center;*/
-        /*    cursor: pointer;*/
-        /*    border-radius: 14px;*/
-        /*    border: 2px solid #fff;*/
-        /*    font-size: 14px;*/
-        /*    margin-bottom: -7px;*/
-        /*}*/
-        /*#ulinfo li{*/
-        /*    list-style: none;*/
-        /*    float: left;*/
-        /*    padding: 5px;*/
-        /*    background-color: lightgray;*/
-        /*    border-radius: 5px;*/
-        /*    margin-right: 10px;*/
-        /*    font-size: 13px;*/
-        /*}*/
-        /*.zf span{*/
-        /*    margin-right: 15px;*/
-        /*}*/
-        /*.zf {*/
-        /*    margin-bottom: 10px;*/
-        /*    margin-top: 10px;*/
-        /*}*/
-        /*#bu {*/
-        /*    margin-right: 8px;*/
-        /*}*/
-        /*#zflist a{*/
-        /*    font-size: 20px;*/
-        /*    font-weight: bold;*/
-        /*}*/
-        /*.zf img{*/
-        /*    border-radius: 10px;*/
-        /*    width: 250px;*/
-        /*    height: 180px;*/
-        /*    margin-left: 20px;*/
-        /*}*/
-        /*.ant-list-item-meta-title{*/
-        /*    margin-bottom: 30px;*/
-        /*}*/
-        /*.ant-list-item-meta-content{*/
-        /*    margin-left: 30px;*/
-        /*}*/
-        /*.ant-form-item-children{*/
-        /*    margin-right: 0px;*/
-        /*}*/
-        /*.ant-list-item-meta-description span{*/
-        /*    font-size: 14px;*/
-        /*    font-weight: bold;*/
-        /*}*/
-        /*.ant-list-item-meta-description p{*/
-        /*    margin-top: 20px;*/
-        /*    font-size: 14px;*/
-        /*}*/
-        /*#price{*/
-        /*    color: red;*/
-        /*    font-size: 26px;*/
-        /*    float: right;*/
-        /*}*/
-
+        hr {
+            color: #DCDFE6;
+        }
 
     </style>
 </head>
@@ -210,18 +141,18 @@
     <el-main>
         <!--天气和时间-->
         <el-row style="height: 30px;">
-            <el-col :span="16" :offset="4" style="border: 1px solid red">
+            <el-col :span="16" :offset="4">
                 <iframe width="450" scrolling="no" height="18" frameborder="0" allowtransparency="true"
                         src="//i.tianqi.com/index.php?c=code&id=1&bdc=%23&icon=1&py=zhongyuanqu&wind=1&num=2&site=12"></iframe>
             </el-col>
         </el-row>
         <!--用户信息-->
         <el-row>
-            <el-col :span="16" :offset="4" style="border: 1px solid red" class="bg">
+            <el-col :span="16" :offset="4" class="bg">
                 <el-tabs tab-position="left">
                     <el-tab-pane label="个人资料">
                         <el-row>
-                            <el-col :span="10" :offset="6" style="height: 500px;">
+                            <el-col :span="10" :offset="6" style="height: 520px;">
                                 <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm"
                                          label-width="100px" class="demo-ruleForm">
                                     <el-form-item label="头像" label-width="60px">
@@ -262,50 +193,102 @@
                             </el-col>
                         </el-row>
                     </el-tab-pane>
-                    <el-tab-pane label="我的收藏">
-                        <el-row style="height: 500px;">
+                    <el-tab-pane label="我的关注">
+                        <el-row>
+                            <el-col :span="20" :offset="2" style="height: 520px;">
+                                <p>您收藏{{total}}套房源</p>
+                                <div v-for="item in houseLikeData" :id="item.id" style="clear: both">
+                                    <hr/>
+                                    <div slot="description" style="float: left;">
+                                        <img width="200px" height="125px" slot="avatar"
+                                             :src="'http://localhost:8080/loginReg/show?fileName='+item.houseCover"/>
+                                    </div>
+                                    <div slot="description" style="float: right;">
+                                        <span id="price" slot="description">{{item.houseRent}}元/月</span>
+                                        <br>
+                                        <el-button type="primary" size="mini" style="margin-top: 20px;float: right"
+                                                   @click="houseDetail(item.houseId)" :hid="item.houseId">取消关注
+                                        </el-button>
 
-                            <div class="zf">
-                                <a-list id="zflist" itemLayout="horizontal">
-                                    <a-list-item v-for="item in houseLikeData" :id="item.id">
-                                        <a-list-item-meta>
-                                            <a slot="title" @click="houseDetail(item.houseId)" :hid="item.houseId">{{item.houseTitle}}</a>
-                                            <span slot="description">{{item.houurban}}-{{item.houstreet}}-{{item.houseDistrict}}&nbsp;&nbsp;&nbsp;/</span>
-                                            <span slot="description">{{item.houseArea}}㎡&nbsp;&nbsp;&nbsp;/</span>
-                                            <span slot="description">{{item.houorientation}}&nbsp;&nbsp;&nbsp;/</span>
-                                            <span slot="description">{{item.houlayout}}</span>
-                                            <span id="price" slot="description">{{item.houseRent}}<span
-                                                    slot="description">元/月</span></span>
-                                            <p slot="description">
-                                                <a-icon type="clock-circle"></a-icon>&nbsp;{{item.newstime}}天前发布
-                                            </p>
-                                            <ul id="ulinfo" slot="description" style="padding-left: 10px;">
-                                                <li slot="description" v-for="(k,index) in item.houseLabel">{{k}}</li>
-                                            </ul>
-                                            <img slot="avatar"
-                                                 :src="'http://localhost:8080/loginReg/show?fileName='+item.houseCover"/>
-                                        </a-list-item-meta>
-                                    </a-list-item>
-                                </a-list>
-                                <!--分页-->
-                                <!--                                <div style="text-align: center">-->
-                                <!--                                    <a-pagination :current-page="currentPage" :page-size="pageSize" :total="total"  @change="onChange"/>-->
-                                <!--                                </div>-->
-                            </div>
+                                    </div>
 
-
+                                    <div slot="description" style="margin-left: 240px;width: 450px">
+                                        <a class="at" slot="title" @click="houseDetail(item.houseId)"
+                                           :hid="item.houseId">{{item.houseTitle}}</a>
+                                        <br>
+                                        <span style="font-size: 16px;color: #606266;">
+                                      {{item.houurban}}-{{item.houstreet}}-{{item.houseDistrict}}&nbsp;&nbsp;/&nbsp;&nbsp;{{item.houseArea}}&nbsp;&nbsp;/&nbsp;&nbsp;{{item.houorientation}}&nbsp;&nbsp;/&nbsp;&nbsp;{{item.houlayout}}
+                                    </span>
+                                        <p style="font-size: 12px;color: gray"><i class="el-icon-timer"></i>{{item.newstime}}天前发布
+                                        </p>
+                                        <div class="tag-group" style="margin-top: -5px">
+                                            <el-tag v-for="(k,index) in item.houseLabel" type="warning"
+                                                    style="margin-right: 10px">{{k}}
+                                            </el-tag>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="text-align: center;margin-top: 25px">
+                                    <!--分页区-->
+                                    <el-pagination
+                                            @size-change="handleSizeChange"
+                                            @current-change="handleCurrentChange"
+                                            :current-page="currentPage"
+                                            :page-size="pageSize"
+                                            layout="total,prev, pager, next"
+                                            :total="total">
+                                    </el-pagination>
+                                </div>
+                            </el-col>
                         </el-row>
                     </el-tab-pane>
                     <el-tab-pane label="我的发布">
                         <el-row>
-                            <el-col :span="10" :offset="6" style="height: 500px;">
-                                <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
+                            <el-col :span="20" :offset="2" style="height: 520px;">
+                                <p>您发布{{total1}}套房源</p>
+                                <div v-for="item in houseSelfData" :id="item.id" style="clear: both">
+                                    <hr/>
+                                    <div slot="description" style="float: left;">
+                                        <img width="200px" height="125px" slot="avatar"
+                                             :src="'http://localhost:8080/loginReg/show?fileName='+item.houseCover"/>
+                                    </div>
+                                    <div slot="description" style="float: right;">
+                                        <span id="price1" slot="description">{{item.houseRent}}元/月</span>
+                                    </div>
+
+                                    <div slot="description" style="margin-left: 240px;width: 450px">
+                                        <a class="at" slot="title" @click="houseDetail(item.houseId)"
+                                           :hid="item.houseId">{{item.houseTitle}}</a>
+                                        <br>
+                                        <span style="font-size: 16px;color: #606266;">
+                                      {{item.houurban}}-{{item.houstreet}}-{{item.houseDistrict}}&nbsp;&nbsp;/&nbsp;&nbsp;{{item.houseArea}}&nbsp;&nbsp;/&nbsp;&nbsp;{{item.houorientation}}&nbsp;&nbsp;/&nbsp;&nbsp;{{item.houlayout}}
+                                    </span>
+                                        <p style="font-size: 12px;color: gray"><i class="el-icon-timer"></i>{{item.newstime}}天前发布
+                                        </p>
+                                        <div class="tag-group" style="margin-top: -5px">
+                                            <el-tag v-for="(k,index) in item.houseLabel" type="warning"
+                                                    style="margin-right: 10px">{{k}}
+                                            </el-tag>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="text-align: center;margin-top: 25px">
+                                    <!--分页区-->
+                                    <el-pagination
+                                            @size-change="handleSizeChange"
+                                            @current-change="handleCurrentChange"
+                                            :current-page="currentPage"
+                                            :page-size="pageSize"
+                                            layout="total,prev, pager, next"
+                                            :total="total1">
+                                    </el-pagination>
+                                </div>
                             </el-col>
                         </el-row>
                     </el-tab-pane>
                     <el-tab-pane label="实名认证">
                         <el-row>
-                            <el-col :span="10" :offset="6" style="height: 500px;">
+                            <el-col :span="10" :offset="6" style="height: 520px;">
                                 <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
                                 <el-form label-position="left" :model="idFrom" :rules="rules1" ref="idFrom"
                                          label-width="100px" class="demo-ruleForm">
@@ -329,7 +312,7 @@
                     </el-tab-pane>
                     <el-tab-pane label="密码修改">
                         <el-row>
-                            <el-col :span="10" :offset="6" style="height: 500px;">
+                            <el-col :span="10" :offset="6" style="height: 520px;">
 
                                 <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
 
@@ -448,6 +431,10 @@
     var vue = new Vue({
         el: "#app",
         data: {
+            currentPage: 1,
+            pageSize: 3,
+            total: 0,
+            total1: 0,
             imageUrl: '',
             imageUrl1: '',
             disabled: true,
@@ -479,9 +466,8 @@
             state: '',
             url: '',
             houseLikeData: [],
-            houseSelfData: '',
+            houseSelfData: [],
             houseHerData: ''
-
         },
         created: function () {
             this.loadData();
@@ -526,8 +512,19 @@
                     } else {
                         img.state += "禁止使用";
                     }
-
                     img.houseLikeData = response.data.house.empList;
+                    img.total = response.data.house.total;
+
+
+                    axios.post('http://localhost:8080/loginReg/myHouse', {
+                        userId1: self.id,
+                        start: img.currentPage,
+                        pageSize: img.pageSize
+                    })
+                        .then(function (response) {
+                            img.houseSelfData = response.data.empList;
+                            img.total1 = response.data.total;
+                        });
                 });
             },
             submitForm(formName) {
@@ -590,19 +587,59 @@
                     if (s === 200) {
                         self.$message({
                             showClose: true,
-                            message: response.data.msg,
+                            message: '取关成功',
                             type: 'success'
                         });
                     } else {
                         self.$message({
                             showClose: true,
-                            message: response.data.msg,
+                            message: '取消失败',
                             type: 'error'
                         });
                     }
-
                     self.loadData();
                 });
+            },
+            handleSizeChange: function (val) {
+                console.log('每页条数:' + val);
+                this.pageSize = val;
+                this.page();
+            },
+            handleCurrentChange: function (val) {
+                console.log('当前页:' + val);
+                this.currentPage = val;
+                this.page();
+            },
+            page() {
+                var self = this;
+                axios.post('http://localhost:8080/loginReg/queryPage', {
+                    start: this.currentPage,
+                    pageSize: this.pageSize
+                })
+                    .then(function (response) {
+                        self.loadData();
+                    });
+            },
+            houseDetail(houseId) {
+                var self = this;
+                axios.post('http://localhost:8080/loginReg/delHouse', {houseId: houseId})
+                    .then(function (response) {
+                        var s = response.data.code;
+                        if (s === 200) {
+                            self.$message({
+                                showClose: true,
+                                message: response.data.msg,
+                                type: 'success'
+                            });
+                        } else {
+                            self.$message({
+                                showClose: true,
+                                message: response.data.msg,
+                                type: 'error'
+                            });
+                        }
+                        self.loadData();
+                    });
             }
         }
     });

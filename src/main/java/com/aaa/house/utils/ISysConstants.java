@@ -12,5 +12,4 @@ public interface ISysConstants {
     String EMP="employee";//员工存在session 中
     String CUS="user";//用户存在session 中
     String HOUSE = "house";//用户存在session 中
-
 }

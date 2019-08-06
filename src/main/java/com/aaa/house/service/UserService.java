@@ -1,6 +1,7 @@
 package com.aaa.house.service;
 
 import com.aaa.house.entity.User;
+import org.apache.ibatis.annotations.Delete;
 
 import java.util.Map;
 
@@ -64,4 +65,21 @@ public interface UserService {
      * @return
      */
     boolean upPass(Map map);
+
+    /**
+     * 关注房源
+     *
+     * @param map
+     * @return
+     */
+    boolean houseLike(Map map);
+
+    /**
+     * 取关房源
+     *
+     * @param map
+     * @return
+     */
+    boolean houseNotLike(Map map);
+
 }

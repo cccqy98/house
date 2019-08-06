@@ -35,6 +35,8 @@ public class UserController {
     private FtpConfig ftpConfig;
     @Autowired//spring core io里面提供的资源加载器
     private ResourceLoader resourceLoader;
+    @Autowired
+    private HouseService houseService;
 
     //交互前台显示状态类
     ResultUtil resultUtil = new ResultUtil();
@@ -218,28 +220,44 @@ public class UserController {
         return resultUtil;
     }
 
-    @Autowired
-    private HouseService houseService;
-
     /**
-     * 查询关注房源
-     *
+     * 关注房源
+     * @param map
      * @return
      */
-    @RequestMapping("queryLike")
-    public Object queryLike() {
-        Map mapParam = new HashMap();
-        User user = CusUtil.getCusFromSession();
-        mapParam.put("userId", user.getId());
-        mapParam.put("pageSize", 2);
-        mapParam.put("start", 0);
-        Map map = new HashMap();
-        //判断
-        map.put("empList", houseService.queryHouseAll(mapParam));
-        map.put("total", houseService.queryHousePageCount(mapParam));
-        return map;
+    @RequestMapping("queryPage")
+    public Object queryPage(@RequestBody Map map) {
+        service.houseLike(map);
+        return null;
     }
 
+    /**
+     * 取消关注
+     *
+     * @param map
+     * @return
+     */
+    @RequestMapping("delHouse")
+    public ResultUtil delHouse(@RequestBody Map map) {
+        service.houseNotLike(map);
+        return resultUtil;
+    }
 
+    /**
+     * 我的房源
+     *
+     * @param map
+     * @return
+     */
+    @RequestMapping("myHouse")
+    public Object myHouse(@RequestBody Map map) {
+        System.out.println("我的房源");
+        System.out.println(map);
+        Map mapResult = new HashMap();
+        mapResult.put("empList", houseService.queryHouseAll(map));
+        mapResult.put("total", houseService.queryHousePageCount(map));
+        System.out.println(mapResult.get("total"));
+        return mapResult;
+    }
 
 }
