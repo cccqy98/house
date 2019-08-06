@@ -29,18 +29,11 @@ public class AHouseServiceImpl implements AHouseService{
      * @return
      */
     @Override
-    public List<HouseUser> getHouseUserAll(Map map) {
-        return aHouseMapping.getHouseUserAll(map);
-    }
-
-    /**
-     * 查询客户发布未联系的房屋数量
-     * @param map
-     * @return
-     */
-    @Override
-    public int getHouseUserquall(Map map) {
-        return aHouseMapping.getHouseUserquall(map);
+    public Map getHouseUserAll(Map map) {
+        Map map1=new HashMap();
+        map1.put("personlist",aHouseMapping.getHouseUserAll(map));
+        map1.put("total",aHouseMapping.getHouseUserquall(map));
+        return map1;
     }
 
 
@@ -49,11 +42,21 @@ public class AHouseServiceImpl implements AHouseService{
      * @return
      */
     @Override
-    public int upHouseUser(Map map) {
+    public ResultUtil upHouseUser(Map map) {
         //获取当前登陆的经济人工号
         Staff staff = CusUtil.getStaff();
         map.put("uh_staff",staff.getStaff_num());
-        return aHouseMapping.upHouseUser(map);
+        //交互类
+        ResultUtil resultUtil=new ResultUtil();
+        int i = aHouseMapping.upHouseUser(map);
+
+        if (i>0){
+            resultUtil.setCode(ISysConstants.SUCCESSCODE);
+            resultUtil.setObject(i);
+            return resultUtil;
+        }
+        resultUtil.setCode(ISysConstants.OTHERTIPS);
+        return resultUtil;
     }
 
     /**

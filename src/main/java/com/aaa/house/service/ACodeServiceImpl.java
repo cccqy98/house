@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,18 +36,14 @@ public class ACodeServiceImpl implements ACodeService {
      * @return
      */
     @Override
-    public List<Map> getHouseState() {
-        return aCodeMapping.getHouseState();
+    public Map getHouseState() {
+        Map map=new HashMap();
+        map.put("housestate",aCodeMapping.getHouseState());
+        map.put("houseaudit",aCodeMapping.getHouseAudit());
+        return map;
     }
 
-    /**
-     * 审核状态
-     * @return
-     */
-    @Override
-    public List<Map> getHouseAudit() {
-        return aCodeMapping.getHouseAudit();
-    }
+
 
     /**
      * 查询用户状态

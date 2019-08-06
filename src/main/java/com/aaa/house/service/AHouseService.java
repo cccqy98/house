@@ -17,19 +17,14 @@ public interface AHouseService {
      * 查询所有未联系的房
      * @return
      */
-    List<HouseUser> getHouseUserAll(Map map);
+    Map getHouseUserAll(Map map);
 
-    /**
-     * 查询所有未联系的房 全部
-     * @param map
-     * @return
-     */
-    int getHouseUserquall(Map map);
+
     /**
      * 经济人联系房源
      * @return
      */
-    int upHouseUser(Map map);
+    ResultUtil upHouseUser(Map map);
 
     /**
      * 查询当前经济人联系的房源

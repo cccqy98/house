@@ -42,10 +42,7 @@ public class AHouseController {
      */
     @RequestMapping("getHouseUser")
     public Object getHouseUser(@RequestBody Map map){
-        Map map1=new HashMap();
-        map1.put("personlist",aHouseService.getHouseUserAll(map));
-        map1.put("total",aHouseService.getHouseUserquall(map));
-        return map1;
+        return aHouseService.getHouseUserAll(map);
     }
 
     /**
@@ -54,17 +51,7 @@ public class AHouseController {
      */
     @RequestMapping("upHouseUser")
     public ResultUtil upHouseUser(@RequestBody Map map){
-        System.out.println("sdfsdfdsfds"+map);
-        int i = aHouseService.upHouseUser(map);
-        //交互类
-        ResultUtil resultUtil=new ResultUtil();
-        if (i>0){
-            resultUtil.setCode(ISysConstants.SUCCESSCODE);
-            resultUtil.setObject(i);
-            return resultUtil;
-        }
-        resultUtil.setCode(ISysConstants.OTHERTIPS);
-        return resultUtil;
+        return aHouseService.upHouseUser(map);
     }
 
     /**
@@ -92,7 +79,6 @@ public class AHouseController {
      */
     @RequestMapping("getUserHouse")
     public List<HouseUser> getUserHouse(@RequestBody Map map){
-        System.out.println(aHouseService.getUserHouse(map));
         return aHouseService.getUserHouse(map);
     }
 

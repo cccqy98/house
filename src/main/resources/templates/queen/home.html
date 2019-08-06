@@ -10,6 +10,10 @@
     <script src="../front/resources/antd/antd.min.js"></script>
     <script src="../front/resources/antd/ant-design-vue.js"></script>
     <link href="../front/resources/antd/antd.min.css" rel="stylesheet">
+
+    <script src="../front/resources/js/ele.js"></script>
+    <link href="../front/resources/css/ele.css" rel="stylesheet">
+    <script src="../front/resources/js/axios.js"></script>
     <style>
         #home {
             height: auto;
@@ -51,6 +55,31 @@
         #mobile1 div{
             margin-right: 0;
         }
+
+
+        #empcenter {
+            height: 100%;
+        }
+
+        .el-container .el-aside {
+            color: #333;
+            text-align: center;
+            line-height: 200px;
+            min-height: 600px;
+        }
+        .el-container .el-main {
+            background-color: #E9EEF3;
+            color: #333;
+            text-align: center;
+            line-height: 100px;
+            min-height: 600px;
+        }
+        a{
+            color: #000;
+            text-decoration:none;
+        }
+
+
     </style>
 </head>
 <body>
@@ -107,7 +136,8 @@
                         </a-button>
                         <a-menu slot="overlay">
                             <a-menu-item>
-                                <a target="ifm" rel="noopener noreferrer" href="empcenter.html">个人中心</a>
+                                <!--<a target="ifm" rel="noopener noreferrer" href="empcenter.html">个人中心</a>-->
+                                <a type="primary" href="#" @click="showDrawer">个人中心</a>
                             </a-menu-item>
                             <a-menu-item>
                                 <a @click="empkill">注销</a>
@@ -124,11 +154,41 @@
         </a-layout>
     </a-layout>
 
+    <a-drawer
+            title="个人中心"
+            placement="right"
+            :width="720"
+            :closable="false"
+            @close="onClose"
+            :visible="visible"
+    >
+        <div id="empcenter">
+            <el-container>
+
+
+
+                <el-main>
+                   <!-- <iframe scrolling="auto" frameborder="0" src="main.html" style="width:100%;height:100%;" name="ifm"></iframe>-->
+                    <iframe scrolling="auto" frameborder="0" src="basicsetup.html" style="width:100%;height:700px;" name="emp"></iframe>
+
+                </el-main>
+            </el-container>
+        </div>
+        <script>
+            new Vue({
+                el:"#empcenter",
+            })
+        </script>
+
+    </a-drawer>
+
+
 </div>
 <script>
     new Vue({
         el: '#home',
         data: {
+            visible: false,//抽屉
             collapsed: false,
             treedatas:[],
             staff:{},
@@ -176,6 +236,12 @@
             });
         },
         methods: {
+            showDrawer() {
+                this.visible = true
+            },
+            onClose() {
+                this.visible = false
+            },
             empkill:function () {
                 var _this=this;
                 _this.$confirm({
