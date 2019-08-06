@@ -60,7 +60,7 @@ public class AStaffController {
      * 验证是否登录 即获取session值传在前台
      * @return
      */
-    @RequestMapping("selectSession")
+    @RequestMapping("/selectSession")
     public ResultUtil selectSession(){
         //数据
         Staff staff = aStaffService.selectSession();

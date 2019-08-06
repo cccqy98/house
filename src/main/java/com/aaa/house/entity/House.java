@@ -21,51 +21,51 @@ public class House {
 
     private Integer houseUid;//房东id
 
-    private Integer userId;
+    private Integer userId;//用户
 
-    private String houseTitle;
+    private String houseTitle;//房屋标题
 
-    private Integer houseUrban;
+    private Integer houseUrban;//市区编号
 
-    private Integer houseStreet;
+    private Integer houseStreet;//街道编号
 
-    private String houseDistrict;
+    private String houseDistrict;//详细地址
 
-    private Integer houseRent;
+    private Integer houseRent;//房屋租金
 
-    private Integer houseState;
+    private Integer houseState;//房屋状态编号
 
-    private Integer houseArea;
+    private Integer houseArea;//房屋面积
 
-    private Integer houseFloor;
+    private Integer houseFloor;//楼层
 
-    private Integer houseOrientation;
+    private Integer houseOrientation;//房屋朝向编号
 
-    private Date houseDate;
+    private Date houseDate;//发布日期
 
-    private Integer newstime;
+    private Integer newstime;//发布距离天数
 
-    private Integer houseLayout;
+    private Integer houseLayout;//房屋布局编号
 
-    private String houseStaffid;
+    private String houseStaffid;//经纪人编号
 
-    private Integer houseAudit;
+    private Integer houseAudit;//审核状态编号
 
-    private String houseCertificate;
+    private String houseCertificate;//房产证图路径
 
-    private String houseCover;
+    private String houseCover;//房屋封面图路径
 
-    private String houlayout;
+    private String houlayout;//房屋布局
 
-    private String houurban;
+    private String houurban;//市
 
-    private String houstreet;
+    private String houstreet;//街道
 
-    private String houorientation;
+    private String houorientation;//房屋朝向
 
-    private List<String> houseLabel;
+    private List<String> houseLabel;//房屋标签
 
-    private List<String> houseImgs;
+    private List<String> houseImgs;//房屋图片
 
 
 

@@ -24,6 +24,9 @@ public class HouseServiceImpl implements HouseService{
     private HouseDao houseDao;
 
     @Override
+    /**
+     * 查询房屋信息
+     */
     public List<House> queryHouseAll(Map map) {
         List<House> houses = houseDao.queryHouseAll(map);
         Map<String,Object> maps=new HashMap<>();
@@ -38,6 +41,9 @@ public class HouseServiceImpl implements HouseService{
     }
 
     @Override
+    /**
+     * 查询发布房屋数量
+     */
     public Integer queryHousePageCount(Map map) {
         Integer i=houseDao.queryHousePageCount(map);
         System.out.println(i);
@@ -45,11 +51,17 @@ public class HouseServiceImpl implements HouseService{
     }
 
     @Override
+    /**
+     * 获取房屋布局
+     */
     public List<Map> selectLayout() {
         return houseDao.selectLayout();
     }
 
     @Override
+    /**
+     * 根据id获取房屋的信息
+     */
     public Map<String,Object> housedetail(Map map) {
         House houses=houseDao.houseDetail(map);
         Map<String,Object> maps=new HashMap<>();
@@ -63,5 +75,26 @@ public class HouseServiceImpl implements HouseService{
         maps.put("obj",houses);
         maps.put("staff",sta);
         return maps;
+    }
+    @Override
+    /**
+     * 关注房源
+     */
+    public Integer insertAtteition (Map map){
+        return houseDao.insertAtteition(map);
+    }
+    @Override
+    /**
+     * 判断是否关注过房源
+     */
+    public List<Map> selectAtteition(Map map){
+        return houseDao.selectAtteition(map);
+    }
+    @Override
+    /**
+     * 预约看房
+     */
+    public Integer insertLookHouse (Map map){
+        return houseDao.insertLookHouse(map);
     }
 }
