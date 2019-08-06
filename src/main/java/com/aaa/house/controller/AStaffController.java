@@ -60,7 +60,7 @@ public class AStaffController {
      * 验证是否登录 即获取session值传在前台
      * @return
      */
-    @RequestMapping("selectSession")
+    @RequestMapping("/selectSession")
     public ResultUtil selectSession(){
         //数据
         Staff staff = aStaffService.selectSession();
@@ -72,28 +72,6 @@ public class AStaffController {
         }
         resultUtil.setCode(ISysConstants.OTHERTIPS);
         return resultUtil;
-    }
-
-
-
-    /**
-     * 查询所有员工
-     * @return
-     */
-    @RequestMapping("/selectStaffAll")
-    public List<Staff> selectStaffAll(){
-        return aStaffService.selectStaffAll();
-    }
-
-
-    /**
-     * 员工添加
-     * @param staff
-     * @return
-     */
-    @RequestMapping("/insertStaff")
-    public int insertStaff(Staff staff){
-        return aStaffService.insertStaff(staff);
     }
 
 
@@ -115,6 +93,49 @@ public class AStaffController {
     @RequestMapping("upUser")
     public ResultUtil upUser(@RequestBody Map map){
         return aStaffService.upUser(map);
+    }
+
+
+
+    /**
+     * 查询所有员工信息
+     * @param map
+     * @return
+     */
+    @RequestMapping("getStaffAll")
+    public Map getStaffAll(@RequestBody Map map){
+        return aStaffService.getStaffAll(map);
+    }
+
+    /**
+     * 获取编号
+     * @return
+     */
+    @RequestMapping("getStaffnum")
+    public Map getStaffnum(){
+        return aStaffService.getStaffnum();
+    }
+
+
+    /**
+     * 修改员工
+     * @param map
+     * @return
+     */
+    @RequestMapping("upStaff")
+    public ResultUtil upStaff(@RequestBody Map map){
+        System.out.println(map);
+        return aStaffService.updateStaff(map);
+    }
+
+    /**
+     * 员工添加
+     * @param map
+     * @return
+     */
+    @RequestMapping("insertStaff")
+    public ResultUtil insertStaff(@RequestBody Map map){
+        return aStaffService.insertStaff(map);
     }
 
 }

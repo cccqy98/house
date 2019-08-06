@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +63,38 @@ public class ACodeController {
     public List<Map> getUserSet(){
         return aCodeService.getUserSet();
     }
+
+    /**
+     * 查询所有员工状态
+     * @return
+     */
+    @RequestMapping("getStaffState")
+    public List<Map> getStaffState(){
+        return aCodeService.getStaffState();
+    }
+
+
+    /**
+     * 查询所有角色
+     * @return
+     */
+    @RequestMapping("getRole")
+    public List<Map> getRole(){
+        return aCodeService.getRole();
+    }
+
+
+    /**
+     * 查询单个角色
+     * @return
+     */
+    @RequestMapping("getRoleStaff")
+    public List getRoleStaff(@RequestBody Map map){
+        return aCodeService.getRoleStaff(map);
+    }
+
+
+
 
 
 

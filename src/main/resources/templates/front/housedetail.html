@@ -226,6 +226,7 @@
                 <a-menu-item key="5" class="lr"><a href="register.html">注册</a></a-menu-item>
                 <a-menu-item key="6" class="lr">/</a-menu-item>
                 <a-menu-item key="7" class="lr"><a href="login.html">登录</a></a-menu-item>
+                <a-menu-item key="8"><span id="usid"></span></a-menu-item>
                 <a-menu-item id="cuslog">
                     <a-dropdown>
 						<span class="ant-dropdown-link cname">
@@ -265,8 +266,7 @@
                                       :id="listDetail.houseId" v-if="toFollow"
                                       style="margin-left: 370px">关注房源
                             </a-button>
-                            <a-button icon="heart" v-if="hasFollow" style="margin-left: 370px" disabled>已关注</a-button>
-                            <a href="#" style="float: right;margin-right: 90px">举报</a>
+                            <a-button icon="heart" v-if="hasFollow" type="danger" style="margin-left: 370px" disabled>已关注</a-button>
                         </div>
                     </div>
                     <div>
@@ -339,7 +339,7 @@
                                         <a-button type="primary" @click="yuyue(listDetail.houseId)" size="large" style="font-size:20px;">预约看房</a-button>
                                     </span>
                                     <span>
-                                        <a-button size="large" :id="empinfo.id" icon="message" style="font-size:20px;">
+                                        <a-button size="large" :id="empinfo.houseId" icon="message" style="font-size:20px;">
                                             <a :href="['tencent://message/?uin='+empinfo.eqq+'&Site=Sambow&Menu=yes']" style="color:#000">在线咨询</a>
                                         </a-button>
                                     </span>
@@ -467,7 +467,11 @@
     </a-layout>
 </div>
 </body>
+<script type="text/javascript">
+
+</script>
 <script>
+    var uid=null;
     new Vue({
         el: "#house",
         data: {
@@ -477,9 +481,25 @@
             hasFollow: false
         },
         mounted: function () {
+            this.judgeCusLogin();
             this.load();
         },
         methods: {
+            judgeCusLogin:function(){
+                axios.post('/loginReg/judgeCusLogin')
+                    .then(function(response) {
+                        if (response.data.code == 200){
+                            $(".lr").hide();
+                            $("#cus").show();
+                            $("#cus").html(response.data.object.upetname);
+                            uid=response.data.object.id
+                        } else {
+                            $("#cus").hide();
+                            $(".lr").show();
+                        }
+
+                    })
+            },
             load: function () {
                 var self = this;
                 var str = window.location.search;
@@ -510,36 +530,36 @@
                     }
                 });*/
             },
-            /*yuyue:function(id){
-                var _this=this;
+            yuyue:function(houseId){
+                var safe=this;
                     if ($("#cus").html() == "") {
                         this.$confirm({
                             title: '请先登录',
                             okText: '确定',
                             cancelText: '取消',
                             onOk: function () {
-                                window.location.href = "rlogin.html";
+                                window.location.href = "login.html";
                             }
                         });
                     } else {
-                        $.ajax({
-                            type: "post",
-                            dataType: "json",
-                            url: "/newhouse/addHosofCus",
-                            data: {"id": id},
-                            success: function (data) {
-                                console.log(data);
-                                if (data.code == 200) {
-                                    _this.$message.success(data.msg);
-                                } else {
-                                    _this.$message.error(data.msg);
+                        axios.post('/house/yuyue', {
+                            look_house:houseId,
+                            look_userid:uid,
+                            look_staff:this.empinfo.staff_num
+                        })
+                            .then(function(response) {
+                                if (response.data.code==200){
+                                    safe.$message.success(response.data.msg);
+                                    window.location.reload();
+                                }else {
+                                    safe.$message.error(response.data.msg);
                                 }
-                            }
-                        });
+                            })
+
                     }
             },
-            followHouse: function (id) {
-                var _this = this;
+            followHouse: function (houseId) {
+                var safe = this;
                 //alert(id);
                 if ($("#cus").html() == "") {
                     this.$confirm({
@@ -547,50 +567,42 @@
                         okText: '确定',
                         cancelText: '取消',
                         onOk: function () {
-                            window.location.href = "rlogin.html";
+                            window.location.href = "login.html";
                         }
                     });
                 } else {
-                    $.ajax({
-                        type: "post",
-                        dataType: "json",
-                        url: "/house/followHouse",
-                        data: {"houseid": id},
-                        success: function (data) {
-                            //console.log(data)
-                            if (data.code == 200) {
-                                _this.$message.success(data.msg);
-                                setTimeout(function () {
-                                    window.location.reload();
-                                }, 1000);
-                            } else {
-                                _this.$message.error(data.msg);
+                    axios.post('/house/toFollow', {
+                        ah_hid:houseId,
+                        ah_uid:uid
+                    })
+                        .then(function(response) {
+                            if (response.data.code==200){
+                                safe.$message.success(response.data.msg);
+                                window.location.reload();
+                            }else {
+                                safe.$message.error(response.data.msg);
                             }
-                        }
-                    });
+                        })
                 }
-            },*/
-            /*isFollow: function (hid) {
-                //alert(hid);
-                var _this = this;
-                $.ajax({
-                    type: "post",
-                    dataType: "json",
-                    url: "/house/isFollow",
-                    data: {"houseid": hid},
-                    success: function (data) {
-                        console.log(data);
-                        if (data.code == 200) {
-                            _this.toFollow = false;
-                            _this.hasFollow = true;
-                        } else {
-                            _this.hasFollow = false;
-                            _this.toFollow = true;
-                        }
-                    }
-                });
             },
-            BdMap: function (jd, wd, area) {
+            isFollow: function (houseId) {
+                //alert(hid);
+                var safe = this;
+                axios.post('/house/hasFollow', {
+                    ah_hid:houseId,
+                    ah_uid:uid
+                })
+                    .then(function(response) {
+                        if (response.data.code==200){
+                            safe.toFollow = false;
+                            safe.hasFollow = true;
+                        }else {
+                            safe.hasFollow = false;
+                            safe.toFollow = true;
+                        }
+                    })
+            },
+            /*BdMap: function (jd, wd, area) {
                 var _this = this;
                 // 百度地图API功能
                 var map = new BMap.Map("bdmap");    // 创建Map实例
@@ -608,56 +620,35 @@
                 marker.setLabel(label);
                 map.setCurrentCity("郑州");          // 设置地图显示的城市 此项是必须设置的
                 map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-            },
+            },*/
+
             yonghu: function ({key}) {
-                var _this = this;
+                var self = this;
                 if (key == "zx") {
                     this.$confirm({
                         title: '确定退出?',
                         okText: '确定',
                         cancelText: '取消',
                         onOk: function () {
-                            _this.killCusSession();
+                            self.killCusSession();
                         }
                     });
                 }
                 if (key == "grzx") {
                     //alert("个人中心")
-                    window.location.href = "personal.html";
+                    window.location.href="userInfo.html";
                 }
             },
             killCusSession: function () {
-                $.ajax({
-                    type: "post",
-                    dataType: "json",
-                    url: "/login/killCusSession",
-                    success: function () {
-                        window.location.reload();
-                        //window.location.href="houselist.html";
-                    }
-                });
-            },*/
+                axios.post('/loginReg/outUser')
+                    .then(function(response) {
+                        if (response.data.code == 200){
+                            window.location.reload();
+                        }
+                    })
+            }
         }
     });
 </script>
-<script>
-   /* $(function judgeCusLogin() {
-        $.ajax({
-            type: "post",
-            dataType: "json",
-            url: "/login/judgeCusLogin",
-            success: function (data) {
-                if (data.code == 200) {
-                    //alert(data.code);
-                    $(".lr").hide();
-                    $("#cus").show();
-                    $("#cus").html(data.object);
-                } else {
-                    $("#cus").hide();
-                    $(".lr").show();
-                }
-            }
-        });
-    });*/
-</script>
+
 </html>

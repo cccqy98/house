@@ -65,4 +65,24 @@ public interface HouseDao {
      */
     House houseDetail(Map map);
 
+    /**
+     * 关注房源
+     * @param map
+     * @return
+     */
+    Integer insertAtteition(Map map);
+
+    /**
+     * 判断是否已经关注过房源
+     * @param map
+     * @return
+     */
+    List<Map> selectAtteition(Map map);
+
+    /**
+     * 预约看房
+     * @param map
+     * @return
+     */
+    Integer insertLookHouse(Map map);
 }

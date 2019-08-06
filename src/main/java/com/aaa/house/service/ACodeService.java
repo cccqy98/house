@@ -38,4 +38,22 @@ public interface ACodeService {
      * @return
      */
     List<Map>getUserSet();
+
+    /**
+     * 查询员工状态
+     * @return
+     */
+    List<Map> getStaffState();
+
+    /**
+     * 查询所有角色
+     * @return
+     */
+    List<Map> getRole();
+
+    /**
+     * 查询单个用户角色
+     * @return
+     */
+    List getRoleStaff(Map map);
 }

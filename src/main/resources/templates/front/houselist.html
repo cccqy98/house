@@ -284,13 +284,6 @@
                         self.listData = response.data.empList;
                         self.total = response.data.total;
                     })
-                    .catch(function(error) {
-                        //handle error
-                        console.log(error);
-                    })
-                    .then(function(response) {
-                        //handle success
-                    });
             },
             onChange:function (page) {
                 this.currentPage = page;
@@ -314,59 +307,49 @@
             },
             houseDetail:function (hid) {
                 location.href="housedetail.html?hid="+hid;
-            }
-        },
-
-        /*
+            },
             yonghu: function ({key}) {
-                var _this = this;
+                var self = this;
                 if (key == "zx") {
                     this.$confirm({
                         title: '确定退出?',
                         okText: '确定',
                         cancelText: '取消',
                         onOk: function () {
-                            _this.killCusSession();
+                            self.killCusSession();
                         }
                     });
                 }
                 if (key == "grzx") {
                     //alert("个人中心")
-                    window.location.href="personal.html";
+                    window.location.href="userInfo.html";
                 }
             },
             killCusSession: function () {
-                $.ajax({
-                    type: "post",
-                    dataType: "json",
-                    url: "/login/killCusSession",
-                    success: function () {
-                        window.location.reload();
-                        //window.location.href="houselist.html";
-                    }
-                });
-            },*/
-
+                axios.post('/loginReg/outUser')
+                    .then(function(response) {
+                        if (response.data.code == 200){
+                            window.location.reload();
+                        }
+                    })
+            }
+        }
     });
 </script>
-<!--<script type="text/javascript">
+<script type="text/javascript">
     $(function judgeCusLogin() {
-        $.ajax({
-            type: "post",
-            dataType: "json",
-            url: "/login/judgeCusLogin",
-            success: function (data) {
-                if (data.code == 200) {
-                    //alert(data.code);
+        axios.post('/loginReg/judgeCusLogin')
+            .then(function(response) {
+                if (response.data.code == 200){
                     $(".lr").hide();
                     $("#cus").show();
-                    $("#cus").html(data.object);
+                    $("#cus").html(response.data.object.upetname);
                 } else {
                     $("#cus").hide();
                     $(".lr").show();
                 }
-            }
-        });
+
+            })
     });
-</script>-->
+</script>
 </html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.house.dao.AStaffMappng">
+    <!--******************嵌套查询**一对多****************-->
+    <resultMap id="userRole" type="Staff" autoMapping="true">
+        <id property="staff_id" column="staff_id"></id>
+        <collection property="roles" ofType="Role" column="role_id" autoMapping="true"/>
+    </resultMap>
+
+    <!--**************************************查询全部员工**************************************-->
+    <select id="getStaffAll" resultMap="userRole">
+        SELECT  staff.staff_id,staff.staff_num,staff.staff_name,staff.staff_password,
+        staff.staff_sex,staff.staff_phone,staff.staff_state,
+        staff.staff_card,aa.code_state as staffsex,bb.code_state as staffstate,role.*
+        from staff
+        join `code` aa
+        on staff.staff_sex=aa.code_number
+        join `code` bb
+        on staff.staff_state=bb.code_number
+        join staff_role sr
+        on staff.staff_id=sr.sid
+        join role
+        on sr.rid=role.role_id
+        <where>
+                   <if test="staff_name!=null and staff_name !=''">
+                        and staff_name like "%"#{staff_name}"%"
+                    </if>
+               and aa.code_type=1 and bb.code_type=3
+            </where>limit #{start},#{pageSize}
+    </select>
+
+
+    <!--**************************************查询全部员工**************************************-->
+<insert id="insertStaff" parameterType="Map">
+    <selectKey  keyProperty="staffid" order="AFTER" resultType="int">
+        SELECT LAST_INSERT_ID()
+    </selectKey>
+    INSERT INTO staff(staff_num,staff_name,staff_phone,staff_sex,staff_password,staff_card)
+    VALUES(#{staff_num},#{staff_name},#{staff_phone},#{staff_sex},#{staff_password},#{staff_card})
+</insert>
+
+</mapper>

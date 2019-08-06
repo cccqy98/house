@@ -132,11 +132,57 @@
         join code e on e.code_number=a.house_urban
         join code f  on a.house_street=f.code_number
         join (select * from code where code_type=6) g on a.house_orientation=g.code_number
-        join house_attention h on a.house_id=h.ah_hid
         <where>
             <if test="houseId!=null and houseId!=''">
                 and a.house_id=#{houseId}
             </if>
         </where>
     </select>
+    <select id="selectAtteition" resultType="map">
+        select * from house_attention where ah_uid=#{ah_uid} and ah_hid=#{ah_hid}
+    </select>
+    <insert id="insertAtteition" parameterType="Integer">
+        insert into house_attention
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ah_uid != null">
+                ah_uid,
+            </if>
+            <if test="ah_hid != null">
+                ah_hid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ah_uid != null">
+                #{ah_uid},
+            </if>
+            <if test="ah_hid != null">
+                #{ah_hid},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertLookHouse" parameterType="Integer">
+        insert into look_house
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="look_userid != null">
+                look_userid,
+            </if>
+            <if test="look_staff != null">
+                look_staff,
+            </if>
+            <if test="look_house != null">
+                look_house,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="look_userid != null">
+                #{look_userid},
+            </if>
+            <if test="look_staff != null">
+                #{look_staff},
+            </if>
+            <if test="look_house != null">
+                #{look_house},
+            </if>
+        </trim>
+    </insert>
 </mapper>

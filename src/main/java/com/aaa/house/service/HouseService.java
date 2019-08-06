@@ -37,4 +37,19 @@ public interface HouseService {
      * @return
      */
     Map<String,Object> housedetail(Map map);
+    /**
+     * 关注房源
+     */
+    Integer insertAtteition(Map map);
+    /**
+     * 判断是否关注房源
+     * @param map
+     * @return
+     */
+    List<Map> selectAtteition(Map map);
+
+    /**
+     * 预约看房
+     */
+    Integer insertLookHouse(Map map);
 }
