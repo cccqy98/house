@@ -195,7 +195,7 @@
                     </el-tab-pane>
                     <el-tab-pane label="我的关注">
                         <el-row>
-                            <el-col :span="20" :offset="2" style="height: 520px;">
+                            <el-col :span="20" :offset="2" style="height: 480px;">
                                 <p>您收藏{{total}}套房源</p>
                                 <div v-for="item in houseLikeData" :id="item.id" style="clear: both">
                                     <hr/>
@@ -228,9 +228,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div style="text-align: center;margin-top: 25px">
+                            </el-col>
+                            <el-col :span="20" :offset="2" style="height: 40px;">
+                                <div style="text-align: center;margin-bottom: 10px">
                                     <!--分页区-->
                                     <el-pagination
+                                            v-if="total>0"
                                             @size-change="handleSizeChange"
                                             @current-change="handleCurrentChange"
                                             :current-page="currentPage"
@@ -244,7 +247,7 @@
                     </el-tab-pane>
                     <el-tab-pane label="我的发布">
                         <el-row>
-                            <el-col :span="20" :offset="2" style="height: 520px;">
+                            <el-col :span="20" :offset="2" style="height: 480px;">
                                 <p>您发布{{total1}}套房源</p>
                                 <div v-for="item in houseSelfData" :id="item.id" style="clear: both">
                                     <hr/>
@@ -272,12 +275,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div style="text-align: center;margin-top: 25px">
+                            </el-col>
+                            <!--分页-->
+                            <el-col :span="20" :offset="2" style="height: 40px;">
+                                <div style="text-align: center;margin-bottom: 10px">
                                     <!--分页区-->
                                     <el-pagination
+                                            v-if="total1>0"
+                                            background
                                             @size-change="handleSizeChange"
-                                            @current-change="handleCurrentChange"
-                                            :current-page="currentPage"
+                                            @current-change="handleCurrentChange1"
+                                            :current-page="currentPage1"
                                             :page-size="pageSize"
                                             layout="total,prev, pager, next"
                                             :total="total1">
@@ -434,6 +442,7 @@
             currentPage: 1,
             pageSize: 3,
             total: 0,
+            currentPage1: 1,
             total1: 0,
             imageUrl: '',
             imageUrl1: '',
@@ -479,9 +488,9 @@
             loadData: function () {
                 var self = this.ruleForm;
                 var img = this;
+
                 //获取用户信息
                 axios.post('http://localhost:8080/loginReg/judgeCusLogin').then(function (response) {
-
                     if (response.data.object == null) {
                         window.location.href = "main.html";
                     }
@@ -490,15 +499,16 @@
                     self.usex = response.data.object.usex + '';
                     self.uphone = response.data.object.uphone;
                     self.uphoto = response.data.object.uphoto;
-
+                    //修改密码id和账号赋值
                     img.upFrom.uphone = self.uphone;
                     img.upFrom.id = self.id;
-
+                    //身份验证id赋值
                     img.idFrom.id = self.id;
-
+                    //导航栏图片显示
                     img.imageUrl = 'http://localhost:8080/loginReg/show?fileName=' + response.data.object.uphoto;
+                    //修改头像框显示
                     img.imageUrl1 = img.imageUrl;
-
+                    //判断是否禁用或者实名
                     if (response.data.object.ucardState == 1) {
                         img.state = "未实名,";
                         img.disabled = false;
@@ -512,19 +522,35 @@
                     } else {
                         img.state += "禁止使用";
                     }
-                    img.houseLikeData = response.data.house.empList;
-                    img.total = response.data.house.total;
+                    //查询分页我的关注
+                    img.houseLike();
+                    //查询分页我的发布
+                    img.houseMy();
 
-
-                    axios.post('http://localhost:8080/loginReg/myHouse', {
-                        userId1: self.id,
-                        start: img.currentPage,
-                        pageSize: img.pageSize
-                    })
-                        .then(function (response) {
-                            img.houseSelfData = response.data.empList;
-                            img.total1 = response.data.total;
-                        });
+                });
+            },
+            houseLike() {
+                var self = this;
+                //分页开始位置
+                var start = (this.currentPage - 1) * this.pageSize;
+                axios.post('http://localhost:8080/loginReg/myHouse', {
+                    userId: self.ruleForm.id,
+                    start: start,
+                    pageSize: self.pageSize
+                }).then(function (response) {
+                    self.houseLikeData = response.data.house;
+                    self.total = response.data.total;
+                });
+            },
+            houseMy() {
+                var self = this;
+                //分页开始位置
+                var start = (this.currentPage1 - 1) * this.pageSize;
+                axios.post('http://localhost:8080/loginReg/myHouse', {
+                    userId1: self.ruleForm.id, start: start, pageSize: self.pageSize
+                }).then(function (response) {
+                    self.houseSelfData = response.data.house;
+                    self.total1 = response.data.total;
                 });
             },
             submitForm(formName) {
@@ -603,26 +629,20 @@
             handleSizeChange: function (val) {
                 console.log('每页条数:' + val);
                 this.pageSize = val;
-                this.page();
+                this.loadData();
             },
             handleCurrentChange: function (val) {
                 console.log('当前页:' + val);
                 this.currentPage = val;
-                this.page();
+                this.loadData();
             },
-            page() {
-                var self = this;
-                axios.post('http://localhost:8080/loginReg/queryPage', {
-                    start: this.currentPage,
-                    pageSize: this.pageSize
-                })
-                    .then(function (response) {
-                        self.loadData();
-                    });
+            handleCurrentChange1: function (val) {
+                this.currentPage1 = val;
+                this.loadData();
             },
             houseDetail(houseId) {
                 var self = this;
-                axios.post('http://localhost:8080/loginReg/delHouse', {houseId: houseId})
+                axios.post('http://localhost:8080/loginReg/delHouse', {userId: self.ruleForm.id, houseId: houseId})
                     .then(function (response) {
                         var s = response.data.code;
                         if (s === 200) {

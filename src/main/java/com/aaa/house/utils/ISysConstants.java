@@ -11,5 +11,4 @@ public interface ISysConstants {
     int OTHERTIPS=300; //其他提示
     String EMP="employee";//员工存在session 中
     String CUS="user";//用户存在session 中
-    String HOUSE = "house";//用户存在session 中
 }
