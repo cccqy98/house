@@ -31,8 +31,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
-    @Autowired
-    private HouseService houseService;
+
 
     /**
      * 获取验证码
@@ -110,12 +109,6 @@ public class UserServiceImpl implements UserService {
             //得到原始密码
             String password = user.getUPassword();
             if (password.equals(paramPassword)) {
-
-
-                Map map = new HashMap();
-                map.put("pageSize", 3);
-                map.put("start", 0);
-                this.houseLike(map);
                 CusUtil.saveCus(user);
                 return user;
             }
@@ -202,39 +195,15 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 关注房源
-     *
+     * 取消关注
      * @param map
      * @return
      */
     @Override
-    public boolean houseLike(Map map) {
-        map.put("userId", user.getId());
-        Map house = new HashMap();
-        house.put("empList", houseService.queryHouseAll(map));
-        house.put("total", houseService.queryHousePageCount(map));
-        CusUtil.saveHouse(house);
-        return true;
-    }
-
-    /**
-     * 取关房源
-     *
-     * @param map
-     * @return
-     */
-    @Override
-    public boolean houseNotLike(Map map) {
-        System.out.println("取关房源");
-        map.put("userId", user.getId());
+    public boolean delHouse(Map map) {
         if (userMapper.delHouse(map) > 0) {
-            Map map1 = new HashMap();
-            map1.put("pageSize", 3);
-            map1.put("start", 0);
             return true;
         }
         return false;
     }
-
-
 }

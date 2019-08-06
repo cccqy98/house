@@ -19,7 +19,6 @@ public class ResultUtil {
     private Integer code;//状态码
     private String msg;
     private Object object;//数据
-    private Object house;//数据
     private Integer count;
 
     public ResultUtil() {
@@ -31,12 +30,6 @@ public class ResultUtil {
         this.object = object;
     }
 
-    public ResultUtil(Integer code, String msg, Object object, Object house) {
-        this.code = code;
-        this.msg = msg;
-        this.object = object;
-        this.house = house;
-    }
 
     public ResultUtil(Integer code, String msg, Object object, Integer count) {
         this.code = code;

@@ -33,11 +33,16 @@
         join (select * from code where code_type=11300) d on a.house_urban=d.code_number
         join code e on e.code_number=a.house_urban join code f  on a.house_street=f.code_number
         join (select * from code where code_type=6) g on a.house_orientation=g.code_number
-        join house_attention h on a.house_id=h.ah_hid
+        <if test="userId!=null and userId!=''">
+            join house_attention h on a.house_id=h.ah_hid
+        </if>
         <where>
             a.house_delete=1
             <if test="userId!=null and userId!=''">
                 and h.ah_uid =#{userId}
+            </if>
+            <if test="userId1!=null and userId1!=''">
+                and a.house_uid =#{userId1}
             </if>
             <if test="rentStart!=null and rentStart!=''">
                 and a.house_rent <![CDATA[ >= ]]> #{rentStart}
@@ -63,7 +68,9 @@
         join code e on e.code_number=a.house_urban
         join code f  on a.house_street=f.code_number
         join (select * from code where code_type=6) g on a.house_orientation=g.code_number
-        join house_attention h on a.house_id=h.ah_hid
+        <if test="userId!=null and userId!=''">
+            join house_attention h on a.house_id=h.ah_hid
+        </if>
 
         <where>
             a.house_delete=1
@@ -73,7 +80,6 @@
             <if test="userId1!=null and userId1!=''">
                 and a.house_uid =#{userId1}
             </if>
-
             <if test="rentStart!=null and rentStart!=''">
                 and a.house_rent <![CDATA[ >= ]]> #{rentStart}
             </if>

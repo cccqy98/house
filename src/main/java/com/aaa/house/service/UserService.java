@@ -67,19 +67,10 @@ public interface UserService {
     boolean upPass(Map map);
 
     /**
-     * 关注房源
-     *
+     * 取消关注
      * @param map
      * @return
      */
-    boolean houseLike(Map map);
-
-    /**
-     * 取关房源
-     *
-     * @param map
-     * @return
-     */
-    boolean houseNotLike(Map map);
+    boolean delHouse(Map map);
 
 }

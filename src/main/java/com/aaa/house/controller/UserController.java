@@ -119,7 +119,6 @@ public class UserController {
         } else {
             resultUtil.setCode(ISysConstants.SUCCESSCODE);
             resultUtil.setObject(judgeCusLogin);
-            resultUtil.setHouse(CusUtil.getHouseFromSession());
         }
         return resultUtil;
     }
@@ -221,15 +220,41 @@ public class UserController {
     }
 
     /**
-     * 关注房源
+     * 我的房源
+     *
      * @param map
      * @return
      */
-    @RequestMapping("queryPage")
-    public Object queryPage(@RequestBody Map map) {
-        service.houseLike(map);
-        return null;
+    @RequestMapping("myHouse")
+    public Object myHouse(@RequestBody Map map) {
+        System.out.println("控制分页层");
+        System.out.println(map);
+        Map mapResult = new HashMap();
+        mapResult.put("house", houseService.queryHouseAll(map));
+        mapResult.put("total", houseService.queryHousePageCount(map));
+        System.out.println(mapResult.get("house"));
+        System.out.println("================================");
+        System.out.println(mapResult.get("total"));
+        return mapResult;
     }
+//    /**
+//     * 我的房源
+//     *
+//     * @param map
+//     * @return
+//     */
+//    @RequestMapping("myHouse1")
+//    public Object myHouse1(@RequestBody Map map) {
+//        System.out.println("控制分页层");
+//        System.out.println(map);
+//        Map mapResult = new HashMap();
+//        mapResult.put("house", houseService.queryHouseAll(map));
+//        mapResult.put("total", houseService.queryHousePageCount(map));
+//        System.out.println(mapResult.get("house"));
+//        System.out.println("================================");
+//        System.out.println(mapResult.get("total"));
+//        return mapResult;
+//    }
 
     /**
      * 取消关注
@@ -239,25 +264,13 @@ public class UserController {
      */
     @RequestMapping("delHouse")
     public ResultUtil delHouse(@RequestBody Map map) {
-        service.houseNotLike(map);
+        if (service.delHouse(map)) {
+            resultUtil.setCode(ISysConstants.SUCCESSCODE);
+            resultUtil.setMsg("已取消关注");
+            return resultUtil;
+        }
+        resultUtil.setCode(ISysConstants.ERRORCODE);
+        resultUtil.setMsg("取消失败404");
         return resultUtil;
     }
-
-    /**
-     * 我的房源
-     *
-     * @param map
-     * @return
-     */
-    @RequestMapping("myHouse")
-    public Object myHouse(@RequestBody Map map) {
-        System.out.println("我的房源");
-        System.out.println(map);
-        Map mapResult = new HashMap();
-        mapResult.put("empList", houseService.queryHouseAll(map));
-        mapResult.put("total", houseService.queryHousePageCount(map));
-        System.out.println(mapResult.get("total"));
-        return mapResult;
-    }
-
 }
