@@ -44,6 +44,7 @@
             margin-left: 100px;
         }
 
+
         .avatar-uploader .el-upload:hover {
             border-color: #409EFF;
         }
@@ -69,7 +70,7 @@
             opacity: 1;
         }
 
-        #price, #price1 {
+        #price, #price1, #price2 {
             margin-top: 20px;
             color: red;
             font-size: 20px;
@@ -88,7 +89,6 @@
 
     </style>
 </head>
-
 <body>
 <div id="app">
     <!--导航栏-->
@@ -100,43 +100,55 @@
                      background-color="#000000"
                      text-color="#fff"
                      active-text-color="#ffd04b">
-                <el-col :span="2" :offset="3">
+                <el-col :span="2" :offset="1">
                     <el-menu-item index="0">
-
-                        logo
-
+                        <a href="main.html"><img src="resources/images/log.png" width="106" height="60"></a>
                     </el-menu-item>
                 </el-col>
                 <el-col :span="2">
                     <el-menu-item index="1">
 
-                        <a href="https://www.baidu.com">首页</a>
+                        <a href="main.html">首页</a>
 
                     </el-menu-item>
                 </el-col>
                 <el-col :span="2">
                     <el-menu-item index="2">
-
-                        <a href="https://www.baidu.com">房源信息</a>
-
+                        <a href="houselist.html">我要租房</a>
                     </el-menu-item>
                 </el-col>
                 <el-col :span="2">
                     <el-menu-item index="3">
                         <a href="https://www.baidu.com">发布房源</a></el-menu-item>
                 </el-col>
-                <el-col :span="2" :offset="8">
+                <el-col :span="2" :offset="10" v-if="ruleForm==null">
                     <el-menu-item index="4">
-                        <a href="https://www.baidu.com">
-                            <!--                        <img v-if="ruleForm.photo" :src="'http://localhost:8080/loginReg/show?fileName='+ruleForm.photo" height="60px;" width="60px;">-->
-                            <el-avatar shape="circle" :size="45" :src="imageUrl1"></el-avatar>
-                        </a>
+                        <el-dropdown>
+                            <span class="el-dropdown-link">
+                                <el-avatar shape="circle" :size="45" :src="imageUrl1"></el-avatar>
+                             </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item><a href="userInfo.html" style="color: black;">个人中心</a>
+                                </el-dropdown-item>
+                                <el-dropdown-item><a href="http://localhost:8080/loginReg/outUser"
+                                                     style="color: black;">注销</a></el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </el-menu-item>
+                </el-col>
+                <el-col :span="1" :offset="12" v-if="ruleForm!=null">
+                    <el-menu-item index="5">
+                        <a href="login.html">登录</a>
+                    </el-menu-item>
+                </el-col>
+                <el-col :span="1" v-if="ruleForm!=null">
+                    <el-menu-item index="5">
+                        <a href="register.html">注册</a>
                     </el-menu-item>
                 </el-col>
             </el-menu>
         </el-row>
     </el-header>
-
     <!--内容区-->
     <el-main>
         <!--天气和时间-->
@@ -152,7 +164,10 @@
                 <el-tabs tab-position="left">
                     <el-tab-pane label="个人资料">
                         <el-row>
-                            <el-col :span="10" :offset="6" style="height: 520px;">
+                            <el-col :span="20" :offset="2" style="height: 40px;">
+                                <p>个人资料</p>
+                            </el-col>
+                            <el-col :span="10" :offset="6" style="height: 480px;">
                                 <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm"
                                          label-width="100px" class="demo-ruleForm">
                                     <el-form-item label="头像" label-width="60px">
@@ -207,11 +222,10 @@
                                         <span id="price" slot="description">{{item.houseRent}}元/月</span>
                                         <br>
                                         <el-button type="primary" size="mini" style="margin-top: 20px;float: right"
-                                                   @click="houseDetail(item.houseId)" :hid="item.houseId">取消关注
+                                                   @click="cancel(item.houseId)" :hid="item.houseId">取消关注
                                         </el-button>
 
                                     </div>
-
                                     <div slot="description" style="margin-left: 240px;width: 450px">
                                         <a class="at" slot="title" @click="houseDetail(item.houseId)"
                                            :hid="item.houseId">{{item.houseTitle}}</a>
@@ -234,6 +248,7 @@
                                     <!--分页区-->
                                     <el-pagination
                                             v-if="total>0"
+                                            background
                                             @size-change="handleSizeChange"
                                             @current-change="handleCurrentChange"
                                             :current-page="currentPage"
@@ -294,10 +309,78 @@
                             </el-col>
                         </el-row>
                     </el-tab-pane>
+                    <el-tab-pane label="我的租房">
+                        <el-row>
+                            <el-col :span="20" :offset="2" style="height: 480px;">
+                                <p>您发布{{total2}}套房源</p>
+                                <div v-for="item in houseHerData" :id="item.id" style="clear: both">
+                                    <hr/>
+                                    <div slot="description" style="float: left;">
+                                        <img width="200px" height="125px" slot="avatar"
+                                             :src="'http://localhost:8080/loginReg/show?fileName='+item.houseCover"/>
+                                    </div>
+                                    <div slot="description" style="float: right;">
+                                        <span id="price2" slot="description">{{item.houseRent}}元/月</span>
+                                        <br>
+                                        <el-button type="primary" size="mini" style="margin-top: 20px;float: right"
+                                                   @click="dialogFormVisible = true" :hid="item.houseId">房屋报修
+                                        </el-button>
+                                    </div>
+
+                                    <el-dialog title="报修表单" :visible.sync="dialogFormVisible">
+                                        <el-form :model="form">
+                                            <el-form-item label="活动形式">
+                                                <el-input type="textarea" v-model="form.cause"></el-input>
+                                            </el-form-item>
+                                        </el-form>
+                                        <div slot="footer" class="dialog-footer">
+                                            <el-button @click="dialogFormVisible = false">取 消</el-button>
+                                            <el-button type="primary" @click="refer(item.houseId)">确 定</el-button>
+                                        </div>
+                                    </el-dialog>
+
+                                    <div slot="description" style="margin-left: 240px;width: 450px">
+                                        <a class="at" slot="title" @click="houseDetail(item.houseId)"
+                                           :hid="item.houseId">{{item.houseTitle}}</a>
+                                        <br>
+                                        <span style="font-size: 16px;color: #606266;">
+                                      {{item.houurban}}-{{item.houstreet}}-{{item.houseDistrict}}&nbsp;&nbsp;/&nbsp;&nbsp;{{item.houseArea}}&nbsp;&nbsp;/&nbsp;&nbsp;{{item.houorientation}}&nbsp;&nbsp;/&nbsp;&nbsp;{{item.houlayout}}
+                                    </span>
+                                        <p style="font-size: 12px;color: gray"><i class="el-icon-timer"></i>{{item.newstime}}天前发布
+                                        </p>
+                                        <div class="tag-group" style="margin-top: -5px">
+                                            <el-tag v-for="(k,index) in item.houseLabel" type="warning"
+                                                    style="margin-right: 10px">{{k}}
+                                            </el-tag>
+                                        </div>
+                                    </div>
+                                </div>
+                            </el-col>
+                            <!--分页-->
+                            <el-col :span="20" :offset="2" style="height: 40px;">
+                                <div style="text-align: center;margin-bottom: 10px">
+                                    <!--分页区-->
+                                    <el-pagination
+                                            v-if="total2>0"
+                                            background
+                                            @size-change="handleSizeChange"
+                                            @current-change="handleCurrentChange2"
+                                            :current-page="currentPage2"
+                                            :page-size="pageSize"
+                                            layout="total,prev, pager, next"
+                                            :total="total2">
+                                    </el-pagination>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </el-tab-pane>
                     <el-tab-pane label="实名认证">
                         <el-row>
-                            <el-col :span="10" :offset="6" style="height: 520px;">
-                                <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
+                            <el-col :span="20" :offset="2" style="height: 80px;">
+                                <p>实名认证</p>
+                                <el-divider></el-divider>
+                            </el-col>
+                            <el-col :span="10" :offset="6" style="height: 440px;">
                                 <el-form label-position="left" :model="idFrom" :rules="rules1" ref="idFrom"
                                          label-width="100px" class="demo-ruleForm">
                                     <el-form-item label="身份证号" prop="ucard">
@@ -320,11 +403,11 @@
                     </el-tab-pane>
                     <el-tab-pane label="密码修改">
                         <el-row>
-                            <el-col :span="10" :offset="6" style="height: 520px;">
-
-                                <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
-
-
+                            <el-col :span="20" :offset="2" style="height: 80px;">
+                                <p>密码修改</p>
+                                <el-divider></el-divider>
+                            </el-col>
+                            <el-col :span="10" :offset="6" style="height: 440px;">
                                 <el-form label-position="left" :model="upFrom" :rules="rules2" ref="upFrom"
                                          label-width="100px" class="demo-ruleForm">
                                     <el-form-item label="当前密码" prop="oldPass">
@@ -347,22 +430,20 @@
 
                             </el-col>
                         </el-row>
-
                     </el-tab-pane>
                 </el-tabs>
             </el-col>
         </el-row>
     </el-main>
 
-
     <!--页脚公司信息-->
     <el-footer>
         <el-row style="height:60px;">
-            <!--            <iframe frameborder="0" scrolling="no" hspace="0" id="fancybox-frame" name="fancybox-frame1564580392567"   src="http://i.tianqi.com/index.php?c=code&a=getcode&id=38&h=60&w=610"></iframe>-->
-            <!---->
-            <!--            <iframe frameborder="0" scrolling="no" width="420"  height="45"  allowtransparency="true" src="//i.tianqi.com/index.php?c=code&id=12&bdc=%23&icon=1&py=zhongyuanqu&num=5&site=12"></iframe>-->
+            <!--                        <iframe frameborder="0" scrolling="no" hspace="0" id="fancybox-frame" name="fancybox-frame1564580392567"   src="http://i.tianqi.com/index.php?c=code&a=getcode&id=38&h=60&w=610"></iframe>-->
+            <!--            -->
+            <!--                        <iframe frameborder="0" scrolling="no" width="420"  height="45"  allowtransparency="true" src="//i.tianqi.com/index.php?c=code&id=12&bdc=%23&icon=1&py=zhongyuanqu&num=5&site=12"></iframe>-->
 
-            <!--            <iframe width="450" scrolling="no" height="55" frameborder="0" allowtransparency="true" src="//i.tianqi.com/index.php?c=code&a=getcode&id=38&h=60&w=610"></iframe>-->
+            <!--                        <iframe width="450" scrolling="no" height="55" frameborder="0" allowtransparency="true" src="//i.tianqi.com/index.php?c=code&a=getcode&id=38&h=60&w=610"></iframe>-->
         </el-row>
     </el-footer>
 </div>
@@ -439,11 +520,22 @@
     var vue = new Vue({
         el: "#app",
         data: {
+            dialogTableVisible: false,
+            dialogFormVisible: false,
+            form: {
+                user: '',
+                cause: '',
+                houseId: ''
+            },
+
+
             currentPage: 1,
             pageSize: 3,
             total: 0,
             currentPage1: 1,
             total1: 0,
+            currentPage2: 1,
+            total2: 0,
             imageUrl: '',
             imageUrl1: '',
             disabled: true,
@@ -476,7 +568,7 @@
             url: '',
             houseLikeData: [],
             houseSelfData: [],
-            houseHerData: ''
+            houseHerData: []
         },
         created: function () {
             this.loadData();
@@ -526,6 +618,8 @@
                     img.houseLike();
                     //查询分页我的发布
                     img.houseMy();
+                    //查询分页我的租房
+                    img.houseHer();
 
                 });
             },
@@ -551,6 +645,17 @@
                 }).then(function (response) {
                     self.houseSelfData = response.data.house;
                     self.total1 = response.data.total;
+                });
+            },
+            houseHer() {
+                var self = this;
+                //分页开始位置
+                var start = (this.currentPage2 - 1) * this.pageSize;
+                axios.post('http://localhost:8080/loginReg/myHouse', {
+                    uPhone: self.ruleForm.uphone, start: start, pageSize: self.pageSize
+                }).then(function (response) {
+                    self.houseHerData = response.data.house;
+                    self.total2 = response.data.total;
                 });
             },
             submitForm(formName) {
@@ -640,7 +745,11 @@
                 this.currentPage1 = val;
                 this.loadData();
             },
-            houseDetail(houseId) {
+            handleCurrentChange2: function (val) {
+                this.currentPage2 = val;
+                this.loadData();
+            },
+            cancel(houseId) {
                 var self = this;
                 axios.post('http://localhost:8080/loginReg/delHouse', {userId: self.ruleForm.id, houseId: houseId})
                     .then(function (response) {
@@ -660,7 +769,36 @@
                         }
                         self.loadData();
                     });
+            },
+            refer(houseId) {
+                alert(houseId);
+                var self = this;
+                self.form.user = self.idFrom.uname;
+                self.form.houseId = houseId;
+                axios.post('http://localhost:8080/loginReg/refer', self.form)
+                    .then(function (response) {
+                        // var s = response.data.code;
+                        // if (s === 200) {
+                        //     self.$message({
+                        //         showClose: true,
+                        //         message: response.data.msg,
+                        //         type: 'success'
+                        //     });
+                        // } else {
+                        //     self.$message({
+                        //         showClose: true,
+                        //         message: response.data.msg,
+                        //         type: 'error'
+                        //     });
+                        // }
+                        // self.loadData();
+                        self.dialogFormVisible = true;
+                    });
+            },
+            houseDetail: function (hid) {
+                location.href = "housedetail.html?hid=" + hid;
             }
+
         }
     });
 </script>

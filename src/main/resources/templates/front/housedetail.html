@@ -16,6 +16,12 @@
     <script type="text/javascript"
             src="http://api.map.baidu.com/api?v=2.0&ak=M2kGUcWj1dSWhQvuNlrqWYPouAGVbBGT"></script>
 
+    <!--axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <style>
         #components-layout-demo-fixed .logo {
             width: 120px;
@@ -171,6 +177,33 @@
             padding-right: 65px;
         }
     </style>
+    <style type="text/css">
+        /*导航栏css*/
+        a {
+            /*font-size: 16px;*/
+            text-decoration: none;
+            color: white;
+        }
+
+        .el-menu-item {
+            text-align: center;
+        }
+
+        a:hover {
+            color: orange
+        }
+
+        /*图片展示css*/
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            margin-left: 100px;
+        }
+
+    </style>
     <style scoped>
         /* For demo */
         .ant-carousel .slick-slide {
@@ -209,41 +242,103 @@
 <body>
 <div id="house">
     <a-layout id="components-layout-demo-fixed">
-        <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
-            <div class="logo"><img src="resources/images/logoko.png"></div>
-            <a-menu theme="dark" mode="horizontal" :defaultSelectedKeys="['2']" :style="{ lineHeight: '64px' }">
-                <a-menu-item key="1"><a href="main.html">首页</a></a-menu-item>
-                <a-menu-item key="2"><a href="houselist.html">租房</a></a-menu-item>
-                <a-menu-item key="3"><a href="">发布房源</a></a-menu-item>
-                <a-menu-item key="4">
-                    <a-popover>
-                        <template slot="content">
-                            <img width="100px" height="100px" src="resources/images/wokezufang.png">
-                        </template>
-                        <span><a href=""></a>蜗壳租房APP</span>
-                    </a-popover>
-                </a-menu-item>
-                <a-menu-item key="5" class="lr"><a href="register.html">注册</a></a-menu-item>
-                <a-menu-item key="6" class="lr">/</a-menu-item>
-                <a-menu-item key="7" class="lr"><a href="login.html">登录</a></a-menu-item>
-                <a-menu-item key="8"><span id="usid"></span></a-menu-item>
-                <a-menu-item id="cuslog">
-                    <a-dropdown>
-						<span class="ant-dropdown-link cname">
-                            <span id="cus"></span>
-						</span>
-                        <a-menu slot="overlay" @click="yonghu">
-                            <a-menu-item key="grzx">
-                                个人中心
-                            </a-menu-item>
-                            <a-menu-item key="zx">
-                                注销
-                            </a-menu-item>
-                        </a-menu>
-                    </a-dropdown>
-                </a-menu-item>
-            </a-menu>
+        <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }" style="background: white">
+            <!--            <div class="logo"><img src="resources/images/logoko.png"></div>-->
+            <!--            <a-menu theme="dark" mode="horizontal" :defaultSelectedKeys="['2']" :style="{ lineHeight: '64px' }">-->
+            <!--                <a-menu-item key="1"><a href="main.html">首页</a></a-menu-item>-->
+            <!--                <a-menu-item key="2"><a href="houselist.html">租房</a></a-menu-item>-->
+            <!--                <a-menu-item key="3"><a href="">发布房源</a></a-menu-item>-->
+            <!--                <a-menu-item key="4">-->
+            <!--                    <a-popover>-->
+            <!--                        <template slot="content">-->
+            <!--                            <img width="100px" height="100px" src="resources/images/wokezufang.png">-->
+            <!--                        </template>-->
+            <!--                        <span><a href=""></a>蜗壳租房APP</span>-->
+            <!--                    </a-popover>-->
+            <!--                </a-menu-item>-->
+            <!--                <a-menu-item key="5" class="lr"><a href="register.html">注册</a></a-menu-item>-->
+            <!--                <a-menu-item key="6" class="lr">/</a-menu-item>-->
+            <!--                <a-menu-item key="7" class="lr"><a href="login.html">登录</a></a-menu-item>-->
+            <!--                <a-menu-item id="cuslog">-->
+            <!--                    <a-dropdown>-->
+            <!--						<span class="ant-dropdown-link cname">-->
+            <!--                            <span id="cus"></span>-->
+            <!--						</span>-->
+            <!--                        <a-menu slot="overlay" @click="yonghu">-->
+            <!--                            <a-menu-item key="grzx">-->
+            <!--                                个人中心-->
+            <!--                            </a-menu-item>-->
+            <!--                            <a-menu-item key="zx">-->
+            <!--                                注销-->
+            <!--                            </a-menu-item>-->
+            <!--                        </a-menu>-->
+            <!--                    </a-dropdown>-->
+            <!--                </a-menu-item>-->
+            <!--            </a-menu>-->
+            <!--        -->
+            <el-header>
+                <el-row>
+                    <el-menu style="border-radius: 4px;width: 106%;margin-left: -44px;margin-top: 5px"
+                             class="el-menu-demo"
+                             mode="horizontal"
+                             background-color="#000000"
+                             text-color="#fff"
+                             active-text-color="#ffd04b">
+                        <el-col :span="2" :offset="1">
+                            <el-menu-item index="0">
+                                <a href="main.html"><img src="resources/images/log.png" width="106" height="60"></a>
+                            </el-menu-item>
+                        </el-col>
+                        <el-col :span="2">
+                            <el-menu-item index="1">
+
+                                <a href="main.html">首页</a>
+
+                            </el-menu-item>
+                        </el-col>
+                        <el-col :span="2">
+                            <el-menu-item index="2">
+                                <a href="houselist.html">我要租房</a>
+                            </el-menu-item>
+                        </el-col>
+                        <el-col :span="2">
+                            <el-menu-item index="3">
+                                <a href="https://www.baidu.com">发布房源</a></el-menu-item>
+                        </el-col>
+                        <el-col :span="2" :offset="12" v-if="ruleForm==null">
+                            <el-menu-item index="4">
+                                <el-dropdown>
+                            <span class="el-dropdown-link">
+                                <el-avatar shape="circle" :size="45" :src="imageUrl1"
+                                           style="margin-top: -10px"></el-avatar>
+                             </span>
+                                    <el-dropdown-menu slot="dropdown">
+                                        <el-dropdown-item><a href="userInfo.html" style="color: black;">个人中心</a>
+                                        </el-dropdown-item>
+                                        <el-dropdown-item><a href="http://localhost:8080/loginReg/outUser"
+                                                             style="color: black;">注销</a></el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </el-dropdown>
+                            </el-menu-item>
+                        </el-col>
+                        <el-col :span="1" :offset="12" v-if="ruleForm!=null">
+                            <el-menu-item index="5">
+                                <a href="login.html">登录</a>
+                            </el-menu-item>
+                        </el-col>
+                        <el-col :span="1" v-if="ruleForm!=null">
+                            <el-menu-item index="5">
+                                <a href="register.html">注册</a>
+                            </el-menu-item>
+                        </el-col>
+                    </el-menu>
+                </el-row>
+            </el-header>
+
+
         </a-layout-header>
+
+
         <a-layout-content style="background-color: #fff;padding: 0 100px; margin-top: 64px;">
             <a-layout>
                 <a-layout-content style="margin-top: 20px;margin-left: 20px;">

@@ -37,6 +37,9 @@
         <if test="userId!=null and userId!=''">
             join house_attention h on a.house_id=h.ah_hid
         </if>
+        <if test="uPhone!=null and uPhone!=''">
+            JOIN pact p ON p.pact_houseid=a.house_id
+        </if>
         <where>
             a.house_delete=1
             <if test="userId!=null and userId!=''">
@@ -44,6 +47,9 @@
             </if>
             <if test="userId1!=null and userId1!=''">
                 and a.house_uid =#{userId1}
+            </if>
+            <if test="uPhone!=null and uPhone!=''">
+                and p.pact_uphone=#{uPhone}
             </if>
             <if test="rentStart!=null and rentStart!=''">
                 and a.house_rent <![CDATA[ >= ]]> #{rentStart}
@@ -72,7 +78,9 @@
         <if test="userId!=null and userId!=''">
             join house_attention h on a.house_id=h.ah_hid
         </if>
-
+        <if test="uPhone!=null and uPhone!=''">
+            JOIN pact p ON p.pact_houseid=a.house_id
+        </if>
         <where>
             a.house_delete=1
             <if test="userId!=null and userId!=''">
@@ -80,6 +88,9 @@
             </if>
             <if test="userId1!=null and userId1!=''">
                 and a.house_uid =#{userId1}
+            </if>
+            <if test="uPhone!=null and uPhone!=''">
+                and p.pact_uphone=#{uPhone}
             </if>
             <if test="rentStart!=null and rentStart!=''">
                 and a.house_rent <![CDATA[ >= ]]> #{rentStart}

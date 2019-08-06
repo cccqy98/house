@@ -227,34 +227,11 @@ public class UserController {
      */
     @RequestMapping("myHouse")
     public Object myHouse(@RequestBody Map map) {
-        System.out.println("控制分页层");
-        System.out.println(map);
         Map mapResult = new HashMap();
         mapResult.put("house", houseService.queryHouseAll(map));
         mapResult.put("total", houseService.queryHousePageCount(map));
-        System.out.println(mapResult.get("house"));
-        System.out.println("================================");
-        System.out.println(mapResult.get("total"));
         return mapResult;
     }
-//    /**
-//     * 我的房源
-//     *
-//     * @param map
-//     * @return
-//     */
-//    @RequestMapping("myHouse1")
-//    public Object myHouse1(@RequestBody Map map) {
-//        System.out.println("控制分页层");
-//        System.out.println(map);
-//        Map mapResult = new HashMap();
-//        mapResult.put("house", houseService.queryHouseAll(map));
-//        mapResult.put("total", houseService.queryHousePageCount(map));
-//        System.out.println(mapResult.get("house"));
-//        System.out.println("================================");
-//        System.out.println(mapResult.get("total"));
-//        return mapResult;
-//    }
 
     /**
      * 取消关注
@@ -273,4 +250,19 @@ public class UserController {
         resultUtil.setMsg("取消失败404");
         return resultUtil;
     }
+
+    /**
+     * 房屋保修
+     *
+     * @param map
+     * @return
+     */
+    @RequestMapping("refer")
+    public Object refer(@RequestBody Map map) {
+        System.out.println("报修控制");
+        System.out.println(map);
+
+        return null;
+    }
+
 }

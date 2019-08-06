@@ -20,14 +20,14 @@
         #components-layout-demo-fixed .logo {
             width: 120px;
             height: 31px;
-            background: rgba(255, 255, 255, .2);
+
             margin: 16px 24px 16px 0;
             float: left;
         }
 
         #components-layout-demo-fixed .logo img {
             width: 120px;
-            height: 95px;
+            height: 120px;
             margin-top: -35px;
         }
 
@@ -101,12 +101,13 @@
             float: right;
         }
     </style>
+
 </head>
 <body>
 <div id="house">
     <a-layout id="components-layout-demo-fixed">
         <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
-            <div class="logo"><img src="resources/images/logoko.png"></div>
+            <div class="logo"><img src="resources/images/logo.png"></div>
             <a-menu theme="dark" mode="horizontal" :defaultSelectedKeys="['2']" :style="{ lineHeight: '64px' }">
                 <a-menu-item key="1"><a href="main.html">首页</a></a-menu-item>
                 <a-menu-item key="2"><a href="">租房</a></a-menu-item>
@@ -138,8 +139,9 @@
                     </a-dropdown>
                 </a-menu-item>
             </a-menu>
-
         </a-layout-header>
+
+
         <a-layout-content style="background-color: #fff;padding: 0 100px; margin-top: 64px">
             <a-layout>
                 <a-layout-content style="margin-top: 20px;margin-left: 20px;">
