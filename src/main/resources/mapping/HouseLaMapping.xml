@@ -24,7 +24,8 @@
             and house_delete=1
         </where>
 
-         limit #{start},#{pageSize}) h join code aa
+         limit #{start},#{pageSize}) h
+        join code aa
         on h.house_urban=aa.code_number
         join code bb
         on h.house_street=bb.code_number

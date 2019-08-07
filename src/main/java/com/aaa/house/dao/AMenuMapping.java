@@ -2,11 +2,11 @@ package com.aaa.house.dao;
 
 import com.aaa.house.entity.Tree;
 import com.aaa.house.utils.RedisCache;
-import org.apache.ibatis.annotations.CacheNamespace;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * FileName: AMenuMapping
@@ -28,4 +28,39 @@ public interface AMenuMapping {
             "where staff.staff_id=sr.sid and sr.rid=role.role_id \n" +
             "and rp.rid=role.role_id and rp.id=perm.id and staff.staff_id=#{staff_id}")
     List<Tree> getPowers(Integer staff_id);
+
+
+    /**
+     * 获取所有的权限
+     * @return
+     */
+    @Select("select id,per_name as label,per_id,per_url,per_icon from permission")
+    List<Tree> getPowersAll();
+
+
+    /**
+     * 添加权限
+     * @return
+     */
+    @Insert("INSERT into permission(per_name,per_id,per_url,per_staffName)\n" +
+            "VALUES(#{label},#{per_id},#{per_url},#{per_staffName})")
+    int inPowers(Map map);
+
+    /**
+     * 修改权限
+     * @param map
+     * @return
+     */
+    @Update("update permission set per_name=#{label},per_id =#{per_id},per_url=#{per_url} where id=#{id}")
+    int upPowers(Map map);
+
+
+    /**
+     * 删除权限
+     * @param id
+     * @return
+     */
+    @Delete("delete from permission where id=#{id}")
+    int deletePowers(int id);
+
 }

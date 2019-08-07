@@ -84,8 +84,11 @@ public class AHouseServiceImpl implements AHouseService{
      * @return
      */
     @Override
-    public List<HouseLaIm> getHouse(Map map) {
-        return aHouseMapping.getHouse(map);
+    public Map getHouse(Map map) {
+        Map map1=new HashMap();
+        map1.put("personlist", aHouseMapping.getHouse(map));
+        map1.put("total",aHouseMapping.getHouseNum(map));
+        return map1;
     }
 
     @Override

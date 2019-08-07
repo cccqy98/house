@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.house.dao.ARoleMapping">
+    <!--添加角色 返回主键-->
+    <insert id="inRole" parameterType="Map">
+        <selectKey  keyProperty="role_id" order="AFTER" resultType="int">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT into role(role_name,roleid,role_describe,add_staff)
+        VALUES(#{label},#{roleid},#{role_describe},#{add_staff})
+    </insert>
+</mapper>

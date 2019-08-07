@@ -42,7 +42,7 @@ public interface AHouseService {
      * 查询所有房屋
      * @return
      */
-    List<HouseLaIm> getHouse(Map map);
+    Map getHouse(Map map);
 
     /**
      * 查询数量

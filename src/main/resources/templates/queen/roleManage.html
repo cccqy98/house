@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>枫城</title>
+    <link rel="icon" href="../front/resources/images/fengye1.ico"/>
+    <script src="../front/resources/vue/vue.js"></script>
+    <script src="../front/resources/js/ele.js"></script>
+    <link href="../front/resources/css/ele.css" rel="stylesheet">
+    <script src="../front/resources/js/axios.js"></script>
+    <style>
+        #permission {
+            height: 100%;
+            background-color: #DCDFE6;
+        }
+
+        #permission img {
+            width: 50px;
+            margin-left: 15px;
+            margin-top: 10px;
+            float: left
+        }
+
+        #permission h1 {
+            float: left;
+        }
+
+        body .el-container {
+            height: 100%;
+            margin-bottom: 40px;
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+        }
+
+        .el-header, .el-footer {
+            background-color: #E4E7ED;
+            color: #333;
+            text-align: center;
+        }
+
+        .el-main {
+            height: 550px;
+            background-color: #EBEEF5;
+            color: #333;
+            text-align: center;
+        }
+        .el-aside{
+            margin-top: 10px;
+            margin-left:10px;
+            height: 580px;
+        }
+
+
+        .el-main .el-table {
+            height: auto;
+            background-color: #F2F6FC;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="permission">
+    <el-container>
+
+        <el-header>
+
+            <image src="../front/resources/images/icon/角色设置.png"></image>
+            <h1>&nbsp;角色管理</h1>
+        </el-header>
+        <el-main>
+                <el-container>
+
+                    <el-aside  width="200px">
+                        <el-tree :data="treeData" default-expand-all   @node-click="handleNodeClick"></el-tree>
+                    </el-aside>
+                    <el-main>
+                        <el-form ref="form" :model="form" label-width="80px">
+                            <el-form-item label="角色id" v-if="idIsShow">
+                                <el-input  v-model="form.role_id" style="width: 120px;" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="角色名称">
+                                <el-input v-model="form.label" style="width: 120px;"></el-input>
+                            </el-form-item>
+                            <el-form-item label="角色描述">
+                                <el-input v-model="form.role_describe" style="width: 120px;"></el-input>
+                            </el-form-item>
+                            <el-form-item label="父节点">
+                                <el-input v-model="form.role_name" @focus="onSelectParentNode" style="width: 120px;" :readonly="true"></el-input>
+                                <el-input v-model="form.roleid"   type="hidden"></el-input>
+                            </el-form-item>
+                            <el-form-item label="权限">
+                                <el-button type="primary" @click="showPowers">拥有权限</el-button>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="onSubmit">{{form.submitBtn}}</el-button>
+                                <el-button type="danger" @click="del">删除</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </el-main>
+
+                </el-container>
+            <el-dialog title="角色树" :visible.sync="dialogFormVisible">
+                <el-tree :data="treeData" default-expand-all ref="tree"
+                         show-checkbox
+                         check-strictly="true"
+                         @check-change="handleClick"
+                ></el-tree>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                </div>
+            </el-dialog>
+
+            <el-dialog title="权限树" :visible.sync="dialogPowerFormVisible">
+                <el-tree :data="powerTreeData" default-expand-all
+                         ref="tree"
+                         show-checkbox
+                         node-key="id"
+                         :default-checked-keys="checkedKeys"
+                         @check-change="handlePowerTreeClick"
+                ></el-tree>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="dialogPowerFormVisible = false">确 定</el-button>
+                </div>
+            </el-dialog>
+
+        </el-main>
+    </el-container>
+
+
+</div>
+<script>
+    var vue =new Vue({
+        el:"#permission",
+        data:{
+            powerTreeData:[],
+            treeData:[],
+            checkedKeys:[],
+            form: {
+                role_id:0,
+                label:'',
+                roleid:0,
+                role_name:'根节点',
+                url:'',
+                submitBtn:'添加'
+            },
+            dialogFormVisible:false,
+            idIsShow:false,
+            dialogPowerFormVisible:false
+        },
+        created:function(){
+            var self=this;
+            axios.post("/getRoleAll",this.form)
+                .then(function (response) {
+                    self.treeData=response.data.object;
+                })
+            axios.post("/upTreeAll", this.form)
+                .then(function (response) {
+                    self.powerTreeData=response.data.object;
+                })
+        },
+        methods: {
+            handleNodeClick: function (data) {
+                //  alert(data.id+"......"+data.parentName);
+                var _this=this;
+                if (data.role_id != null && data.role_id != 'null' && data.role_id != '' && data.role_id != 'undefined') {
+                    //  console.log(JSON.stringify(data));
+                    this.form=data;
+                    this.idIsShow=true;
+                    this.form.submitBtn='修改';
+                    _this.checkedKeys=[];
+                    axios.post("/upTreeAll", this.form)
+                        .then(function (response) {
+                            _this.powerTreeData=response.data.object;
+                            axios.post("/getPowersByRoleId?rid="+data.role_id)
+                                .then(function (response) {
+                                    _this.checkedKeys=response.data;
+                                })
+                        })
+
+                }
+            }, handleClick:function(data, checked, node){
+                if(checked == true){
+                    this.checkedId = data.id;
+                    this.form.roleid=data.role_id;
+                    this.form.role_name=data.label;
+                    this.$refs.treeForm.setCheckedNodes([data]);
+                }
+            },
+            getChecked:function(){
+                var nodes =  this.$refs.tree.getCheckedNodes();
+                this.form.roleid=nodes[0].role_id;
+                console.log(this.$refs.tree.getCheckedNodes())
+            },
+            onSelectParentNode:function(){
+                this.dialogFormVisible=true;
+            },
+            onSubmit:function(){
+                var reqUrl="";
+                if(this.idIsShow){//修改
+                    reqUrl="/upRole";
+                }else{//添加
+                    reqUrl="/inRole";
+                }
+                var _this=this;
+                axios.post(reqUrl, this.form)
+                    .then(function (response) {
+                        //添加或者修改成功
+                        if (response.data.code==200){
+                            _this.$message({
+                                message: '恭喜你，操作成功',
+                                type: 'success'
+                            });
+
+                            setInterval(aa,1500);
+                            function aa(){
+                                //刷新界面
+                                location.reload();
+                            }
+
+                        }else {
+                            _this.$message.error('错了哦，这是一条错误消息');
+                        }
+                    })
+            },
+            del:function(){
+                var _this=this;
+                if(this.form.role_id==0 ){
+                    this.$message.error(' 该节点id为空,不能删除');
+                }else{
+                    this.$confirm('此操作将永久删除该条数据, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(function() {
+                        axios.post("/deleteRole?role_id="+_this.form.role_id)
+                            .then(function (response) {
+                                if (response.data.code==200){
+                                    _this.$message({
+                                        message: '恭喜你，操作成功',
+                                        type: 'success'
+                                    });
+                                    setInterval(aa,1000);
+                                    function aa(){
+                                        location.reload();
+                                    }
+                                    //刷新界面
+                                }else {
+                                    _this.$message.error('错了哦，这是一条错误消息');
+                                }
+                            })
+
+                    }).catch(function() {
+                        _this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    });
+
+                }
+            },
+            showPowers:function(){
+                this.dialogPowerFormVisible=true;
+            },
+            handlePowerTreeClick:function(){
+                //[ 2, 9, 10]
+                console.log(this.$refs.tree.getCheckedKeys());
+                var nodes = this.$refs.tree.getCheckedKeys()+"";
+                var tnodes = nodes.replace("[").replace("]").replace(" ");//2,9,10
+                console.log(tnodes);
+                this.form.url=tnodes;
+            }
+        }
+    });
+</script>
+</body>
+</html>
