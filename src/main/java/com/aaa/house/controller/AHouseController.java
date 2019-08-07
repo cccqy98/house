@@ -224,6 +224,26 @@ public class AHouseController {
     }
 
 
+    /**
+     * 房屋修改
+     * @return
+     */
+    @RequestMapping("setHouseAll")
+    public ResultUtil setHouseAll(@RequestBody Map map){
+        ResultUtil resultUtil=aHouseService.UpdaHouse(map);
+        return resultUtil;
+    }
+
+    /**
+     * 房屋假删除
+     * @param map
+     * @return
+     */
+    @RequestMapping("deleteHouse")
+    public ResultUtil deleteHouse(@RequestBody Map map){
+        ResultUtil resultUtil=aHouseService.updateHouseDelete(map);
+        return resultUtil;
+    }
 
     /**
      * 获取我的房屋
