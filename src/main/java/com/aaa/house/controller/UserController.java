@@ -252,7 +252,7 @@ public class UserController {
     }
 
     /**
-     * 房屋保修
+     * 房屋报修
      *
      * @param map
      * @return
@@ -261,8 +261,13 @@ public class UserController {
     public Object refer(@RequestBody Map map) {
         System.out.println("报修控制");
         System.out.println(map);
-
-        return null;
+        if (service.insertRefer(map)) {
+            resultUtil.setCode(ISysConstants.SUCCESSCODE);
+            resultUtil.setMsg("报修成功");
+            return resultUtil;
+        }
+        resultUtil.setCode(ISysConstants.ERRORCODE);
+        resultUtil.setMsg("报修失败");
+        return resultUtil;
     }
-
 }

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>user</title>
+    <title>枫城</title>
     <!--先引入vue.js库-->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!--axios-->
@@ -106,22 +106,15 @@
                     </el-menu-item>
                 </el-col>
                 <el-col :span="2">
-                    <el-menu-item index="1">
-
-                        <a href="main.html">首页</a>
-
-                    </el-menu-item>
+                    <el-menu-item index="1"><a href="main.html">首页</a></el-menu-item>
                 </el-col>
                 <el-col :span="2">
-                    <el-menu-item index="2">
-                        <a href="houselist.html">我要租房</a>
-                    </el-menu-item>
+                    <el-menu-item index="2"><a href="houselist.html">我要租房</a></el-menu-item>
                 </el-col>
                 <el-col :span="2">
-                    <el-menu-item index="3">
-                        <a href="https://www.baidu.com">发布房源</a></el-menu-item>
+                    <el-menu-item index="3"><a href="rentalHouse.html">发布房源</a></el-menu-item>
                 </el-col>
-                <el-col :span="2" :offset="10" v-if="ruleForm==null">
+                <el-col :span="2" :offset="12" v-if="imageUrl!=null">
                     <el-menu-item index="4">
                         <el-dropdown>
                             <span class="el-dropdown-link">
@@ -130,18 +123,18 @@
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item><a href="userInfo.html" style="color: black;">个人中心</a>
                                 </el-dropdown-item>
-                                <el-dropdown-item><a href="http://localhost:8080/loginReg/outUser"
-                                                     style="color: black;">注销</a></el-dropdown-item>
+                                <el-dropdown-item><a @click="killCusSession()" style="color: black;">注销</a>
+                                </el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
                     </el-menu-item>
                 </el-col>
-                <el-col :span="1" :offset="12" v-if="ruleForm!=null">
+                <el-col :span="1" :offset="12" v-if="imageUrl==null">
                     <el-menu-item index="5">
                         <a href="login.html">登录</a>
                     </el-menu-item>
                 </el-col>
-                <el-col :span="1" v-if="ruleForm!=null">
+                <el-col :span="1" v-if="imageUrl==null">
                     <el-menu-item index="5">
                         <a href="register.html">注册</a>
                     </el-menu-item>
@@ -322,8 +315,12 @@
                                     <div slot="description" style="float: right;">
                                         <span id="price2" slot="description">{{item.houseRent}}元/月</span>
                                         <br>
-                                        <el-button type="primary" size="mini" style="margin-top: 20px;float: right"
+                                        <el-button type="primary" size="mini" style="margin-top: 15px;float: right"
                                                    @click="dialogFormVisible = true" :hid="item.houseId">房屋报修
+                                        </el-button>
+                                        <br>
+                                        <el-button type="primary" size="mini" style="margin-top: 10px;float: right"
+                                                   @click="lookRefer(item.houseId)" :hid="item.houseId">报修详情
                                         </el-button>
                                     </div>
 
@@ -339,6 +336,20 @@
                                         </div>
                                     </el-dialog>
 
+                                    <el-dialog title="报修详情" :visible.sync="dialogTableVisible">
+                                        <el-table :data="gridData">
+                                            <el-table-column property="u_name" label="报修用户"
+                                                             width="100"></el-table-column>
+
+                                            <el-table-column property="maTime" label="报修日期"
+                                                             width="100"></el-table-column>
+                                            <el-table-column property="maCause" label="报修原因"
+                                                             width="200"></el-table-column>
+                                            <el-table-column property="maStaff" label="维修编号"></el-table-column>
+                                            <el-table-column property="ma_static" label="报修状态"></el-table-column>
+                                            <el-table-column property="maFalse" label="驳回维修"></el-table-column>
+                                        </el-table>
+                                    </el-dialog>
                                     <div slot="description" style="margin-left: 240px;width: 450px">
                                         <a class="at" slot="title" @click="houseDetail(item.houseId)"
                                            :hid="item.houseId">{{item.houseTitle}}</a>
@@ -438,13 +449,21 @@
 
     <!--页脚公司信息-->
     <el-footer>
-        <el-row style="height:60px;">
-            <!--                        <iframe frameborder="0" scrolling="no" hspace="0" id="fancybox-frame" name="fancybox-frame1564580392567"   src="http://i.tianqi.com/index.php?c=code&a=getcode&id=38&h=60&w=610"></iframe>-->
-            <!--            -->
-            <!--                        <iframe frameborder="0" scrolling="no" width="420"  height="45"  allowtransparency="true" src="//i.tianqi.com/index.php?c=code&id=12&bdc=%23&icon=1&py=zhongyuanqu&num=5&site=12"></iframe>-->
+        <el-col :offset="1" :span="22"
+                style="margin-top:20px;height:50px;background-color:  #DcDfE6;  border: 1px solid #DcDfE6;text-align: center ">
 
-            <!--                        <iframe width="450" scrolling="no" height="55" frameborder="0" allowtransparency="true" src="//i.tianqi.com/index.php?c=code&a=getcode&id=38&h=60&w=610"></iframe>-->
-        </el-row>
+
+            <p>Copyright &copy; 2019.FengCheng.版权所有 | 本站内容版权属于原创，未经许可不得转载</p>
+
+        </el-col>
+
+        <!--        <el-row style="height:60px;">-->
+        <!--            &lt;!&ndash;                        <iframe frameborder="0" scrolling="no" hspace="0" id="fancybox-frame" name="fancybox-frame1564580392567"   src="http://i.tianqi.com/index.php?c=code&a=getcode&id=38&h=60&w=610"></iframe>&ndash;&gt;-->
+        <!--            &lt;!&ndash;            &ndash;&gt;-->
+        <!--            &lt;!&ndash;                        <iframe frameborder="0" scrolling="no" width="420"  height="45"  allowtransparency="true" src="//i.tianqi.com/index.php?c=code&id=12&bdc=%23&icon=1&py=zhongyuanqu&num=5&site=12"></iframe>&ndash;&gt;-->
+
+        <!--            &lt;!&ndash;                        <iframe width="450" scrolling="no" height="55" frameborder="0" allowtransparency="true" src="//i.tianqi.com/index.php?c=code&a=getcode&id=38&h=60&w=610"></iframe>&ndash;&gt;-->
+        <!--        </el-row>-->
     </el-footer>
 </div>
 
@@ -523,12 +542,9 @@
             dialogTableVisible: false,
             dialogFormVisible: false,
             form: {
-                user: '',
-                cause: '',
-                houseId: ''
+                cause: ''
             },
-
-
+            gridData: [],
             currentPage: 1,
             pageSize: 3,
             total: 0,
@@ -574,6 +590,12 @@
             this.loadData();
         },
         methods: {
+            killCusSession() {
+                axios.post('http://localhost:8080/loginReg/outUser')
+                    .then(function (response) {
+                        window.location.href = "main.html";
+                    });
+            },
             errorHandler() {
                 return true
             },
@@ -771,12 +793,45 @@
                     });
             },
             refer(houseId) {
-                alert(houseId);
                 var self = this;
-                self.form.user = self.idFrom.uname;
-                self.form.houseId = houseId;
-                axios.post('http://localhost:8080/loginReg/refer', self.form)
+                axios.post('http://localhost:8080/loginReg/refer', {
+                    name: self.idFrom.uname,
+                    cause: self.form.cause,
+                    houseId: houseId
+                })
                     .then(function (response) {
+
+                        var s = response.data.code;
+                        if (s === 200) {
+                            self.$message({
+                                showClose: true,
+                                message: response.data.msg,
+                                type: 'success'
+                            });
+                        } else {
+                            self.$message({
+                                showClose: true,
+                                message: response.data.msg,
+                                type: 'error'
+                            });
+                        }
+                        // self.loadData();
+                        self.$refs[form].resetFields();
+                        self.dialogFormVisible = false;
+                    });
+            },
+            lookRefer(houseId) {
+                var self = this;
+                var start = (this.currentPage1 - 1) * this.pageSize;
+                axios.post('http://localhost:8080/queryStatic', {
+                    name: self.idFrom.uname,
+                    houseId: houseId,
+                    start: start,
+                    pageSize: self.pageSize
+                })
+                    .then(function (response) {
+
+                        self.gridData = response.data.mainList;
                         // var s = response.data.code;
                         // if (s === 200) {
                         //     self.$message({
@@ -792,7 +847,7 @@
                         //     });
                         // }
                         // self.loadData();
-                        self.dialogFormVisible = true;
+                        self.dialogTableVisible = true;
                     });
             },
             houseDetail: function (hid) {

@@ -38,6 +38,9 @@ public interface DMaintainMapping {
             "      <if test=\"code_number!=null and code_number!=''\">\n" +
             "       and ma_static =#{code_number}\n" +
             "      </if>\n" +
+            "      <if test=\"name!=null and name!='' and houseId!=null and houseId!=''\">\n" +
+            "       and ma_user =#{name}  and ma_house =#{houseId}\n" +
+            "      </if>\n" +
             "     and  c.code_type=11\n" +
             "         </where> " +
             "limit ${start},${pageSize}" +
@@ -93,7 +96,7 @@ public interface DMaintainMapping {
      * @param map
      * @return
      */
-    @Update("update maintain set ma_staff=#{ma_staff},ma_false，ma_audit=2 where id=#{id}")
+    @Update("update maintain set ma_staff=#{ma_staff},ma_false=null,ma_audit=2 where id=#{id}")
     int upAudit(Map map);
 
     /**

@@ -33,6 +33,9 @@ public class DMaintainController {
     @RequestMapping("queryStatic")
     public Object queryStatic(@RequestBody Map map){
 
+        System.out.println("查询房屋维修");
+
+        System.out.println(map);
         Map mapResult = new HashMap();
         mapResult.put("mainList",service.queryStatic(map));
         mapResult.put("total",service.queryPageCount(map));

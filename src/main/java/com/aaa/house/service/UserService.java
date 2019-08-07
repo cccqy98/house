@@ -73,4 +73,11 @@ public interface UserService {
      */
     boolean delHouse(Map map);
 
+    /**
+     * 房屋保修
+     *
+     * @param map
+     * @return
+     */
+    boolean insertRefer(Map map);
 }

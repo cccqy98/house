@@ -2,6 +2,7 @@ package com.aaa.house.dao;
 
 import com.aaa.house.entity.User;
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
@@ -45,6 +46,8 @@ public interface UserMapper {
     @Delete("DELETE FROM house_attention WHERE ah_uid=#{userId} and ah_hid=#{houseId};")
     int delHouse(Map map);
 
+    @Insert("INSERT INTO maintain (ma_user,ma_cause,ma_house) VALUES (#{name},#{cause},#{houseId});")
+    int insertRefer(Map map);
 
 
     int deleteByPrimaryKey(Integer id);

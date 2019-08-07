@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>house</title>
+    <title>枫城</title>
     <link rel="shortcut icon" href="resources/images/favicon.ico"/>
    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=M2kGUcWj1dSWhQvuNlrqWYPouAGVbBGT"></script>
     <script src="resources/js/jquery.js"></script>
@@ -31,14 +31,14 @@
             <div class="top_left">
                 <!--logo-->
                 <div class="logo-img">
-                    <a href="main.html" style="text-decoration:none;">
-                        <img src="resources/images/logoko.png" style="padding-bottom: 5px">
+                    <a href="http://localhost:8080/queen/blogin.html" style="text-decoration:none;">
+                        <img src="resources/images/log.png" style="padding-bottom: 5px;width: 100px;height: 100px">
                     </a>
                 </div>
                 <!--标题部分-->
                 <div class="logo-font">
                     <font style="font-weight:bold;font-size:35px;color:#0f0f0f">
-                        蜗壳
+                        枫城
                     </font>
                 </div>
                 <!--地理位置-->
@@ -53,7 +53,7 @@
                     <li><a href="houselist.html">我要租房</a></li>
                     <li><a href="page/reception/housingresource.html">发布房源</a></li>
                     <li><a href="#fangxun">房讯</a></li>
-                    <li><a href="">下载APP</a></li>
+                    <!--                    <li><a href="">下载APP</a></li>-->
                 </ul>
             </div>
             <!--导航栏未登录部分-->
@@ -118,7 +118,7 @@
                     <span class="split_icon">/</span>
                     <span>房东</span>
                 </div>
-                <div class="title_big">租房上蜗壳 一站式服务</div>
+                <div class="title_big">舒服不难找 枫城就是好</div>
             </div>
             <!--搜索框-->
             <div class="search-box-wrap" log-mod="search">
@@ -139,11 +139,12 @@
                                 <input class="text left txt" autocomplete="off" type="text"
                                        placeholder="请输入区域、商圈或小区名开始找房">
                                 <button type="button" class="btn left" aria-label="Left Align" id="seach">
-                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                    <!--                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>-->
+                                    搜索
                                 </button>
                                 <script>
                                     $("#seach").click(function () {
-                                        location.href="page/reception/houselist.html"
+                                        location.href = "houselist.html"
                                     })
                                 </script>
                                 <i></i>

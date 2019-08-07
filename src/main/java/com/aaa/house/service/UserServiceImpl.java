@@ -206,4 +206,12 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
+
+    @Override
+    public boolean insertRefer(Map map) {
+        if (userMapper.insertRefer(map) > 0) {
+            return true;
+        }
+        return false;
+    }
 }
