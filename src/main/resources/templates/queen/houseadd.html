@@ -606,9 +606,11 @@
 											type: 'success'
 										});
 										//刷新界面
-										this.loadData();
-										/*location.reload();*/
-
+										setInterval(aa,1500);
+										function aa(){
+											//刷新界面
+											location.reload();
+										}
 									}else {
 										self.$message.error('错了哦，这是一条错误消息');
 									}
