@@ -38,7 +38,7 @@
         <el-table
                 :data="tableData"
                 style="width: 100%">
-            <el-table-column prop="id" label="id" width="100">
+            <el-table-column prop="id" label="id" width="50">
             </el-table-column>
             <el-table-column prop="u_name" label="报修用户" width="100">
             </el-table-column>
@@ -46,18 +46,16 @@
             <el-table-column prop="maCause" label="报修原因" width="100">
             </el-table-column>
 
-            <el-table-column prop="maTime" label="报修时间">
+            <el-table-column prop="maTime" label="报修时间" width="100">
             </el-table-column>
 
-            <el-table-column prop="maStaff" label="维修人员">
+            <el-table-column prop="maStaff" label="维修人员" width="150">
             </el-table-column>
 
-            <el-table-column prop="ma_static" label="报修状态">
+            <el-table-column prop="ma_static" label="报修状态" width="150">
             </el-table-column>
 
-            <el-table-column prop="ma_house" label="房屋编号">
-            </el-table-column>
-            <el-table-column prop="maFalse" label="驳回原因">
+            <el-table-column prop="ma_house" label="房屋编号" width="150">
             </el-table-column>
             <el-table-column label="操作">
                 <template slot-scope="props">
@@ -73,7 +71,7 @@
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="currentPage"
-                :page-sizes="[2,3,4,5,6]"
+                :page-sizes="[5,6,7,8,9]"
                 :page-size="pageSize"
                 layout="total, sizes, prev, pager, next, jumper"
                 :total="total">
@@ -103,7 +101,7 @@
         data: {
             tableData: [],
             currentPage: 1,
-            pageSize: 2,
+            pageSize: 5,
             total: 0,
             formInline: {
                 ma_house: '',
@@ -153,7 +151,7 @@
                     });
             },
             flush:function(){
-                this.pageSize=2;
+                this.pageSize=5;
                 this.currentPage=1;
                 this.formInline.code_number='';
                 this.formInline.ma_house='';
