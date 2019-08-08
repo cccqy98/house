@@ -26,12 +26,7 @@
             </if>
         </trim>
     </insert>
-    <delete id="deleteBullById" >
-        delete * from bulletin
-        <where>
-            <if test="bid!=null and bid!=''">
-                and bid =#{bid}
-            </if>
-        </where>
+    <delete id="deleteBullById" parameterType="Integer">
+        delete  from bulletin where bid =#{bid}
     </delete>
 </mapper>

@@ -150,7 +150,7 @@
                                     <el-card>
                                         <h4>{{bull.title}}</h4>
                                         <p>{{bull.content}}</p>
-                                        <p>       ——{{bull.ename}}</p>
+                                        <p><el-button style="float: right; padding: 3px 0;margin-bottom: 15px;"  type="text" @click="deleteBull(bull.bid)">删除公告</el-button></p>
                                     </el-card>
                                 </el-timeline-item>
                                 <el-pagination
@@ -282,14 +282,16 @@
                 this.loadBull();
             },
             addBull:function () {
-                if(this.emps.staff_num!="QY1110"){
+                var self=this;
+                if(this.emps.staff_num!=="QY1110"){
                     this.$message({
                         message: '只有超管可以发布公告哦',
                         type: 'warning'
                     });
                 }else{
-                    self.bullfrom=true;
                     self.bfrom={};
+                    self.bullfrom=true;
+
                 }
             },
             saveBull:function () {
@@ -328,7 +330,29 @@
                         }
                     }
                 });*/
-            }
+            },
+            deleteBull:function (bid) {
+                var self=this;
+                if(this.emps.staff_num!=="QY1110"){
+                    this.$message({
+                        message: '只有超管可以发布公告哦',
+                        type: 'warning'
+                    });
+                }else{
+                    axios.post('/bulletin/deleteBullById/'+bid)
+                        .then(function(response) {
+                            if (response.data.code==200){
+                                self.$message({
+                                    message: response.data.msg,
+                                    type: 'success'
+                                });
+                                self.loadBull(); //刷新数据表格
+                            }else{
+                                this.$message.error(response.data.msg);
+                            }
+                        })
+                }
+            },
         }
     })
 
