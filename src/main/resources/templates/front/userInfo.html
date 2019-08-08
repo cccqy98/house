@@ -645,6 +645,7 @@
 
                 });
             },
+
             houseLike() {
                 var self = this;
                 //分页开始位置
@@ -655,7 +656,11 @@
                     pageSize: self.pageSize
                 }).then(function (response) {
                     self.houseLikeData = response.data.house;
-                    self.total = response.data.total;
+                    if (self.houseLikeData.length === 0 && self.currentPage > 1) {
+                        self.currentPage = self.currentPage - 1;
+                        self.houseLike();
+                        self.total = response.data.total;
+                    }
                 });
             },
             houseMy() {
@@ -740,19 +745,20 @@
                     if (s === 200) {
                         self.$message({
                             showClose: true,
-                            message: '取关成功',
+                            message: response.data.msg,
                             type: 'success'
                         });
                     } else {
                         self.$message({
                             showClose: true,
-                            message: '取消失败',
+                            message: response.data.msg,
                             type: 'error'
                         });
                     }
                     self.loadData();
                 });
             },
+
             handleSizeChange: function (val) {
                 console.log('每页条数:' + val);
                 this.pageSize = val;

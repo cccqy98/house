@@ -63,7 +63,6 @@ public class CusUtil {
      */
     public static void removeCusson() {
         getSession().invalidate();
-        saveCus(null);
     }
 
     //--------------------------------------------------------------------------------------------

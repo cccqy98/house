@@ -247,7 +247,7 @@
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="租房意愿">
-                    <el-radio-group v-model="cform.look_state">
+                    <el-radio-group v-model="cform.lookstate">
                         <el-radio :label="3">有意租</el-radio>
                         <el-radio :label="4">无意租</el-radio>
                     </el-radio-group>
@@ -397,7 +397,6 @@
                     .then(function (response) {
                         //JSON.stringify 把json对象装换为json字符串
                         console.log(JSON.stringify(response.data));
-                        console.log(row+"11111"+response.data);
                         self.cusData = response.data;
                     });
 
@@ -442,9 +441,12 @@
                                 message: '恭喜你，成功了',
                                 type: 'success'
                             });
-                            this.rentform = false;
+                            this.cusfrom = false;
                             //刷新界面
-                            self.loadData();
+                            setInterval(aa,1000);
+                            function aa(){
+                                location.reload();
+                            }
 
                         }else {
                             self.$message.error('错了哦');

@@ -10,7 +10,7 @@
     </resultMap>
    <!--**************************************查询全部房源**************************************-->
     <select id="getHouse" resultMap="userRole6">
-        SELECT h.house_ditstaff,h.house_id,h.house_title,aa.code_state as house_urban,bb.code_state as house_street,h.house_district,house_rent,cc.code_state as house_state,h.house_area,h.house_floor,
+        SELECT h.house_state as houseState,h.house_audit as houseAudit,h.house_ditstaff,h.house_id,h.house_title,aa.code_state as house_urban,bb.code_state as house_street,h.house_district,house_rent,cc.code_state as house_state,h.house_area,h.house_floor,
         dd.code_state as house_orintation,h.house_date,ee.code_state as house_layout,h.house_staffid,ff.code_state as house_audit,h.house_cover,gg.code_state as la_id,staff.*,user.id,user.u_name,user.u_phone
         from (SELECT *
         from house

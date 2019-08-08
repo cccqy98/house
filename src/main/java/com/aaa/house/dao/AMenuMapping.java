@@ -23,10 +23,17 @@ public interface AMenuMapping {
      * @param staff_id
      * @return
      */
-    @Select("select perm.id,perm.per_name as label,perm.per_id,perm.per_url,perm.per_icon from \n" +
-            "permission perm,role_perm rp,role,staff,staff_role sr\n" +
-            "where staff.staff_id=sr.sid and sr.rid=role.role_id \n" +
-            "and rp.rid=role.role_id and rp.id=perm.id and staff.staff_id=#{staff_id}")
+    @Select("select perm.id,perm.per_name as label,perm.per_id,perm.per_url,perm.per_icon \n" +
+            "FROM staff s\n" +
+            "join staff_role sro\n" +
+            "on s.staff_id=sro.sid\n" +
+            "join role ro\n" +
+            "on sro.rid=ro.role_id\n" +
+            "join role_perm rp\n" +
+            "on ro.role_id=rp.rid\n" +
+            "join permission perm\n" +
+            "on rp.pid=perm.id\n" +
+            "where s.staff_id=#{staff_id}")
     List<Tree> getPowers(Integer staff_id);
 
 

@@ -135,7 +135,7 @@ public interface AHouseMapping {
      * @return
      */
     @Update("update house set house_title=#{house_title},house_district=#{house_district}," +
-            "house_rent=#{house_rent},house_state=#{house_state},house_audit=#{house_audit} where house_id=#{house_id}")
+            "house_rent=#{house_rent},house_state=#{houseState},house_audit=#{houseAudit} where house_id=#{house_id}")
     int updaHouse(Map map);
 
 
@@ -304,7 +304,7 @@ public interface AHouseMapping {
      * @return
      */
 
-    @Select("select loh.look_userid,loh.look_house,loh.look_data,cc.code_state as look_state," +
+    @Select("select loh.look_state as lookstate,loh.look_userid,loh.look_house,loh.look_data,cc.code_state as look_state," +
             "user.u_name,user.u_phone,u_card,u_sex,hu.uh_rent,house_rent\n" +
             "from look_house loh\n" +
             "JOIN code cc\n" +
@@ -331,7 +331,7 @@ public interface AHouseMapping {
      * @param map
      *@return
      */
-    @Update("update look_house set look_state=#{look_state},look_data=#{look_date} where look_userid=#{look_userid} and look_house=#{look_house}")
+    @Update("update look_house set look_state=#{lookstate},look_data=#{look_date} where look_userid=#{look_userid} and look_house=#{look_house}")
     int upLookHousestate(Map map);
 
     /**

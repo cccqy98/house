@@ -230,8 +230,8 @@ public class AHouseController {
      */
     @RequestMapping("setHouseAll")
     public ResultUtil setHouseAll(@RequestBody Map map){
-        ResultUtil resultUtil=aHouseService.UpdaHouse(map);
-        return resultUtil;
+
+        return aHouseService.UpdaHouse(map);
     }
 
     /**

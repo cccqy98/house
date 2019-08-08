@@ -32,6 +32,9 @@ public class HouseLaIm implements Serializable {
     private String house_ditstaff;//当前登录人
     private String loh;//预约人数
     private String uh_rent;//住客期望租金
+
+    private int houseState;//房屋状态 数字
+    private int houseAudit;//审核状态 数字
     //标签
     private List<HouseLable> houseLables;
     //图片

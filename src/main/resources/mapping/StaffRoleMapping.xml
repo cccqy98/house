@@ -30,7 +30,7 @@
     </select>
 
 
-    <!--**************************************查询全部员工**************************************-->
+    <!--**************************************添加员工返回主键**************************************-->
 <insert id="insertStaff" parameterType="Map">
     <selectKey  keyProperty="staffid" order="AFTER" resultType="int">
         SELECT LAST_INSERT_ID()

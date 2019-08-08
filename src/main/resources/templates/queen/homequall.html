@@ -239,17 +239,17 @@
                 </template></el-input>
             </el-form-item>
             <el-form-item label="房屋状态"  :label-width="formLabelWidth">
-                <el-select v-model="hfrom.house_state" placeholder="请选择">
+                <el-select v-model="hfrom.houseState" placeholder="请选择">
                     <el-option
                             v-for="item in options"
-                            :key="item.code_number"
+                            :key="item.code_state"
                             :label="item.code_state"
                             :value="item.code_number">
                     </el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="房屋审核"  :label-width="formLabelWidth">
-                <el-select v-model="hfrom.house_audit" placeholder="请选择">
+                <el-select v-model="hfrom.houseAudit" placeholder="请选择">
                     <el-option
                             v-for="item in options1"
                             :key="item.code_number"
@@ -333,7 +333,7 @@
             },
             saveData: function () {//提交
                 var self=this;
-                axios.post('/setHouseAll',self.hfrom)
+                axios.post('/setHouseAll',this.hfrom)
                     .then(function (response) {
                         //添加或者修改成功
                         if (response.data.code==200){

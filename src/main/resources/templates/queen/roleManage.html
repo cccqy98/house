@@ -225,8 +225,8 @@
             },
             del:function(){
                 var _this=this;
-                if(this.form.role_id==0 ){
-                    this.$message.error(' 该节点id为空,不能删除');
+                if(this.form.role_id==1 ){
+                    this.$message.error(' 超级管理员,不能删除！！！');
                 }else{
                     this.$confirm('此操作将永久删除该条数据, 是否继续?', '提示', {
                         confirmButtonText: '确定',
