@@ -341,8 +341,8 @@
 						</el-form-item>
 
 						<el-form-item>
-							<el-button type="primary" @click="onSubmit">立即创建</el-button>
-							<el-button @click="resetForm">取消</el-button>
+							<el-button type="primary" @click="submitForm('eform')">立即创建</el-button>
+							<el-button @click="resetForm('eform')">取消</el-button>
 						</el-form-item>
 
 						</el-form>
@@ -413,6 +413,7 @@
 						},
 					imageUrl: '',/*回显*/
 					imageUrll: '',/*回显*/
+
 					// 校验规则
 					rules: {
 						house_title: [{
@@ -584,38 +585,41 @@
 							this.$message.error('上传头像图片大小不能超过 2MB!');
 						}
 						return isJPG && isLt2M;
-					},resetForm: function() {//重置
-						this.location.reload();
-
 					},
-
-
-
-					onSubmit: function() {
-						var self=this;
-						axios.post('/setHouse',{"checkedCities":this.checkedCities,"staff_num":this.eform.staff_num,
-						"uh_name":this.eform.uh_name,"house_id":this.eform.uhouse,"house_title":this.eform.house_title,"uh_urban":this.eform.uh_urban,"uh_street":this.eform.uh_street,
-								"uh_district":this.eform.uh_district,"house_floor":this.eform.house_floor,"headPic":this.eform.headPic,
-							"house_orientation":this.eform.house_orientation,"house_layout":this.eform.house_layout,"house_area":this.eform.house_area,
-							"house_rent":this.eform.house_rent,"house_date":this.eform.house_date,"headPic1":this.eform.headPic1,"headPic2":this.eform.headPic2})
-								.then(function (response) {
-									//添加或者修改成功
-									if (response.data.code==200){
-										self.$message({
-											message: '恭喜你，这是一条成功消息',
-											type: 'success'
-										});
-										//刷新界面
-										setInterval(aa,1500);
-										function aa(){
-											//刷新界面
-											location.reload();
-										}
-									}else {
-										self.$message.error('错了哦，这是一条错误消息');
-									}
-								})
-
+					resetForm(form) {//取消
+						this.$refs[form].resetFields();
+					},
+					submitForm(form) {//提交
+						this.$refs[form].validate((valid) => {
+							if (valid) {
+								var self=this;
+								axios.post('/setHouse',{"checkedCities":this.checkedCities,"staff_num":this.eform.staff_num,
+									"uh_name":this.eform.uh_name,"house_id":this.eform.uhouse,"house_title":this.eform.house_title,"uh_urban":this.eform.uh_urban,"uh_street":this.eform.uh_street,
+									"uh_district":this.eform.uh_district,"house_floor":this.eform.house_floor,"headPic":this.eform.headPic,
+									"house_orientation":this.eform.house_orientation,"house_layout":this.eform.house_layout,"house_area":this.eform.house_area,
+									"house_rent":this.eform.house_rent,"house_date":this.eform.house_date,"headPic1":this.eform.headPic1,"headPic2":this.eform.headPic2})
+										.then(function (response) {
+											//添加或者修改成功
+											if (response.data.code==200){
+												self.$message({
+													message: '恭喜你，这是一条成功消息',
+													type: 'success'
+												});
+												//刷新界面
+												setInterval(aa,1500);
+												function aa(){
+													//刷新界面
+													location.reload();
+												}
+											}else {
+												self.$message.error('错了哦，这是一条错误消息');
+											}
+										})
+							} else {
+								console.log('error submit!!');
+								return false;
+							}
+						});
 					}
 				}
 

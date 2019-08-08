@@ -323,7 +323,7 @@ public class AHouseServiceImpl implements AHouseService{
     public ResultUtil upLookHousestate(Map map) {
         ResultUtil resultUtil=new ResultUtil();
         int aa=aHouseMapping.upLookHousestate(map);
-        String state=map.get("look_state").toString();
+        String state=map.get("lookstate").toString();
         System.out.println(state);
         //合同
         if (state.equals("3")){

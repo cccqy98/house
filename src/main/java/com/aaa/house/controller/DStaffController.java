@@ -76,10 +76,10 @@ public class DStaffController {
     }
 
     @RequestMapping("/uploadHeadPicStaff")
-    public Object uploadHeadPic(@RequestParam MultipartFile headPic5){
+    public Object uploadHeadPic(@RequestParam MultipartFile headPic){
         System.out.println("......................");
-        String originalFilename = headPic5.getOriginalFilename();
-        String newFileName = ftpUtil.upLoad(headPic5);
+        String originalFilename = headPic.getOriginalFilename();
+        String newFileName = ftpUtil.upLoad(headPic);
         Map map  = new HashMap();
         map.put("originalFilename",originalFilename);
         map.put("newFileName",newFileName);

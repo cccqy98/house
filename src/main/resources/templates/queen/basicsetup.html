@@ -111,25 +111,15 @@
                         <!--action请求路径-->
                         <el-form-item label="头像上传" :label-width="formLabelWidth">
                             <el-upload
-                                    name="headPic5"
+                                    name="headPic"
                                     class="avatar-uploader"
                                     action="/uploadHeadPicStaff"
                                     :show-file-list="false"
                                     :on-success="handleAvatarSuccess"
                                     :before-upload="beforeAvatarUpload">
-                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                <img v-if="imageUrl" :src="'http://localhost:8080/loginReg/show?fileName='+imageUrl" class="avatar">
                                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                             </el-upload>
-                        </el-form-item>
-                        <el-form-item
-                                prop="headPic5name"
-                                label="头像原文件名称">
-                        </el-form-item>
-                        <el-form-item
-                                label="头像">
-                            <template slot-scope="scope">
-                                <img v-model="scope.row.headPic5" :src="'../../showStaff?fileName='+scope.row.headPic5" height="100px;" width="100px;">
-                            </template>
                         </el-form-item>
 
                         <el-form-item label="员工编号">
@@ -179,8 +169,8 @@
             options1:[],
             imageUrl: "",
             headurl:"",
-            headPic5:'',//头像
-            headPic5Name:''
+            headPic:'',//头像
+            headPicName:''
         },
         mounted: function () {
             this.empload();
@@ -218,6 +208,7 @@
             },
             empload:function(){
                 var _this=this;
+                this.imageUrl="";
                 $.ajax({
                     type: "post",
                     url: "../../selectSession",
@@ -231,21 +222,8 @@
             },
             handleAvatarSuccess:function(res,file) {
                 this.imageUrl = URL.createObjectURL(file.raw);
-                this.eform.headPic5Name= file.response.originalFilename;
-                this.eform.headPic5=file.response.newFileName;
-                var _this=this;
-                //alert(res.success)
-                if (res.success){
-                    _this.$message({
-                        message: '上传成功！正在审核~',
-                        type: 'success'
-                    });
-                }else{
-                    _this.$message({
-                        message: '上传失败！',
-                        type: 'warning'
-                    });
-                }
+                this.form.headPicName= file.response.originalFilename;
+                this.form.headPic=file.response.newFileName;
             },
             beforeAvatarUpload:function(file) {
                 var isJPG = file.type === 'image/jpeg';
