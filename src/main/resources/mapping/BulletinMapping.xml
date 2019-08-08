@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.house.dao.BulletinDao">
+    <select id="selectBulletin" resultType="map">
+        select * from bulletin limit ${start},${pageSize}
+    </select>
+    <select id="selectBulletinCount" resultType="Integer">
+        select count(*) from bulletin
+    </select>
+    <insert id="insertBulletin" parameterType="Integer">
+        insert into bulletin
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+        </trim>
+    </insert>
+    <delete id="deleteBullById" >
+        delete * from bulletin
+        <where>
+            <if test="bid!=null and bid!=''">
+                and bid =#{bid}
+            </if>
+        </where>
+    </delete>
+</mapper>

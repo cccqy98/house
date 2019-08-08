@@ -138,7 +138,7 @@
         </where>
     </select>
     <select id="houseDetail"  resultType="house" resultMap="BaseResultMap">
-        select a.*,DATEDIFF(NOW(),a.house_date) newstime, c.code_state as houlayout,d.code_state as houurban,f.code_state as houstreet,g.code_state as houorientation
+        select a.*,DATEDIFF(NOW(),a.house_date) newstime, c.code_state as houlayout,d.code_state as houurban,f.code_state as houstreet,f.longitude,f.latitude,g.code_state as houorientation
         from house a join (select * from code where code_type=7) c on a.house_layout=c.code_number
         join (select * from code where code_type=11300) d on a.house_urban=d.code_number
         join code e on e.code_number=a.house_urban

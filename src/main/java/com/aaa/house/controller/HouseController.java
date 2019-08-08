@@ -1,11 +1,8 @@
 package com.aaa.house.controller;
 
-import com.aaa.house.entity.User;
 import com.aaa.house.service.HouseService;
-import com.aaa.house.utils.CusUtil;
 import com.aaa.house.utils.ISysConstants;
 import com.aaa.house.utils.ResultUtil;
-import jdk.nashorn.internal.runtime.Undefined;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -67,6 +67,8 @@ public class House {
 
     private List<String> houseImgs;//房屋图片
 
+    private String longitude;//经度
 
+    private String latitude;//纬度
 
 }
