@@ -352,6 +352,40 @@
 
 		</div>
 		<script>
+            var housefloor = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('楼层不能为空'));
+                }
+                setTimeout(() => {
+                    if (!Number.isInteger(value)) {
+                        callback(new Error('请输入数字值'));
+                    } else {
+                        if (value > 110) {
+                            callback(new Error('不能大于110'));
+                        } else {
+                            callback();
+                        }
+                    }
+                }, 1000);
+            };
+            var housearea = (rule, value, callback) => {
+                if (!value) {
+                    return callback(new Error('面积不能为空'));
+                }
+                setTimeout(() => {
+                    if (!Number.isInteger(value)) {
+                        callback(new Error('请输入数字值'));
+                    } else {
+                        if (value > 1000) {
+                            callback(new Error('不能大于1000㎡并且不能小于10㎡'));
+                        }else if (value < 10){
+                            callback(new Error('不能小于10㎡'));
+                        } else {
+                            callback();
+                        }
+                    }
+                }, 1000);
+            };
 			new Vue({
 				el: "#res",
 				data: {
@@ -442,15 +476,8 @@
 							required: true, //是否必填
 						}],
 
-						house_floor: [{
-								required: true, //是否必填
-								message: '楼层不能为空', //规则
-								trigger: 'blur' //何事件触发
-							},
-							{
-								type: 'number',
-								message: '楼层必须是数字'
-							}
+						house_floor: [
+                                { validator: housefloor, trigger: 'blur' }
 						],
 						house_orientation: [{
 							required: true, //是否必填
@@ -467,15 +494,8 @@
 							message: '城市不能为空', //规则
 							trigger: 'blur' //何事件触发
 						}],
-						house_area: [{
-								required: true, //是否必填
-								message: '面积不能为空', //规则
-								trigger: 'blur' //何事件触发
-							},
-							{
-								type: 'number',
-								message: '面积必须是数字'
-							}
+						house_area: [//面积
+                            { validator: housearea, trigger: 'blur' }
 						],
 						house_rent: [{
 								required: true, //是否必填
