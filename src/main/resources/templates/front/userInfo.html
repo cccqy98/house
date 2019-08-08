@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>枫城</title>
+    <link rel="icon" href="../front/resources/images/fengye1.ico"/>
     <!--先引入vue.js库-->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!--axios-->
@@ -218,7 +219,6 @@
                                         <el-button type="primary" size="mini" style="margin-top: 20px;float: right"
                                                    @click="cancel(item.houseId)" :hid="item.houseId">取消关注
                                         </el-button>
-
                                     </div>
                                     <div slot="description" style="margin-left: 240px;width: 450px">
                                         <a class="at" slot="title" @click="houseDetail(item.houseId)"
@@ -266,7 +266,41 @@
                                     </div>
                                     <div slot="description" style="float: right;">
                                         <span id="price1" slot="description">{{item.houseRent}}元/月</span>
+                                        <br>
+                                        <el-popover v-if="item.houseAudit==3"
+                                                    placement="top-start"
+                                                    title="驳回原因"
+                                                    width="200"
+                                                    trigger="hover"
+                                                    v-model="visible">
+                                            <p>{{item.house_reason}}</p>
+                                            <el-button type="danger" size="mini" style="margin-top: 15px;float: right"
+                                                       slot="reference">驳回原因
+                                            </el-button>
+
+                                        </el-popover>
+
+                                        <span v-if="item.houseAudit!=3">
+                                             <el-button type="warning" size="mini" style="margin-top: 20px;float: right"
+                                                        v-if="item.houseState==1">
+                                            {{item.sta1}}
+                                             </el-button>
+                                            <el-button type="primary" size="mini" style="margin-top: 20px;float: right"
+                                                   v-if="item.houseState==2">
+                                            {{item.sta1}}
+                                            </el-button>
+                                            <el-button type="success" size="mini" style="margin-top: 20px;float: right"
+                                                   v-if="item.houseState==3">
+                                             {{item.sta1}}
+                                            </el-button>
+
+
+                                        </span>
+                                        <!--                                        <br>-->
+
+
                                     </div>
+
 
                                     <div slot="description" style="margin-left: 240px;width: 450px">
                                         <a class="at" slot="title" @click="houseDetail(item.houseId)"
@@ -327,7 +361,7 @@
 
                                     <el-dialog title="报修表单" :visible.sync="dialogFormVisible">
                                         <el-form :model="form">
-                                            <el-form-item label="活动形式">
+                                            <el-form-item label="报修原因">
                                                 <el-input type="textarea" v-model="form.cause"></el-input>
                                             </el-form-item>
                                         </el-form>
@@ -351,6 +385,7 @@
                                             <el-table-column property="maFalse" label="驳回维修"></el-table-column>
                                         </el-table>
                                     </el-dialog>
+
                                     <div slot="description" style="margin-left: 240px;width: 450px">
                                         <a class="at" slot="title" @click="houseDetail(item.houseId)"
                                            :hid="item.houseId">{{item.houseTitle}}</a>
@@ -546,6 +581,7 @@
                 cause: ''
             },
             gridData: [],
+            houseData: [],
             currentPage: 1,
             pageSize: 3,
             total: 0,

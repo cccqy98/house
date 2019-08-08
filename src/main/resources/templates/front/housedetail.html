@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>枫城租房</title>
-    <link rel="icon" href="resources/images/favicon1.ico"/>
+    <link rel="icon" href="../front/resources/images/fengye1.ico"/>
     <script src="resources/vue/vue.js"></script>
     <script src="resources/js/axios.js"></script>
     <script src="resources/js/jquery.js"></script>
@@ -277,7 +277,7 @@
                                     <el-dropdown-menu slot="dropdown">
                                         <el-dropdown-item><a href="userInfo.html" style="color: black;">个人中心</a>
                                         </el-dropdown-item>
-                                        <el-dropdown-item><a @click="yonghu()" style="color: black;">注销</a>
+                                        <el-dropdown-item><a @click="killCusSession()" style="color: black;">注销</a>
                                         </el-dropdown-item>
                                     </el-dropdown-menu>
                                 </el-dropdown>
@@ -304,12 +304,17 @@
             <a-layout>
                 <a-layout-content style="margin-top: 20px;margin-left: 20px;">
                     <div class="zf">
-                        <h1 style="display: inline">枫城租房 </h1>&nbsp;<h1 style="display: inline;color: gray"></h1>&nbsp;
+                        <h1 style="display: inline">蜗壳租房 </h1>&nbsp;<h1 style="display: inline;color: gray">|</h1>&nbsp;
+                        <a id="allmap"></a>
+                    </div>
+                    <div class="zf">
+                        <a-input-search style="width: 500px" placeholder="请输入区域、商圈或小区名开始找房" @search=""
+                                        enterButton="Search" size="large"/>
                     </div>
                 </a-layout-content>
                 <div style="background-color: white;padding-bottom: 20px;" :v-model="listDetail">
                     <div class="con">
-                        <h2>{{listDetail.houseTitle}}</h2>
+                        <h1>{{listDetail.houseTitle}}</h1>
                         <div class="con">
                             <span>房源上架时间&nbsp;{{listDetail.houseDate}}</span>
                             <span style="margin-left: 20px;">房源编号&nbsp;{{listDetail.houseId}}</span>
@@ -369,7 +374,7 @@
                             <a-divider></a-divider>
                             <div style="margin-left: 30px;">
                                 <div>
-                                    <div class="d1"><img id="dlimg" :src="'http://localhost:8080/loginReg/show?fileName='+empinfo.staff_portrait"></div>
+                                    <div class="d1"><img id="dlimg" :src="empinfo.staff_portrait"></div>
                                     <div class="d1" :model="empinfo">
                                         <p style="margin-bottom: 10px">
                                             <span style="color: black;font-size: 22px;font-weight: bold;">{{empinfo.staff_name}}</span>
@@ -537,15 +542,19 @@
             this.load();
         },
         methods: {
-            judgeCusLogin: function () {
-                var self = this;
+            judgeCusLogin:function(){
                 axios.post('/loginReg/judgeCusLogin')
-                    .then(function (response) {
+                    .then(function(response) {
                         if (response.data.code === 200) {
                             //头像显示
                             self.imageUrl = 'http://localhost:8080/loginReg/show?fileName=' + response.data.object.uphoto;
-                            uid = response.data.object.id
+                            $(".lr").hide();
+                            $("#cus").show();
+                            $("#cus").html(response.data.object.upetname);
+                            uid=response.data.object.id
                         } else {
+                            $("#cus").hide();
+                            $(".lr").show();
                             self.imageUrl = null;
                         }
 
@@ -555,14 +564,9 @@
                 var self = this;
                 var str = window.location.search;
                 var id = str.substr(5);
-                axios.post('/house/detail', {houseId: id})
-                    .then(function (response) {
+                axios.post('/house/detail', {houseId:id})
+                    .then(function(response) {
                         self.listDetail = response.data.obj;
-                        var jd = response.data.obj.longitude;
-                        var wd = response.data.obj.latitude;
-                        var ban = response.data.obj.houurban;
-                        var area = response.data.obj.houseDistrict;
-                        self.BdMap(jd, wd, area, ban);
                         self.empinfo = response.data.staff;
                         self.isFollow(response.data.obj.houseId);
                     })
@@ -586,54 +590,56 @@
                     }
                 });*/
             },
-            yuyue: function (houseId) {
-                var safe = this;
-                if (this.imageUrl == null) {
-                    this.$confirm('请先登录?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(function () {
-                        window.location.href = "login.html";
-                    })
-                } else {
-                    axios.post('/house/yuyue', {
-                        look_house: houseId,
-                        look_userid: uid,
-                        look_staff: this.empinfo.staff_num
-                    })
-                        .then(function (response) {
-                            if (response.data.code == 200) {
-                                safe.$message.success(response.data.msg);
-                                window.location.reload();
-                            } else {
-                                safe.$message.error(response.data.msg);
+            yuyue:function(houseId){
+                var safe=this;
+                    if ($("#cus").html() == "") {
+                        this.$confirm({
+                            title: '请先登录',
+                            okText: '确定',
+                            cancelText: '取消',
+                            onOk: function () {
+                                window.location.href = "login.html";
                             }
+                        });
+                    } else {
+                        axios.post('/house/yuyue', {
+                            look_house:houseId,
+                            look_userid:uid,
+                            look_staff:this.empinfo.staff_num
                         })
+                            .then(function(response) {
+                                if (response.data.code==200){
+                                    safe.$message.success(response.data.msg);
+                                    window.location.reload();
+                                }else {
+                                    safe.$message.error(response.data.msg);
+                                }
+                            })
 
-                }
+                    }
             },
             followHouse: function (houseId) {
                 var safe = this;
                 //alert(id);
-                if (this.imageUrl == null) {
-                    this.$confirm('请先登录?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(function () {
-                        window.location.href = "login.html";
-                    })
+                if ($("#cus").html() == "") {
+                    this.$confirm({
+                        title: '请先登录',
+                        okText: '确定',
+                        cancelText: '取消',
+                        onOk: function () {
+                            window.location.href = "login.html";
+                        }
+                    });
                 } else {
                     axios.post('/house/toFollow', {
-                        ah_hid: houseId,
-                        ah_uid: uid
+                        ah_hid:houseId,
+                        ah_uid:uid
                     })
-                        .then(function (response) {
-                            if (response.data.code == 200) {
+                        .then(function(response) {
+                            if (response.data.code==200){
                                 safe.$message.success(response.data.msg);
                                 window.location.reload();
-                            } else {
+                            }else {
                                 safe.$message.error(response.data.msg);
                             }
                         })
@@ -643,20 +649,20 @@
                 //alert(hid);
                 var safe = this;
                 axios.post('/house/hasFollow', {
-                    ah_hid: houseId,
-                    ah_uid: uid
+                    ah_hid:houseId,
+                    ah_uid:uid
                 })
-                    .then(function (response) {
-                        if (response.data.code == 200) {
+                    .then(function(response) {
+                        if (response.data.code==200){
                             safe.toFollow = false;
                             safe.hasFollow = true;
-                        } else {
+                        }else {
                             safe.hasFollow = false;
                             safe.toFollow = true;
                         }
                     })
             },
-            BdMap: function (jd, wd, area, ban) {
+            /*BdMap: function (jd, wd, area) {
                 var _this = this;
                 // 百度地图API功能
                 var map = new BMap.Map("bdmap");    // 创建Map实例
@@ -672,20 +678,27 @@
                 map.addOverlay(marker);
                 var label = new BMap.Label(area, {offset: new BMap.Size(20, -10)});
                 marker.setLabel(label);
-                map.setCurrentCity(ban);          // 设置地图显示的城市 此项是必须设置的
+                map.setCurrentCity("郑州");          // 设置地图显示的城市 此项是必须设置的
                 map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-            },
-            yonghu: function () {
+            },*/
+            yonghu: function ({key}) {
                 var self = this;
-                this.$confirm('确定退出?', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(function () {
-                    self.killCusSession();
-                })
+                if (key == "zx") {
+                    this.$confirm({
+                        title: '确定退出?',
+                        okText: '确定',
+                        cancelText: '取消',
+                        onOk: function () {
+                            self.killCusSession();
+                        }
+                    });
+                }
+                if (key == "grzx") {
+                    //alert("个人中心")
+                    window.location.href="userInfo.html";
+                }
             },
-            killCusSession: function () {
+            killCusSession() {
                 axios.post('http://localhost:8080/loginReg/outUser')
                     .then(function (response) {
                         window.location.href = "main.html";

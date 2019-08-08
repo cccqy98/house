@@ -71,4 +71,8 @@ public class House {
 
     private String latitude;//纬度
 
+    private String sta1;//审核状态
+    private String sta2;//发布状态
+    private String house_reason;//驳回原因
+
 }
