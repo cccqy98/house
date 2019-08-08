@@ -29,13 +29,13 @@
         house_layout, house_staffid, house_audit, house_certificate
     </sql>
     <select id="queryHouseAll"  resultType="house" resultMap="BaseResultMap">
-        select a.*,DATEDIFF(NOW(),a.house_date) newstime, c.code_state as houlayout,d.code_state as houurban,f.code_state,f.longitude,f.latitude as houstreet,g.code_state as houorientation
-        from house a join (select * from code where code_type=7) c on a.house_layout=c.code_number
-        select a2.code_state as sta1 ,a1.code_state as sta2,a.*,DATEDIFF(NOW(),a.house_date) newstime, c.code_state as houlayout,d.code_state as houurban,f.code_state as houstreet,g.code_state as houorientation
+        select a2.code_state as sta1 ,a1.code_state as sta2, a.*,DATEDIFF(NOW(),a.house_date) newstime, c.code_state as
+        houlayout,d.code_state as houurban,f.code_state as houstreet,f.longitude,f.latitude,g.code_state as
+        houorientation
         from house a
+        join (select * from code where code_type=7) c on a.house_layout=c.code_number
         join (select * from code where code_type=5) a1 on a.house_audit=a1.code_number
         join (select * from code where code_type=8) a2 on a.house_state=a2.code_number
-        join (select * from code where code_type=7) c on a.house_layout=c.code_number
         join (select * from code where code_type=11300) d on a.house_urban=d.code_number
         join code e on e.code_number=a.house_urban
         join code f  on a.house_street=f.code_number
