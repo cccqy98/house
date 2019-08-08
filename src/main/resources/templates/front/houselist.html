@@ -185,7 +185,7 @@
                                     <el-dropdown-menu slot="dropdown">
                                         <el-dropdown-item><a href="userInfo.html" style="color: black;">个人中心</a>
                                         </el-dropdown-item>
-                                        <el-dropdown-item><a @click="killCusSession()" style="color: black;">注销</a>
+                                        <el-dropdown-item><a @click="yonghu()" style="color: black;">注销</a>
                                         </el-dropdown-item>
                                     </el-dropdown-menu>
                                 </el-dropdown>
@@ -288,7 +288,7 @@
                         </div>
                     </a-layout-content>
                     <a-layout-sider style="background-color: #fff;">
-                        <div style="font-size: 15px;font-weight: bold;margin:20px 0;">下载蜗壳APP</div>
+                        <div style="font-size: 15px;font-weight: bold;margin:20px 0;">下载枫城APP</div>
                         <img src="resources/images/wokezufang.png" style="width: 100px;height: 100px">
                         <div style="font-size: 13px;margin-top: 10px">扫描上方二维码<br/>随时查看新房源</div>
                         <a href="#" style="font-size: 13px">查看更多&gt;&gt;</a>
@@ -370,6 +370,7 @@
                     houseLayout: this.form.houseLayout,
                     houseUrban: this.form.houseUrban,
                     houseStreet: this.form.houseStreet,
+                    houseState:2
                 })
                     .then(function (response) {
                         self.listData = response.data.empList;
@@ -399,24 +400,29 @@
             houseDetail: function (hid) {
                 location.href = "housedetail.html?hid=" + hid;
             },
-            killCusSession() {
+            yonghu: function () {
+                var self = this;
+                this.$confirm('确定退出?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(function () {
+                    self.killCusSession();
+                })
+            },
+            killCusSession: function() {
                 axios.post('http://localhost:8080/loginReg/outUser')
                     .then(function (response) {
                         window.location.href = "main.html";
                     });
             },
-            judgeCusLogin() {
+            judgeCusLogin: function() {
                 var self = this;
                 axios.post('/loginReg/judgeCusLogin').then(function (response) {
                     if (response.data.code === 200) {
                         //头像显示
                         self.imageUrl = 'http://localhost:8080/loginReg/show?fileName=' + response.data.object.uphoto;
-                        $(".lr").hide();
-                        $("#cus").show();
-                        $("#cus").html(response.data.object.upetname);
                     } else {
-                        $("#cus").hide();
-                        $(".lr").show();
                         self.imageUrl = null;
                     }
                 })
