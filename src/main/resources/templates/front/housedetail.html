@@ -377,8 +377,7 @@
                                             <span style="color: black;font-size: 22px;font-weight: bold;">{{empinfo.staff_name}}</span>
                                             <a-popover>
                                                 <template slot="content">
-                                                    <img width="220px" height="350px"
-                                                         src="resources/images/zhizhao.jpg">
+                                                    <img width="220px" height="350px" :src="'http://localhost:8080/loginReg/show?fileName='+listDetail.houseCertificate">
                                                 </template>
                                                 <span id="cardimg"><img style="width: 20px;height: 20px"
                                                                         src="resources/images/icon/id_card.png"></span>
