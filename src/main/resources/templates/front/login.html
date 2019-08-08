@@ -41,10 +41,10 @@
             <!--中间部分-->
             <div class="top-nav">
                 <ul class="nav1">
-                    <li><a href="../../index.html#feature">看房</a></li>
+                    <li><a href="main.html#feature">看房</a></li>
                     <li><a href="houselist.html">我要租房</a></li>
-                    <li><a href="housingresource.html">发布房源</a></li>
-                    <li><a href="../../index.html#fangxun">房讯</a></li>
+                    <li><a href="houseResource.html">发布房源</a></li>
+                    <li><a href="main.html#fangxun">房讯</a></li>
                     <!--                    <li><a href="">下载APP</a></li>-->
                 </ul>
             </div>
@@ -73,7 +73,6 @@
             <div class="form-middle"></div>
             <div class="form-bottom">
                 <form id="loform">
-
                     <!--手机号-->
                     <div class="inputClass">
                         <input type="text" name="uPhone" id="uPhone" placeholder="请输入手机号"
@@ -82,7 +81,7 @@
                     </div>
                     <!--密码-->
                     <div class="inputClass">
-                        <input type="text" name="uPassword" placeholder="请输入密码" id="uPassword"/>
+                        <input type="password" name="uPassword" placeholder="请输入密码" id="uPassword"/>
                         <span class="passwordSpan"></span>
                     </div>
                     <div>
@@ -117,7 +116,7 @@
                                             if (data.code == 200) {
                                                 location.href = "main.html"
                                             } else {
-                                                _this.$message.error('手机号或密码错误!');
+                                                _this.$message.error(data.msg);
                                             }
                                         }
                                     })

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>枫城</title>
+    <link rel="icon" href="images/maple.ico"/>
+    <script src="resources/js/jquery.js"></script>
+    <script src="resources/vue/vue.js"></script>
+
+    <script src="resources/antd/moment.js"></script>
+    <script src="resources/antd/antd.min.js"></script>
+    <script src="resources/antd/ant-design-vue.js"></script>
+    <link href="resources/antd/antd.min.css" rel="stylesheet">
+    <script src="resources/js/ele.js"></script>
+    <link href="resources/css/ele.css" rel="stylesheet">
+    <!--axios-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style type="text/css">
+        /*导航栏css*/
+        a {
+            /*font-size: 16px;*/
+            text-decoration: none;
+            color: white;
+        }
+
+        .el-menu-item {
+            text-align: center;
+        }
+
+        a:hover {
+            color: orange
+        }
+
+        /*图片展示css*/
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            margin-left: 100px;
+        }
+
+    </style>
+    <style>
+        #components-layout-demo-fixed .logo {
+            width: 120px;
+            height: 20px;
+            /*background: rgba(255, 255, 255, .1);*/
+            margin: 16px 24px 16px 0;
+            float: left;
+        }
+
+        .form {
+            margin-left: 300px;
+        }
+
+        .form input {
+            border: none;
+        }
+
+        .tit {
+            line-height: 1;
+            text-align: center;
+        }
+
+        .tit .title {
+            font-weight: bold;
+            color: #000000;
+            font-size: 33px;
+        }
+
+        #components-layout-demo-fixed .logo img {
+            width: 120px;
+            height: 95px;
+            margin-top: -35px;
+        }
+
+        .lr,
+        #cus {
+            padding-left: 0;
+            padding-right: 0;
+            float: right;
+        }
+
+        #ulinfo li {
+            list-style: none;
+            float: left;
+            padding: 5px;
+            background-color: lightgray;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 13px;
+        }
+
+        .zf {
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .zf span {
+            margin-right: 15px;
+        }
+
+        .zf a {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .zf img {
+            border-radius: 10px;
+            width: 250px;
+            height: 180px;
+            margin-left: 20px;
+        }
+
+        .ant-list-item-meta-title {
+            margin-bottom: 30px;
+        }
+
+        .ant-list-item-meta-content {
+            margin-left: 30px;
+        }
+
+        .ant-list-item-meta-description {
+            font-size: 15px;
+        }
+
+        .ant-list-item-meta-description span {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .ant-list-item-meta-description p {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        #price {
+            color: red;
+            font-size: 26px;
+            float: right;
+        }
+
+        /*#backImg{*/
+        /*    background: url(static/) no-repeat center;*/
+        /*}*/
+    </style>
+</head>
+
+<body id="backImg">
+<div id="house">
+    <a-layout id="components-layout-demo-fixed">
+        <!--导航栏-->
+        <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }" style="background: white">
+            <el-header>
+                <el-row>
+                    <el-menu style="border-radius: 4px;width: 106%;margin-left: -44px;margin-top: 5px"
+                             class="el-menu-demo"
+                             mode="horizontal"
+                             background-color="#000000"
+                             text-color="#fff"
+                             active-text-color="#ffd04b">
+                        <el-col :span="2" :offset="1">
+                            <el-menu-item index="0">
+                                <a href="main.html"><img src="resources/images/log.png" width="106" height="60"></a>
+                            </el-menu-item>
+                        </el-col>
+                        <el-col :span="2">
+                            <el-menu-item index="1"><a href="main.html">首页</a></el-menu-item>
+                        </el-col>
+                        <el-col :span="2">
+                            <el-menu-item index="2"><a href="houselist.html">我要租房</a></el-menu-item>
+                        </el-col>
+                        <el-col :span="2">
+                            <el-menu-item index="3"><a href="houseResource.html">发布房源</a></el-menu-item>
+                        </el-col>
+                        <el-col :span="2">
+                            <el-menu-item index="4"><a href="main.html#fangxun">房讯</a></el-menu-item>
+                        </el-col>
+                        <el-col :span="2" :offset="10" v-if="imageUrl!=null">
+                            <el-menu-item index="5">
+                                <el-dropdown>
+                            <span class="el-dropdown-link">
+                                <el-avatar shape="circle" :size="45" :src="imageUrl"></el-avatar>
+                             </span>
+                                    <el-dropdown-menu slot="dropdown">
+                                        <el-dropdown-item><a href="userInfo.html" style="color: black;">个人中心</a>
+                                        </el-dropdown-item>
+                                        <el-dropdown-item><a @click="killCusSession()" style="color: black;">注销</a>
+                                        </el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </el-dropdown>
+                            </el-menu-item>
+                        </el-col>
+                        <el-col :span="1" :offset="10" v-if="imageUrl==null">
+                            <el-menu-item index="6">
+                                <a href="login.html">登录</a>
+                            </el-menu-item>
+                        </el-col>
+                        <el-col :span="1" v-if="imageUrl==null">
+                            <el-menu-item index="7">
+                                <a href="register.html">注册</a>
+                            </el-menu-item>
+                        </el-col>
+                    </el-menu>
+
+                </el-row>
+            </el-header>
+        </a-layout-header>
+        <!--内容区-->
+        <a-layout-content style="background-color: #fff;padding: 0 100px; margin-top: 64px">
+            <a-layout>
+                <a-layout-content style="margin: 20px;">
+                    <div class="tit">
+                        <div class="title">发布房源</div>
+                    </div>
+                </a-layout-content>
+                <a-layout-content style="background-color: #fff">
+                    <div class="zf">
+                        <h3 style="display: inline;margin-left: 20px">选择您所在的城市
+                            <img src="resources/images/localtion.png" style="width: 25px;height: 25px;"/>
+                            <h3 style="color: #2f54eb;display: inline">{{form.codetype1}}</h3>
+                        </h3>
+                    </div>
+                </a-layout-content>
+                <a-layout>
+                    <a-layout-content style="background-color: #fff;padding-right: 100px;">
+                        <div class="form">
+                            <el-form ref="form" :rules="rules" :model="form" label-width="80px" style="">
+                                <!--                                <el-form-item prop="uh_urban">-->
+                                <!--                                    <span style="color: #101d37;font-weight: bold;">市区&nbsp;&nbsp;</span>-->
+                                <!--                                    &lt;!&ndash; <select placeholder="请选择地区" id="address">-->
+                                <!--                                    </select>	 &ndash;&gt;-->
+                                <!--                                    <select v-model="setval" @change="urbanStreet()" placeholder="请选择地区">-->
+                                <!--                                        <option v-for="item in form.add1" :value="item.id">{{item.code_state}}</option>-->
+                                <!--                                    </select>-->
+                                <!--                                </el-form-item>-->
+
+                                <!--                                <el-form-item prop="street">-->
+                                <!--                                    <span style="color: #101d37;font-weight: bold;">街道&nbsp;&nbsp;</span>-->
+                                <!--                                    <select v-model="setval2" @change="onSubmit()" placeholder="请选择街道">-->
+                                <!--                                        <option v-for="item in form.add2" :value="item.id">{{item.code_state}}</option>-->
+                                <!--                                    </select>-->
+                                <!--                                    &lt;!&ndash; <el-select id="street" v-model="form.uh_street" style="width:220px" placeholder="请选择街道">-->
+                                <!--                                        <el-option-->
+                                <!--                                                v-for="item in options3"-->
+                                <!--                                                :key="item.code_number"-->
+                                <!--                                                :label="item.code_state"-->
+                                <!--                                                :value="item.code_number">-->
+                                <!--                                        </el-option>-->
+                                <!--                                    </el-select> &ndash;&gt;-->
+                                <!--                                </el-form-item>-->
+
+                                <el-form-item prop="city">
+                                    <span style="color: #101d37;font-weight: bold;">市区&nbsp;&nbsp;</span>
+                                    <el-select v-model="value" placeholder="请选择">
+                                        <el-option
+                                                v-for="item in options"
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value"
+                                        >
+                                        </el-option>
+                                    </el-select>
+
+                                </el-form-item>
+
+
+                                <el-form-item prop="uptown">
+                                    <span style="color: #101d37;font-weight: bold;">详细地址&nbsp;&nbsp;</span>
+                                    <el-input id="uptown" v-model="form.uptown" style="width:220px" @blur="ladr()"
+                                              placeholder="请填写详细地址"></el-input>
+                                    <!-- <el-input v-model="form.ladr" type="hidden" style="width: 200px;margin-top: 10px;" placeholder="请选择地区"></el-input> -->
+                                </el-form-item>
+                                <el-form-item prop="remoney">
+                                    <span style="color: #101d37;font-weight: bold;">租金&nbsp;&nbsp;</span>
+                                    <el-input v-model.number="form.remoney" style="width: 200px;margin-top: 10px;"
+                                              placeholder="请输入您期望的租金"></el-input>
+                                </el-form-item>
+                                <el-form-item prop="lname">
+                                    <span style="color: #101d37;font-weight: bold;">称呼&nbsp;&nbsp;</span>
+                                    <el-input v-model="form.lname" style="width: 200px;margin-top: 10px;"
+                                              placeholder="我们应该怎样称呼您"></el-input>
+                                </el-form-item>
+                                <el-form-item prop="lphone">
+                                    <span style="color: #101d37;font-weight: bold;">手机号码&nbsp;&nbsp;</span>
+                                    <el-input v-model.number="form.lphone" style="width: 200px;margin-top: 10px;"
+                                              placeholder="您的联系方式"></el-input>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button type="primary" @click="add()">立即提交</el-button>
+                                    <el-button @click="rolefrom = false">取消</el-button>
+                                    <el-button @click="resetForm('form')">重置</el-button>
+                                </el-form-item>
+                            </el-form>
+                        </div>
+                    </a-layout-content>
+                    <!--  <a-layout-sider style="background-color: #fff;">
+                          <div style="font-size: 15px;font-weight: bold;margin:20px 0;">下载枫城APP</div>
+                          <img src="" style="width: 100px;height: 100px">
+
+                      </a-layout-sider>-->
+                </a-layout>
+                <a-layout-footer :style="{ textAlign: 'center' }">Copyright &copy; 2019.FengCheng.版权所有 |
+                    本站内容版权属于原创，未经许可不得转载
+                </a-layout-footer>
+            </a-layout>
+        </a-layout-content>
+    </a-layout>
+</div>
+</body>
+<script>
+    var usevue = new Vue({
+        el: "#house",
+        data: {
+            options: [{
+                value: '选项1',
+                label: '黄金糕'
+            }, {
+                value: '选项3',
+                label: '蚵仔煎'
+            }, {
+                value: '选项4',
+                label: '龙须面'
+            }, {
+                value: '选项5',
+                label: '北京烤鸭'
+            }],
+            value: '',
+            imageUrl: null,
+            form: {
+
+                add1: [],
+                add2: [],
+                codetype1: "郑州",
+                codetype2: ""
+            },
+            setval: "",
+            setval2: "",
+            rules: {
+                address: [
+                    {
+                        required: true, //是否必填
+                    },
+                ],
+                street: [
+                    {
+                        required: true, //是否必填
+                        message: '街道不能为空', //规则
+                        trigger: 'blur',
+                        //何事件触发
+                    },
+                ],
+                uptown: [
+                    {
+                        required: true, //是否必填
+                        message: '小区不能为空', //规则
+                        trigger: 'blur',
+                        //何事件触发
+                    },
+                ],
+                remoney: [
+                    {
+                        required: true, //是否必填
+                        message: '租金不能为空', //规则
+                        //何事件触发
+                        trigger: 'blur',
+                    },
+                    {
+                        type: 'number',
+                        message: '租金必须是数字'
+                    },
+                ],
+                lname: [
+                    {
+                        required: true, //是否必填
+                        message: '称呼不能为空', //规则
+                        trigger: 'blur', //何事件触发
+                    },
+                ],
+                lphone: [
+                    {
+                        required: true, //是否必填
+                        message: '手机号码不能为空', //规则
+                        trigger: 'blur',//何事件触发,
+                    },
+                    {
+                        type: 'number',
+                        message: '手机号码必须是数字',
+
+                    },
+                ],
+            },
+        },
+        mounted: function () {
+            var self = this;
+            axios.post('/loginReg/judgeCusLogin').then(function (response) {
+                if (response.data.code === 200) {
+                    //头像显示
+                    self.imageUrl = 'http://localhost:8080/loginReg/show?fileName=' + response.data.object.uphoto;
+                } else {
+                    self.imageUrl = null;
+                }
+            })
+            axios.post('http://localhost:8080/city')
+                .then(function (response) {
+                    self.options = response.data;
+                });
+        },
+        methods: {
+            ladr: function () {
+            },
+            /*获取名字+++++++++*/
+            searchName: function (xx) {//huoqu
+                console.log(xx);
+                $.getJSON("showAddress?type=11300", function (list) {
+                    /* for(var i in list){
+                        var a='<option value="'+list[i].codenumber+'">'+list[i].codestate+'</option>';
+                        $("#address").append(a);
+                    } */
+                    console.log(list);
+                    usevue.forms = list;
+                    usevue.form.add1 = list;
+                    console.log(usevue.forms);
+                })
+
+            },
+            /*获取街道*/
+            urbanStreet: function () {
+                $.getJSON("showAddres?id=" + usevue.setval, function (code) {
+                    usevue.form.codetype1 = code.code_state;
+                    $.getJSON("showAddress?type=" + code.code_number, function (list) {
+                        console.log(list);
+                        usevue.form.add2 = list;
+                    })
+                })
+            },
+            onSubmit: function () {
+                $.getJSON("showAddres?id=" + usevue.setval2, function (code) {
+                    usevue.form.codetype2 = code.id;
+                })
+            },
+            add: function () {
+                var peo = {};
+
+                /** 限制空值提交开始 */
+                if (!this.setval) {
+                    alert("请选择地区");
+                    return false;
+                }
+                if (!this.setval2) {
+                    alert("请选择街道");
+                    return false;
+                }
+                if (!this.form.uptown) {
+                    alert("请输入详细地址");
+                    return false;
+                }
+                if (!this.form.lname) {
+                    alert("请输入名称");
+                    return false;
+                }
+                if (!this.form.lphone) {
+                    alert("请输入手机号");
+                    return false;
+                }
+                if (!this.form.remoney) {
+                    alert("请输入金额");
+                    return false;
+                }
+                /** 限制空值提交结束 */
+
+                peo["uh_urban"] = this.setval;
+                peo["uh_street"] = this.setval2;
+                peo["uh_district"] = this.form.uptown;
+                peo["uh_name"] = this.form.lname;
+                peo["uh_phone"] = this.form.lphone;
+                peo["uh_rent"] = this.form.remoney;
+                console.log(this.form);
+                console.log(peo);
+                $.ajax({
+                    url: "addUser",
+                    type: "post",
+                    data: JSON.stringify(peo),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == "yes") {
+                            alert("发布成功!");
+                        } else {
+                            alert("发布失败");
+                        }
+                    }
+                });
+
+            },
+            resetForm(formName) {
+                window.location.reload();
+            },
+            killCusSession() {
+                axios.post('http://localhost:8080/loginReg/outUser')
+                    .then(function (response) {
+                        window.location.href = "main.html";
+                    });
+            }
+        }
+    });
+    usevue.searchName();
+
+</script>
+
+</html>

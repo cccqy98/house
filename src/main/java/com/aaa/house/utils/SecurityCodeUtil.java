@@ -12,6 +12,8 @@ import org.apache.shiro.util.ByteSource;
 
 import java.util.Random;
 
+import static com.aaa.house.utils.OtherUtil.randomCode;
+
 /**
  * @Classname：SecurityCode
  * @author: L_Fly
@@ -71,7 +73,7 @@ public class SecurityCodeUtil {
 //        String code=randomCode();
 //        System.out.println(code);
 //        //验证码可以用随机生成
-//        SendSmsResponse sendSms = sendSms("15736959683",code);
+//        SendSmsResponse sendSms = sendSms("18503808571",code);
 //        System.out.println("短信接口返回的数据----------------");
 //        System.out.println("Code=" + sendSms.getCode());
 //        System.out.println("Message=" + sendSms.getMessage());
@@ -79,5 +81,10 @@ public class SecurityCodeUtil {
 //        System.out.println("BizId=" + sendSms.getBizId());
         //加密后的结果
         //3bcbb857c763d1429a24959cb8de2593
+
+
+//        CusUtil.saveCode("18348319679",randomCode());
+//
+//        System.out.println(CusUtil.getCode("18348319679"));
     }
 }

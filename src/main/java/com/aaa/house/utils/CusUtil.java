@@ -46,7 +46,14 @@ public class CusUtil {
         getSession().setAttribute(ISysConstants.CUS, user);
     }
 
-
+    /**
+     * 往session中保存验证码
+     *
+     * @param
+     */
+    public static void saveCode(String phone, String code) {
+        getSession().setAttribute(phone, code);
+    }
 
     /**
      * 从session获取客户信息
@@ -56,6 +63,15 @@ public class CusUtil {
     public static User getCusFromSession() {
         User user = (User) getSession().getAttribute(ISysConstants.CUS);
         return user;
+    }
+
+    /**
+     * 从session获取验证码
+     *
+     * @return
+     */
+    public static String getCode(String phone) {
+        return String.valueOf(getSession().getAttribute(phone));
     }
 
     /**

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>蜗壳</title>
+    <title>枫城租房</title>
     <link rel="icon" href="resources/images/favicon.ico"/>
     <script src="resources/vue/vue.js"></script>
     <script src="resources/js/axios.js"></script>
@@ -22,6 +22,33 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style type="text/css">
+        /*导航栏css*/
+        a {
+            /*font-size: 16px;*/
+            text-decoration: none;
+            color: white;
+        }
+
+        .el-menu-item {
+            text-align: center;
+        }
+
+        a:hover {
+            color: orange
+        }
+
+        /*图片展示css*/
+        .avatar-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            margin-left: 100px;
+        }
+
+    </style>
     <style>
         #components-layout-demo-fixed .logo {
             width: 120px;
@@ -177,33 +204,6 @@
             padding-right: 65px;
         }
     </style>
-    <style type="text/css">
-        /*导航栏css*/
-        a {
-            /*font-size: 16px;*/
-            text-decoration: none;
-            color: white;
-        }
-
-        .el-menu-item {
-            text-align: center;
-        }
-
-        a:hover {
-            color: orange
-        }
-
-        /*图片展示css*/
-        .avatar-uploader .el-upload {
-            border: 1px dashed #d9d9d9;
-            border-radius: 6px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            margin-left: 100px;
-        }
-
-    </style>
     <style scoped>
         /* For demo */
         .ant-carousel .slick-slide {
@@ -243,39 +243,6 @@
 <div id="house">
     <a-layout id="components-layout-demo-fixed">
         <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }" style="background: white">
-            <!--            <div class="logo"><img src="resources/images/logoko.png"></div>-->
-            <!--            <a-menu theme="dark" mode="horizontal" :defaultSelectedKeys="['2']" :style="{ lineHeight: '64px' }">-->
-            <!--                <a-menu-item key="1"><a href="main.html">首页</a></a-menu-item>-->
-            <!--                <a-menu-item key="2"><a href="houselist.html">租房</a></a-menu-item>-->
-            <!--                <a-menu-item key="3"><a href="">发布房源</a></a-menu-item>-->
-            <!--                <a-menu-item key="4">-->
-            <!--                    <a-popover>-->
-            <!--                        <template slot="content">-->
-            <!--                            <img width="100px" height="100px" src="resources/images/wokezufang.png">-->
-            <!--                        </template>-->
-            <!--                        <span><a href=""></a>蜗壳租房APP</span>-->
-            <!--                    </a-popover>-->
-            <!--                </a-menu-item>-->
-            <!--                <a-menu-item key="5" class="lr"><a href="register.html">注册</a></a-menu-item>-->
-            <!--                <a-menu-item key="6" class="lr">/</a-menu-item>-->
-            <!--                <a-menu-item key="7" class="lr"><a href="login.html">登录</a></a-menu-item>-->
-            <!--                <a-menu-item id="cuslog">-->
-            <!--                    <a-dropdown>-->
-            <!--						<span class="ant-dropdown-link cname">-->
-            <!--                            <span id="cus"></span>-->
-            <!--						</span>-->
-            <!--                        <a-menu slot="overlay" @click="yonghu">-->
-            <!--                            <a-menu-item key="grzx">-->
-            <!--                                个人中心-->
-            <!--                            </a-menu-item>-->
-            <!--                            <a-menu-item key="zx">-->
-            <!--                                注销-->
-            <!--                            </a-menu-item>-->
-            <!--                        </a-menu>-->
-            <!--                    </a-dropdown>-->
-            <!--                </a-menu-item>-->
-            <!--            </a-menu>-->
-            <!--        -->
             <el-header>
                 <el-row>
                     <el-menu style="border-radius: 4px;width: 106%;margin-left: -44px;margin-top: 5px"
@@ -290,51 +257,45 @@
                             </el-menu-item>
                         </el-col>
                         <el-col :span="2">
-                            <el-menu-item index="1">
-
-                                <a href="main.html">首页</a>
-
-                            </el-menu-item>
+                            <el-menu-item index="1"><a href="main.html">首页</a></el-menu-item>
                         </el-col>
                         <el-col :span="2">
-                            <el-menu-item index="2">
-                                <a href="houselist.html">我要租房</a>
-                            </el-menu-item>
+                            <el-menu-item index="2"><a href="houselist.html">我要租房</a></el-menu-item>
                         </el-col>
                         <el-col :span="2">
-                            <el-menu-item index="3">
-                                <a href="https://www.baidu.com">发布房源</a></el-menu-item>
+                            <el-menu-item index="3"><a href="houseResource.html">发布房源</a></el-menu-item>
                         </el-col>
-                        <el-col :span="2" :offset="12" v-if="ruleForm==null">
-                            <el-menu-item index="4">
+                        <el-col :span="2">
+                            <el-menu-item index="4"><a href="main.html#fangxun">房讯</a></el-menu-item>
+                        </el-col>
+                        <el-col :span="2" :offset="10" v-if="imageUrl!=null">
+                            <el-menu-item index="5">
                                 <el-dropdown>
                             <span class="el-dropdown-link">
-                                <el-avatar shape="circle" :size="45" :src="imageUrl1"
-                                           style="margin-top: -10px"></el-avatar>
+                                <el-avatar shape="circle" :size="45" :src="imageUrl"></el-avatar>
                              </span>
                                     <el-dropdown-menu slot="dropdown">
                                         <el-dropdown-item><a href="userInfo.html" style="color: black;">个人中心</a>
                                         </el-dropdown-item>
-                                        <el-dropdown-item><a href="http://localhost:8080/loginReg/outUser"
-                                                             style="color: black;">注销</a></el-dropdown-item>
+                                        <el-dropdown-item><a @click="killCusSession()" style="color: black;">注销</a>
+                                        </el-dropdown-item>
                                     </el-dropdown-menu>
                                 </el-dropdown>
                             </el-menu-item>
                         </el-col>
-                        <el-col :span="1" :offset="12" v-if="ruleForm!=null">
-                            <el-menu-item index="5">
+                        <el-col :span="1" :offset="10" v-if="imageUrl==null">
+                            <el-menu-item index="6">
                                 <a href="login.html">登录</a>
                             </el-menu-item>
                         </el-col>
-                        <el-col :span="1" v-if="ruleForm!=null">
-                            <el-menu-item index="5">
+                        <el-col :span="1" v-if="imageUrl==null">
+                            <el-menu-item index="7">
                                 <a href="register.html">注册</a>
                             </el-menu-item>
                         </el-col>
                     </el-menu>
                 </el-row>
             </el-header>
-
 
         </a-layout-header>
 
@@ -343,16 +304,20 @@
             <a-layout>
                 <a-layout-content style="margin-top: 20px;margin-left: 20px;">
                     <div class="zf">
-                        <h1 style="display: inline">枫城租房 </h1>&nbsp;<h1 style="display: inline;color: gray"></h1>&nbsp;
+                        <h1 style="display: inline">蜗壳租房 </h1>&nbsp;<h1 style="display: inline;color: gray">|</h1>&nbsp;
+                        <a id="allmap"></a>
+                    </div>
+                    <div class="zf">
+                        <a-input-search style="width: 500px" placeholder="请输入区域、商圈或小区名开始找房" @search=""
+                                        enterButton="Search" size="large"/>
                     </div>
                 </a-layout-content>
                 <div style="background-color: white;padding-bottom: 20px;" :v-model="listDetail">
                     <div class="con">
-                        <h2>{{listDetail.houseTitle}}</h2>
+                        <h1>{{listDetail.houseTitle}}</h1>
                         <div class="con">
-                            <span>房源上架时间:&nbsp;{{listDetail.houseDate}}</span>
-                            <span style="margin-left: 20px;">房源编号:&nbsp;{{listDetail.houseId}}</span>
-                            <span style="margin-left: 20px;">所在地区:&nbsp;{{listDetail.houurban}}-{{listDetail.houstreet}}-{{listDetail.houseDistrict}}</span>
+                            <span>房源上架时间&nbsp;{{listDetail.houseDate}}</span>
+                            <span style="margin-left: 20px;">房源编号&nbsp;{{listDetail.houseId}}</span>
                             <a-button @click="followHouse(listDetail.houseId)" type="primary" icon="heart"
                                       :id="listDetail.houseId" v-if="toFollow"
                                       style="margin-left: 370px">关注房源
@@ -549,8 +514,8 @@
                 </div>
                 <hr width="600px" style="margin-left: 210px"/>
             </div>
-            <div style="float: left;width: 800px;height: 475px;margin-left:149px;margin-top: 20px">
-                <div id="bdmap" style="width: 800px;height: 450px;margin: 0px auto;padding: 0px; text-align: center; overflow: visible"></div>
+            <div style="float: left;width: 430px;height: 475px;margin-left:-106px;margin-top: 20px">
+                <div id="bdmap" style="width: 429px;height: 474px;overflow: visible"></div>
             </div>
         </a-layout-content>
         <a-layout-footer :style="{ textAlign: 'center' }">Copyright &copy; 2019.Volute.版权所有 | 本站内容版权属于原创，未经许可不得转载
@@ -566,6 +531,7 @@
     new Vue({
         el: "#house",
         data: {
+            imageUrl: null,
             listDetail: {},
             empinfo: {},
             toFollow: true,
@@ -579,7 +545,9 @@
             judgeCusLogin:function(){
                 axios.post('/loginReg/judgeCusLogin')
                     .then(function(response) {
-                        if (response.data.code == 200){
+                        if (response.data.code === 200) {
+                            //头像显示
+                            self.imageUrl = 'http://localhost:8080/loginReg/show?fileName=' + response.data.object.uphoto;
                             $(".lr").hide();
                             $("#cus").show();
                             $("#cus").html(response.data.object.upetname);
@@ -587,6 +555,7 @@
                         } else {
                             $("#cus").hide();
                             $(".lr").show();
+                            self.imageUrl = null;
                         }
 
                     })
@@ -598,15 +567,28 @@
                 axios.post('/house/detail', {houseId:id})
                     .then(function(response) {
                         self.listDetail = response.data.obj;
-                        var jd = response.data.obj.longitude;
-                        var wd = response.data.obj.latitude;
-                        var ban=response.data.obj.houurban;
-                        var area =response.data.obj.houseDistrict;
-                        self.BdMap(jd, wd, area ,ban);
                         self.empinfo = response.data.staff;
                         self.isFollow(response.data.obj.houseId);
                     })
 
+                /*$.ajax({
+                    type: "post",
+                    dataType: "json",
+                    url: "/house/houseDetail",
+                    data: {"id": id},
+                    success: function (data) {
+                        //console.log(data.object);
+                        _this.listDetail = data.object;
+                        var jd = data.object.longitude;
+                        var wd = data.object.latitude;
+                        var area = data.object.hadr;
+                        var index = area.lastIndexOf("\-");
+                        area = area.substr(index + 1);
+                        _this.BdMap(jd, wd, area);
+                        _this.empinfo = data.empinfo;
+                        _this.isFollow(data.object.id);
+                    }
+                });*/
             },
             yuyue:function(houseId){
                 var safe=this;
@@ -680,7 +662,7 @@
                         }
                     })
             },
-            BdMap: function (jd, wd, area ,ban) {
+            /*BdMap: function (jd, wd, area) {
                 var _this = this;
                 // 百度地图API功能
                 var map = new BMap.Map("bdmap");    // 创建Map实例
@@ -696,9 +678,9 @@
                 map.addOverlay(marker);
                 var label = new BMap.Label(area, {offset: new BMap.Size(20, -10)});
                 marker.setLabel(label);
-                map.setCurrentCity(ban);          // 设置地图显示的城市 此项是必须设置的
+                map.setCurrentCity("郑州");          // 设置地图显示的城市 此项是必须设置的
                 map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-            },
+            },*/
             yonghu: function ({key}) {
                 var self = this;
                 if (key == "zx") {
@@ -716,13 +698,12 @@
                     window.location.href="userInfo.html";
                 }
             },
-            killCusSession: function () {
-                axios.post('/loginReg/outUser')
-                    .then(function(response) {
-                        if (response.data.code == 200){
-                            window.location.reload();
-                        }
-                    })
+            killCusSession() {
+                axios.post('http://localhost:8080/loginReg/outUser')
+                    .then(function (response) {
+                        window.location.href = "main.html";
+                        // location.reload();
+                    });
             }
         }
     });

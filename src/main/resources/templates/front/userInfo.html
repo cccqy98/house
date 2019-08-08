@@ -112,10 +112,13 @@
                     <el-menu-item index="2"><a href="houselist.html">我要租房</a></el-menu-item>
                 </el-col>
                 <el-col :span="2">
-                    <el-menu-item index="3"><a href="rentalHouse.html">发布房源</a></el-menu-item>
+                    <el-menu-item index="3"><a href="houseResource.html">发布房源</a></el-menu-item>
                 </el-col>
-                <el-col :span="2" :offset="12" v-if="imageUrl!=null">
-                    <el-menu-item index="4">
+                <el-col :span="2">
+                    <el-menu-item index="4"><a href="main.html#fangxun">房讯</a></el-menu-item>
+                </el-col>
+                <el-col :span="2" :offset="10" v-if="imageUrl!=null">
+                    <el-menu-item index="5">
                         <el-dropdown>
                             <span class="el-dropdown-link">
                                 <el-avatar shape="circle" :size="45" :src="imageUrl1"></el-avatar>
@@ -129,13 +132,13 @@
                         </el-dropdown>
                     </el-menu-item>
                 </el-col>
-                <el-col :span="1" :offset="12" v-if="imageUrl==null">
-                    <el-menu-item index="5">
+                <el-col :span="1" :offset="10" v-if="imageUrl==null">
+                    <el-menu-item index="6">
                         <a href="login.html">登录</a>
                     </el-menu-item>
                 </el-col>
                 <el-col :span="1" v-if="imageUrl==null">
-                    <el-menu-item index="5">
+                    <el-menu-item index="7">
                         <a href="register.html">注册</a>
                     </el-menu-item>
                 </el-col>
@@ -195,9 +198,7 @@
                                     <el-form-item>
                                         <el-button type="primary" @click="submitForm('ruleForm')">更新</el-button>
                                     </el-form-item>
-
                                 </el-form>
-
                             </el-col>
                         </el-row>
                     </el-tab-pane>
@@ -623,7 +624,7 @@
                     //修改头像框显示
                     img.imageUrl1 = img.imageUrl;
                     //判断是否禁用或者实名
-                    if (response.data.object.ucardState == 1) {
+                    if (response.data.object.ucardState === 1) {
                         img.state = "未实名,";
                         img.disabled = false;
                     } else {
@@ -631,7 +632,7 @@
                         img.idFrom.ucard = response.data.object.ucard;
                         img.idFrom.uname = response.data.object.uname;
                     }
-                    if (response.data.object.ustate == 1) {
+                    if (response.data.object.ustate === 1) {
                         img.state += "正常使用";
                     } else {
                         img.state += "禁止使用";
@@ -645,7 +646,6 @@
 
                 });
             },
-
             houseLike() {
                 var self = this;
                 //分页开始位置
@@ -656,6 +656,9 @@
                     pageSize: self.pageSize
                 }).then(function (response) {
                     self.houseLikeData = response.data.house;
+                    // alert( self.houseLikeData.length===0);
+                    // alert( self.currentPage>1);
+                    // alert( self.houseLikeData.length===0&&self.currentPage>1);
                     if (self.houseLikeData.length === 0 && self.currentPage > 1) {
                         self.currentPage = self.currentPage - 1;
                         self.houseLike();
@@ -739,10 +742,10 @@
             update(from) {
                 var self = this;
                 axios.post(this.url, from).then(function (response) {
-                    console.log(JSON.stringify(response.data));
-                    console.log(response.data.code);
-                    var s = response.data.code;
-                    if (s === 200) {
+                    // console.log(JSON.stringify(response.data));
+                    // console.log(response.data.code);
+                    // var s = ;
+                    if (response.data.code === 200) {
                         self.$message({
                             showClose: true,
                             message: response.data.msg,
@@ -757,8 +760,9 @@
                     }
                     self.loadData();
                 });
-            },
 
+
+            },
             handleSizeChange: function (val) {
                 console.log('每页条数:' + val);
                 this.pageSize = val;
@@ -806,7 +810,6 @@
                     houseId: houseId
                 })
                     .then(function (response) {
-
                         var s = response.data.code;
                         if (s === 200) {
                             self.$message({
@@ -821,9 +824,9 @@
                                 type: 'error'
                             });
                         }
-                        // self.loadData();
-                        self.$refs[form].resetFields();
                         self.dialogFormVisible = false;
+                        self.$refs[form].resetFields();
+                        self.loadData();
                     });
             },
             lookRefer(houseId) {
@@ -859,7 +862,6 @@
             houseDetail: function (hid) {
                 location.href = "housedetail.html?hid=" + hid;
             }
-
         }
     });
 </script>

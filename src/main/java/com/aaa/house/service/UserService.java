@@ -1,6 +1,7 @@
 package com.aaa.house.service;
 
 import com.aaa.house.entity.User;
+import com.aaa.house.utils.ResultUtil;
 import org.apache.ibatis.annotations.Delete;
 
 import java.util.Map;
@@ -18,7 +19,8 @@ public interface UserService {
      * @param phone 参数手机号
      * @return int
      */
-    User queryPhone(String phone);
+//    User queryPhone(String phone);
+    ResultUtil queryPhone(String phone);
 
     /**
      * 核查验证码，动态添加用户
@@ -26,21 +28,24 @@ public interface UserService {
      * @param code 验证码
      * @return int
      */
-    int   checkCodeInsertSelective(User record,String code);
+//    int   checkCodeInsertSelective(User record,String code);
+    ResultUtil checkCodeInsertSelective(User record, String code);
 
     /**
      * 根据手机号查询用户信息
      * @param record 实体对象
      * @return User实体对象
      */
-    User checkLogin(User record);
+//    User checkLogin(User record);
+    ResultUtil checkLogin(User record);
 
     /**
      * 判断登录
      *
      * @return 实体对象
      */
-    User judgeCusLogin();
+//    User judgeCusLogin();
+    ResultUtil judgeCusLogin();
 
     /**
      * 根据id修改用户信息
@@ -48,10 +53,10 @@ public interface UserService {
      * @param record
      * @return
      */
-    boolean updateByPrimaryKeySelective(User record);
-
+//    boolean updateByPrimaryKeySelective(User record);
+    ResultUtil updateByPrimaryKeySelective(User record);
     /**
-     * 验证身份信息，进行用户信息完善
+     * 实名验证
      *
      * @param record
      * @return
@@ -64,7 +69,8 @@ public interface UserService {
      * @param map
      * @return
      */
-    boolean upPass(Map map);
+//    boolean upPass(Map map);
+    ResultUtil upPass(Map map);
 
     /**
      * 取消关注

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.aaa.house.dao.BCodeDao">
+    <select id="showAddress" resultType="com.aaa.house.entity.Code">
+		select * from code where code_type=#{type}
+	</select>
+    <!--更改为-->
+    <select id="showAddres" resultType="com.aaa.house.entity.Code">
+		select * from code where id=#{id}
+	</select>
+    <select id="showNumber" resultType="com.aaa.house.entity.Code">
+		select * from code where code_number=#{code_number}
+	</select>
+
+    <insert id="addUser">
+		INSERT INTO house_user (uh_urban,uh_street,uh_district,uh_rent,uh_name,uh_phone)
+		VALUES(#{uh_urban},#{uh_street},#{uh_district},#{uh_rent},#{uh_name},#{uh_phone});
+	</insert>
+
+
+</mapper>

@@ -96,6 +96,13 @@ public class OtherUtil {
         return result.toString();
     }
 
+    /**
+     * 实名认证
+     *
+     * @param id
+     * @param name
+     * @return
+     */
     public static boolean checkIDCard(String id, String name) {
         String host = "https://eid.shumaidata.com";
         String path = "/eid/check";
@@ -170,7 +177,6 @@ public class OtherUtil {
     }
 
     public static void main(String[] args) {
-        String str = MD5("123456", "159");
         System.out.println(GetCnum());
     }
 }
