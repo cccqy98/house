@@ -549,7 +549,6 @@
                         } else {
                             self.imageUrl = null;
                         }
-
                     })
             },
             load: function () {
@@ -567,25 +566,6 @@
                         self.empinfo = response.data.staff;
                         self.isFollow(response.data.obj.houseId);
                     })
-
-                /*$.ajax({
-                    type: "post",
-                    dataType: "json",
-                    url: "/house/houseDetail",
-                    data: {"id": id},
-                    success: function (data) {
-                        //console.log(data.object);
-                        _this.listDetail = data.object;
-                        var jd = data.object.longitude;
-                        var wd = data.object.latitude;
-                        var area = data.object.hadr;
-                        var index = area.lastIndexOf("\-");
-                        area = area.substr(index + 1);
-                        _this.BdMap(jd, wd, area);
-                        _this.empinfo = data.empinfo;
-                        _this.isFollow(data.object.id);
-                    }
-                });*/
             },
             yuyue: function (houseId) {
                 var safe = this;
@@ -611,12 +591,10 @@
                                 safe.$message.error(response.data.msg);
                             }
                         })
-
                 }
             },
             followHouse: function (houseId) {
                 var safe = this;
-                //alert(id);
                 if (this.imageUrl == null) {
                     this.$confirm('请先登录?', '提示', {
                         confirmButtonText: '确定',
@@ -641,7 +619,6 @@
                 }
             },
             isFollow: function (houseId) {
-                //alert(hid);
                 var safe = this;
                 axios.post('/house/hasFollow', {
                     ah_hid: houseId,
@@ -690,7 +667,6 @@
                 axios.post('http://localhost:8080/loginReg/outUser')
                     .then(function (response) {
                         window.location.href = "main.html";
-                        // location.reload();
                     });
             }
         }
