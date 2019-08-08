@@ -62,9 +62,8 @@
                         <span>{{ props.row.ma_house }}</span>
                     </el-form-item>
                     <el-form-item label="驳回原因">
-                    <span>{{ props.row.maFalse }}</span>
-                </el-form-item>
-
+                        <span>{{ props.row.maFalse }}</span>
+                    </el-form-item>
                 </el-form>
             </template>
         </el-table-column>
@@ -134,7 +133,7 @@
             data: {
                 tableData: [],
                 currentPage: 1,
-                pageSize: 2,
+                pageSize: 5,
                 total: 0,
                 formInline: {
                     ma_house: '',
@@ -144,7 +143,8 @@
                 title: '',
                 dialogFormVisible: false,
                 form: {
-                    maFalse:''
+                    maFalse:'',
+                    ma_staff:''
                 },
                 formLabelWidth: '120px',
                 url:''
@@ -184,7 +184,7 @@
                 },
 
                 flush:function(){
-                    this.pageSize=2;
+                    this.pageSize=5;
                     this.currentPage=1;
                     this.formInline.code_number='';
                     this.formInline.ma_house='';

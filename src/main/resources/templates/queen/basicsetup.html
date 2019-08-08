@@ -8,6 +8,8 @@
     <script src="../front/resources/js/ele.js"></script>
     <link href="../front/resources/css/ele.css" rel="stylesheet">
     <script src="../front/resources/js/axios.js"></script>
+    <script src="../front/resources/js/jquery.js"></script>
+
     <style>
 
 /*
@@ -102,34 +104,32 @@
         <div class="text item" style="height: 100%">
             <el-container>
                 <el-main>
-                    <!--<el-aside width="200px">
 
-                        <el-upload
-                                name="picture"
-                                class="avatar-uploader"
-                                action="/uploadEmp"
-                                :show-file-list="false"
-                                :on-success="handleAvatarSuccess"
-                                :before-upload="beforeAvatarUpload">
-                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                        </el-upload>
-
-                    </el-aside>-->
                     <el-form :model="efrom" label-width="80px" :inline="true">
                         <input type="hidden" v-model="efrom.staff_id"/>
+
                         <!--action请求路径-->
                         <el-form-item label="头像上传" :label-width="formLabelWidth">
                             <el-upload
-                                    name="headPic"
+                                    name="headPic5"
                                     class="avatar-uploader"
-                                    action="../../uploadHeadPic"
+                                    action="/uploadHeadPicStaff"
                                     :show-file-list="false"
                                     :on-success="handleAvatarSuccess"
                                     :before-upload="beforeAvatarUpload">
                                 <img v-if="imageUrl" :src="imageUrl" class="avatar">
                                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                             </el-upload>
+                        </el-form-item>
+                        <el-form-item
+                                prop="headPic5name"
+                                label="头像原文件名称">
+                        </el-form-item>
+                        <el-form-item
+                                label="头像">
+                            <template slot-scope="scope">
+                                <img v-model="scope.row.headPic5" :src="'../../showStaff?fileName='+scope.row.headPic5" height="100px;" width="100px;">
+                            </template>
                         </el-form-item>
 
                         <el-form-item label="员工编号">
@@ -176,20 +176,31 @@
         el:"#basicsetup",
         data:{
             efrom:{},
+            options1:[],
             imageUrl: "",
             headurl:"",
-            headPic:'',//头像
-            headPicName:''
+            headPic5:'',//头像
+            headPic5Name:''
         },
         mounted: function () {
-            this.empload()
+            this.empload();
+
+            var self =this;
+            //性别
+            axios.post('/getUserSet')
+                .then(function (response) {
+                    //JSON.stringify 把json对象装换为json字符串
+                    console.log(JSON.stringify(response.data));
+                    //json.parse()把json字符串转换为json对象
+                    self.options1 = response.data;
+                });
         },
         methods:{
             upEmp:function(){
                 var _this=this;
                 $.ajax({
                     type: "post",
-                    url: "/employee/upEmpnewsByid",
+                    url: "../../updateStaff",
                     data:_this.empfrom,
                     dataType: "json",
                     success: function (data) {
@@ -209,16 +220,19 @@
                 var _this=this;
                 $.ajax({
                     type: "post",
-                    url: "/employee/getEmpByid",
+                    url: "../../selectSession",
                     dataType: "json",
                     success: function (data) {
-                        _this.empfrom=data.object;
-                        _this.imageUrl=data.object.logoimg;
+                        _this.efrom=data.object;
+                      _this.imageUrl=data.object.staff_portrait;
+
                     }
                 });
             },
             handleAvatarSuccess:function(res,file) {
                 this.imageUrl = URL.createObjectURL(file.raw);
+                this.eform.headPic5Name= file.response.originalFilename;
+                this.eform.headPic5=file.response.newFileName;
                 var _this=this;
                 //alert(res.success)
                 if (res.success){
