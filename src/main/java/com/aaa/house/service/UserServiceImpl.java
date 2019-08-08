@@ -157,21 +157,12 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             resultUtil.setCode(ISysConstants.ERRORCODE);
             resultUtil.setObject(user);
+            resultUtil.setMsg(null);
         } else {
             resultUtil.setCode(ISysConstants.SUCCESSCODE);
             resultUtil.setObject(user);
         }
         return resultUtil;
-
-//        //判断session中是否由user值
-//        if (judgeCusLogin == null) {
-//            resultUtil.setCode(ISysConstants.ERRORCODE);
-//            resultUtil.setObject(judgeCusLogin);
-//        } else {
-//            resultUtil.setCode(ISysConstants.SUCCESSCODE);
-//            resultUtil.setObject(judgeCusLogin);
-//        }
-//        return resultUtil;
     }
 
     /**
@@ -184,19 +175,14 @@ public class UserServiceImpl implements UserService {
     public ResultUtil updateByPrimaryKeySelective(User record) {
         if (userMapper.updateByPrimaryKeySelective(record) > 0) {
             //修改信息成功之后更新session
-
             //获取手机号查询信息
-            //往sessions中保存
-            //更新Session用户信息
             CusUtil.saveCus(userMapper.selectByPrimaryKey(record.getUPhone()));
             resultUtil.setCode(ISysConstants.SUCCESSCODE);
             resultUtil.setMsg("更新成功");
-            System.out.println("更新成功");
             return resultUtil;
         }
         resultUtil.setCode(ISysConstants.ERRORCODE);
         resultUtil.setMsg("更新失败");
-        System.out.println("失败");
         return resultUtil;
     }
 
@@ -208,179 +194,18 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResultUtil upPass(Map map) {
-
-//    //判断是否成功
-//        if (service.upPass(map)) {
-//        resultUtil.setCode(ISysConstants.SUCCESSCODE);
-//        resultUtil.setMsg("修改成功");
-//        CusUtil.removeCusson();
-//    } else {
-//        resultUtil.setCode(ISysConstants.ERRORCODE);
-//        resultUtil.setMsg("修改失败");
-//    }
-//        user.setUPhone((String) map.get("uphone"));
-////        user.setUPassword((String) map.get("oldPass"));
-//        user.setId((Integer) map.get("id"));
-//
-//        Object obj = this.checkLogin(user);
-//        System.out.println("密码修改服务层");
-//        System.out.println(obj);
-//        System.out.println("查询是否匹配成功");
-//        System.out.println();
-
-        Object oldPass = map.get("oldPass");
-        System.out.println(oldPass);
-        String oldPass1 = OtherUtil.MD5((String) map.get("oldPass"), user.getUPhone());
-        System.out.println(oldPass1);
-        System.out.println("==================1");
+        String oldPass = OtherUtil.MD5((String) map.get("oldPass"), user.getUPhone());
         String password = user.getUPassword();
-        System.out.println(password);
-        System.out.println("==================1");
-
-        if (oldPass1.equals(password)) {
-            System.out.println("加=================密");
+        if (oldPass.equals(password)) {
             user.setUPassword(OtherUtil.MD5((String) map.get("newPass"), user.getUPhone()));
             resultUtil = this.updateByPrimaryKeySelective(user);
+            CusUtil.removeCusson();
         } else {
             resultUtil.setCode(ISysConstants.ERRORCODE);
             resultUtil.setMsg("原始密码错误");
         }
-
         return resultUtil;
     }
-
-
-    /*    *//**
-     * 获取验证码
-     *
-     * @param phone 参数手机号
-     * @return String 返回值为null或者不为null
-     *//*
-    @Override
-    public User queryPhone(String phone) {
-        //判断是否存在用户
-        User user = userMapper.selectByPrimaryKey(phone);
-        //若存在返回不为空result
-        if (user != null) {
-            return user;
-        }
-        //调用工具类OtherUtil中的randomCode获取随机数
-        randomCode = OtherUtil.randomCode();
-        System.out.println("赋值" + randomCode);
-        try {
-            //调用阿里短信服务
-            SendSmsResponse sendSms = sendSms(phone, randomCode);
-        } catch (ClientException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }*/
-
-
-
-    /*    *//**
-     * 核查验证码，动态添加用户
-     *
-     * @param record 实体类
-     * @param code   验证码
-     * @return int
-     *//*
-    @Override
-    public int checkCodeInsertSelective(User record, String code) {
-        //核对验证码
-        if (code.equals(randomCode)) {
-            //判断id是否为空
-            if (OtherUtil.isEmpty(record.getId())) {
-                //性别默认为男
-                record.setUSex(1);
-                //调用工具类进行MD5密码加密
-                record.setUPassword(OtherUtil.MD5(record.getUPassword(), record.getUPhone()));
-                //调用工具类获取随机用户昵称
-                record.setUPetname(OtherUtil.getUname());
-                //调用dao方法进行用户录入
-                userMapper.insertSelective(record);
-                return 1;
-            } else {
-                return 0;
-            }
-        }
-        return -1;
-    }*/
-
-
-    /**
-     * 根据手机号查询用户信息,核对信息进行登录
-     *
-     * @param record 实体对象
-     * @return User实体对象
-     *//*
-    @Override
-    public User checkLogin(User record) {
-        //获取手机号
-        String phone = record.getUPhone();
-        //根据手机号查询用户
-        user = userMapper.selectByPrimaryKey(phone);
-        //如果用户部位null
-        if (user != null) {
-            //对前台传输密码进行MD5加密
-            record.setUPassword(OtherUtil.MD5(record.getUPassword(), phone));
-            //得到加密后的密码
-            String paramPassword = record.getUPassword();
-            //得到原始密码
-            String password = user.getUPassword();
-            if (password.equals(paramPassword)) {
-                CusUtil.saveCus(user);
-                return user;
-            }
-        }
-        return null;
-    }*/
-
-
-//
-//    /**
-//     * 根据id修改用户信息
-//     *
-//     * @param record
-//     * @return
-//     */
-//    @Override
-//    public boolean updateByPrimaryKeySelective(User record) {
-//        int result = userMapper.updateByPrimaryKeySelective(record);
-//        if (result > 0) {
-//            //修改信息成功之后更新session
-//            String phone = record.getUPhone();
-//            User user = userMapper.selectByPrimaryKey(phone);
-//            //往sessions中保存
-//            CusUtil.saveCus(user);
-//            return true;
-//        }
-//        return false;
-//    }
-
-
-//    /**
-//     * 修改密码
-//     *
-//     * @param map
-//     * @return
-//     */
-//    @Override
-//    public boolean upPass(Map map) {
-//        User user = new User();
-//        user.setUPhone((String) map.get("uphone"));
-//        user.setUPassword((String) map.get("oldPass"));
-//        user.setId((Integer) map.get("id"));
-//        Object obj = this.checkLogin(user);
-//        if (obj != null) {
-//            user.setUPassword(OtherUtil.MD5((String) map.get("newPass"), user.getUPhone()));
-////            if (updateByPrimaryKeySelective(user)) {
-////                return true;
-////            }
-//            return false;
-//        }
-//        return false;
-//    }
 
     /**
      * 验证身份证号
@@ -389,17 +214,23 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public boolean checkID(User record) {
+    public ResultUtil checkID(User record) {
+
+
         String uCard = record.getUCard();
         String uName = record.getUName();
 //  HttpEntity httpEntity = checkIDCard(uCard, uName);
-        boolean b = checkIDCard(uCard, uName);
-        if (b) {
+        if (checkIDCard(uCard, uName)) {
             record.setUcardState(2);
-            this.updateByPrimaryKeySelective(record);
-            return true;
+            if (this.updateByPrimaryKeySelective(record).getCode() == 200) {
+                resultUtil.setCode(ISysConstants.SUCCESSCODE);
+                resultUtil.setMsg("实名成功");
+                return resultUtil;
+            }
         }
-        return false;
+        resultUtil.setCode(ISysConstants.ERRORCODE);
+        resultUtil.setMsg("证号/姓名不匹配");
+        return resultUtil;
     }
 
     /**
@@ -416,6 +247,12 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    /**
+     * 房屋报修
+     *
+     * @param map
+     * @return
+     */
     @Override
     public boolean insertRefer(Map map) {
         if (userMapper.insertRefer(map) > 0) {

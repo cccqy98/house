@@ -99,9 +99,9 @@ public class OtherUtil {
     /**
      * 实名认证
      *
-     * @param id
-     * @param name
-     * @return
+     * @param id   身份id
+     * @param name 姓名
+     * @return boolean
      */
     public static boolean checkIDCard(String id, String name) {
         String host = "https://eid.shumaidata.com";
@@ -154,7 +154,7 @@ public class OtherUtil {
     /**
      * 获取现在时间
      *
-     * @return返回字符串格式yyyyMMddHHmmss
+     * @return 返回字符串格式yyyyMMddHHmmss
      */
     public static String getStringDate() {
         Date currentTime = new Date();
@@ -167,7 +167,7 @@ public class OtherUtil {
      * 由年月日时分秒+3位随机数
      * 生成编号
      *
-     * @return
+     * @return boolean
      */
     public static String GetCnum() {
         String t = getStringDate();

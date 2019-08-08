@@ -49,17 +49,6 @@ public class UserController {
      */
     @RequestMapping("/getPhoneCode")
     public ResultUtil code(@RequestParam("phone") String phone) {
-//        //查询用户是否已注册
-//        User result = service.queryPhone(phone);
-//        //判断用户是否注册
-//        if (result != null) {
-//            resultUtil.setCode(ISysConstants.ERRORCODE);
-//            resultUtil.setMsg("该手机号已经注册");
-//        } else {
-//            resultUtil.setCode(ISysConstants.SUCCESSCODE);
-//            resultUtil.setMsg("验证码已发送，请在3分钟内使用");
-//        }
-//        return resultUtil;
         return service.queryPhone(phone);
     }
 
@@ -72,18 +61,6 @@ public class UserController {
      */
     @RequestMapping("/register")
     public ResultUtil test2(User user, String code) {
-//        //调用验证接口
-//        int reg = service.checkCodeInsertSelective(user, code);
-//        //判断录入是否成功，并且给交互类赋值
-//        if (reg == -1) {
-//            resultUtil.setCode(ISysConstants.OTHERTIPS);
-//            resultUtil.setMsg("验证码错误");
-//        } else if (reg == 1) {
-//            resultUtil.setCode(ISysConstants.SUCCESSCODE);
-//        } else {
-//            resultUtil.setCode(ISysConstants.ERRORCODE);
-//            resultUtil.setMsg("注册失败");
-//        }
         return service.checkCodeInsertSelective(user, code);
     }
 
@@ -95,14 +72,7 @@ public class UserController {
      */
     @RequestMapping("/checkLogin")
     public ResultUtil test3(User user) {
-//        User login = service.checkLogin(user);
-//        //判断登录查询是否成功
-//        if (login != null) {
-//            resultUtil.setCode(ISysConstants.SUCCESSCODE);
-//        } else {
-//            resultUtil.setCode(ISysConstants.ERRORCODE);
-//            resultUtil.setMsg("登录失败,手机号或密码错误");
-//        }
+
         return service.checkLogin(user);
     }
 
@@ -113,16 +83,6 @@ public class UserController {
      */
     @RequestMapping("/judgeCusLogin")
     public ResultUtil judgeCusLogin() {
-//        User judgeCusLogin = service.judgeCusLogin();
-//        //判断session中是否由user值
-//        if (judgeCusLogin == null) {
-//            resultUtil.setCode(ISysConstants.ERRORCODE);
-//            resultUtil.setObject(judgeCusLogin);
-//        } else {
-//            resultUtil.setCode(ISysConstants.SUCCESSCODE);
-//            resultUtil.setObject(judgeCusLogin);
-//        }
-//        return resultUtil;
         return service.judgeCusLogin();
     }
 
@@ -168,7 +128,6 @@ public class UserController {
                 ftpConfig.getFtpPassWord() + "@" + ftpConfig.getRemoteIp() + ftpConfig.getRemotePath() + "/" + fileName));
     }
 
-
     /**
      * 用户信息修改
      *
@@ -176,17 +135,6 @@ public class UserController {
      */
     @RequestMapping("update")
     public ResultUtil update(@RequestBody User user) {
-//        System.out.println("修改信息");
-//        //判断信息是否修改成功
-//        if (service.updateByPrimaryKeySelective(user)) {
-//            resultUtil.setCode(ISysConstants.SUCCESSCODE);
-//            resultUtil.setMsg("更新信息成功");
-//            return resultUtil;
-//        }
-//        resultUtil.setCode(ISysConstants.ERRORCODE);
-//        resultUtil.setMsg("更新信息失败");
-//        return resultUtil;
-
         return service.updateByPrimaryKeySelective(user);
     }
 
@@ -197,15 +145,7 @@ public class UserController {
      */
     @RequestMapping("checkID")
     public ResultUtil checkID(@RequestBody User user) {
-        //判断ID验证是否成功
-        if (service.checkID(user)) {
-            resultUtil.setCode(ISysConstants.SUCCESSCODE);
-            resultUtil.setMsg("实名成功");
-            return resultUtil;
-        }
-        resultUtil.setCode(ISysConstants.ERRORCODE);
-        resultUtil.setMsg("证号或姓名不匹配");
-        return resultUtil;
+        return service.checkID(user);
     }
 
     /**
@@ -215,15 +155,6 @@ public class UserController {
      */
     @RequestMapping("upPass")
     public ResultUtil upPass(@RequestBody Map map) {
-//        //判断是否成功
-//        if (service.upPass(map)) {
-//            resultUtil.setCode(ISysConstants.SUCCESSCODE);
-//            resultUtil.setMsg("修改成功");
-//            CusUtil.removeCusson();
-//        } else {
-//            resultUtil.setCode(ISysConstants.ERRORCODE);
-//            resultUtil.setMsg("修改失败");
-//        }
         return service.upPass(map);
     }
 

@@ -61,8 +61,8 @@ public interface UserService {
      * @param record
      * @return
      */
-    boolean checkID(User record);
-
+//    boolean checkID(User record);
+    ResultUtil checkID(User record);
     /**
      * 密码修改
      *

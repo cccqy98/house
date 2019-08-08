@@ -205,7 +205,7 @@
                     <el-tab-pane label="我的关注">
                         <el-row>
                             <el-col :span="20" :offset="2" style="height: 480px;">
-                                <p>您收藏{{total}}套房源</p>
+                                <p>您收藏了{{total}}套房源</p>
                                 <div v-for="item in houseLikeData" :id="item.id" style="clear: both">
                                     <hr/>
                                     <div slot="description" style="float: left;">
@@ -241,7 +241,7 @@
                                 <div style="text-align: center;margin-bottom: 10px">
                                     <!--分页区-->
                                     <el-pagination
-                                            v-if="total>0"
+                                            v-if="total>3"
                                             background
                                             @size-change="handleSizeChange"
                                             @current-change="handleCurrentChange"
@@ -257,7 +257,7 @@
                     <el-tab-pane label="我的发布">
                         <el-row>
                             <el-col :span="20" :offset="2" style="height: 480px;">
-                                <p>您发布{{total1}}套房源</p>
+                                <p>您已发布{{total1}}套房源</p>
                                 <div v-for="item in houseSelfData" :id="item.id" style="clear: both">
                                     <hr/>
                                     <div slot="description" style="float: left;">
@@ -290,7 +290,7 @@
                                 <div style="text-align: center;margin-bottom: 10px">
                                     <!--分页区-->
                                     <el-pagination
-                                            v-if="total1>0"
+                                            v-if="total1>3"
                                             background
                                             @size-change="handleSizeChange"
                                             @current-change="handleCurrentChange1"
@@ -373,7 +373,7 @@
                                 <div style="text-align: center;margin-bottom: 10px">
                                     <!--分页区-->
                                     <el-pagination
-                                            v-if="total2>0"
+                                            v-if="total2>3"
                                             background
                                             @size-change="handleSizeChange"
                                             @current-change="handleCurrentChange2"
@@ -423,14 +423,14 @@
                                 <el-form label-position="left" :model="upFrom" :rules="rules2" ref="upFrom"
                                          label-width="100px" class="demo-ruleForm">
                                     <el-form-item label="当前密码" prop="oldPass">
-                                        <el-input v-model="upFrom.oldPass"></el-input>
+                                        <el-input v-model="upFrom.oldPass" show-password></el-input>
                                     </el-form-item>
 
                                     <el-form-item label="修改密码" prop="newPass">
-                                        <el-input v-model="upFrom.newPass"></el-input>
+                                        <el-input v-model="upFrom.newPass" show-password></el-input>
                                     </el-form-item>
                                     <el-form-item label="确认密码" prop="checkPass">
-                                        <el-input v-model="upFrom.checkPass"></el-input>
+                                        <el-input v-model="upFrom.checkPass" show-password></el-input>
                                     </el-form-item>
                                     <el-form-item>
                                         <el-button type="primary" @click="submitForm2('upFrom')">更新</el-button>
@@ -486,7 +486,7 @@
         if (value === '') {
             callback(new Error('身份证号不能为空'));
         } else if (!IdCardNumberReg.test(value)) {
-            callback(new Error('格式错误 : 15位数字组或17位数字和1位效验码组成'));
+            callback(new Error('格式错误:15位数字/17位数字和1位效验码组成'));
         } else {
             callback();
         }
@@ -563,7 +563,8 @@
             idFrom: {
                 id: '',
                 ucard: '',
-                uname: ''
+                uname: '',
+                uphoto: ''
             },
             rules1: {
                 ucard: [{validator: validateCard, trigger: 'blur'}],
@@ -619,6 +620,7 @@
                     img.upFrom.id = self.id;
                     //身份验证id赋值
                     img.idFrom.id = self.id;
+                    img.idFrom.uphone = self.uphone;
                     //导航栏图片显示
                     img.imageUrl = 'http://localhost:8080/loginReg/show?fileName=' + response.data.object.uphoto;
                     //修改头像框显示
@@ -629,6 +631,7 @@
                         img.disabled = false;
                     } else {
                         img.state = "已实名,";
+                        img.disabled = true;
                         img.idFrom.ucard = response.data.object.ucard;
                         img.idFrom.uname = response.data.object.uname;
                     }
@@ -656,14 +659,11 @@
                     pageSize: self.pageSize
                 }).then(function (response) {
                     self.houseLikeData = response.data.house;
-                    // alert( self.houseLikeData.length===0);
-                    // alert( self.currentPage>1);
-                    // alert( self.houseLikeData.length===0&&self.currentPage>1);
                     if (self.houseLikeData.length === 0 && self.currentPage > 1) {
                         self.currentPage = self.currentPage - 1;
                         self.houseLike();
-                        self.total = response.data.total;
                     }
+                    self.total = response.data.total;
                 });
             },
             houseMy() {
