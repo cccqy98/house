@@ -61,7 +61,7 @@
                 <template slot-scope="props">
                     <el-button size="mini" v-if="props.row.ma_static=='待维修'" type="success" @click="updatelstate(props.row.id)">维修</el-button>
                     <el-button size="mini" v-if="props.row.ma_static=='已维修'" type="primary" disabled plain>已维修</el-button>
-                    <el-button size="mini" v-if="props.row.ma_static=='待维修'" type="primary" @click="updatelstate1(props.$index, props.row)">不维修</el-button>
+                    <el-button size="mini" v-if="props.row.ma_static=='待维修'" type="primary" @click="updatelstate1(props.$index, props.row)">驳回</el-button>
                 </template>
             </el-table-column>
         </el-table>

@@ -79,7 +79,7 @@
             <template slot-scope="props">
                 <el-button size="mini" v-if="props.row.ma_audit=='待审核'" type="success" @click="updatelstate(props.row.id)">审核</el-button>
                 <el-button size="mini" v-if="props.row.ma_audit=='已审核'" type="primary" disabled plain>已审核</el-button>
-                <el-button size="mini" v-if="props.row.ma_audit=='待审核'" type="primary" @click="updatelstate1(props.$index, props.row)">不审核</el-button>
+                <el-button size="mini" v-if="props.row.ma_audit=='待审核'" type="primary" @click="updatelstate1(props.$index, props.row)">驳回</el-button>
             </template>
         </el-table-column>
     </el-table>
