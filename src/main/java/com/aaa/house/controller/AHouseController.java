@@ -88,76 +88,8 @@ public class AHouseController {
      * @return
      */
     @RequestMapping("setHouse")
-    @Transactional//事务
     public ResultUtil setHouse(@RequestBody Map map){
-        //交互类
-        ResultUtil resultUtil=new ResultUtil();
-
-        //房屋id
-        String uh_name= null;
-        try {//防止获取不到值
-            uh_name = map.get("house_id").toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            resultUtil.setCode(ISysConstants.OTHERTIPS);
-            return resultUtil;
-
-        }
-
-
-        /*--------------添加房屋组图片表----------------------*/
-        List<HouseImg> listimg=new ArrayList<>();
-        try {//防止获取不到值
-            String aa= (String) map.get("headPic2");
-            String[] imgg=aa.split(",");
-            for (String s : imgg) {
-                HouseImg houseImg=new HouseImg();
-                houseImg.setHid(uh_name);
-                houseImg.setHimg(s);
-                listimg.add(houseImg);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            resultUtil.setCode(ISysConstants.OTHERTIPS);
-            return resultUtil;
-        }
-        //添加房屋组图表
-        int img=aHouseService.setHouseImg(listimg);
-
-
-
-
-      /*--------------添加房屋标签----------------------*/
-        //临时用
-        List<HouseLable> list=new ArrayList<>();
-
-        //房屋 标签
-        try {
-            List checked= (List) map.get("checkedCities");
-            for (Object check : checked) {
-                 HouseLable houseLable =new HouseLable();
-                houseLable.setHo_id(uh_name);
-                houseLable.setLa_id(check.toString());
-                list.add(houseLable);
-             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            resultUtil.setCode(ISysConstants.OTHERTIPS);
-            return resultUtil;
-        }
-        //sql在房屋标签中间表
-        int lable=aHouseService.setHouseLable(list);
-        //sql 在房屋表里添加
-        int hou=aHouseService.setHouse(map);
-
-
-        //判断
-        if (img>0&&lable>0&&hou>0){
-            resultUtil.setCode(ISysConstants.SUCCESSCODE);
-            return resultUtil;
-        }
-        resultUtil.setCode(ISysConstants.OTHERTIPS);
-        return resultUtil;
+        return aHouseService.setHouse(map);
     }
 
     /**

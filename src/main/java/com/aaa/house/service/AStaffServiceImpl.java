@@ -31,7 +31,9 @@ public class AStaffServiceImpl implements AStaffService{
     //员工登录
     @Override
     public Staff selectStaff(Staff staff) {
+        //md5加密
         PasswordHelper.encryptPassword(staff);
+        //执行sql
          staffAll=aStaffMappng.selectStaff(staff);
         if (staffAll!=null){
             //存session

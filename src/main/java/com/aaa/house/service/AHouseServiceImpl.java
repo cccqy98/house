@@ -7,7 +7,9 @@ import com.aaa.house.utils.ISysConstants;
 import com.aaa.house.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,7 @@ import java.util.Map;
  * Description: 房屋
  */
 @Service
+@Transactional//事务
 public class AHouseServiceImpl implements AHouseService{
 
     @Autowired
@@ -175,29 +178,76 @@ public class AHouseServiceImpl implements AHouseService{
      * @return
      */
     @Override
-    public int setHouse(Map map) {
-        return aHouseMapping.setHouse(map);
+    public ResultUtil setHouse(Map map) {
+        //交互类
+        ResultUtil resultUtil=new ResultUtil();
+        //房屋id
+        String uh_name= null;
+        try {//防止获取不到值
+            uh_name = map.get("house_id").toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultUtil.setCode(ISysConstants.OTHERTIPS);
+            return resultUtil;
+
+        }
+
+        /*--------------添加房屋组图片表----------------------*/
+        List<HouseImg> listimg=new ArrayList<>();
+        try {//防止获取不到值
+            String aa= (String) map.get("headPic2");
+            System.out.println("图片：0000"+aa);
+            String[] imgg=aa.split(",");
+            for (String s : imgg) {
+                HouseImg houseImg=new HouseImg();
+                houseImg.setHid(uh_name);
+                houseImg.setHimg(s);
+                listimg.add(houseImg);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultUtil.setCode(ISysConstants.OTHERTIPS);
+            return resultUtil;
+        }
+        //添加房屋组图表
+        int img=aHouseMapping.setHouseImg(listimg);
+
+
+        /*--------------添加房屋标签----------------------*/
+        //临时用
+        List<HouseLable> list=new ArrayList<>();
+
+        //房屋 标签
+        try {
+            List checked= (List) map.get("checkedCities");
+            for (Object check : checked) {
+                HouseLable houseLable =new HouseLable();
+                houseLable.setHo_id(uh_name);
+                houseLable.setLa_id(check.toString());
+                list.add(houseLable);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultUtil.setCode(ISysConstants.OTHERTIPS);
+            return resultUtil;
+        }
+        //sql在房屋标签中间表
+        int lable=aHouseMapping.setHouseLable(list);
+        //sql 在房屋表里添加
+        int hou=aHouseMapping.setHouse(map);
+
+
+        //判断
+        if (img>0&&lable>0&&hou>0){
+            resultUtil.setCode(ISysConstants.SUCCESSCODE);
+            return resultUtil;
+        }
+        resultUtil.setCode(ISysConstants.OTHERTIPS);
+        return resultUtil;
     }
 
-    /**
-     * 添加房屋标签
-     * @param houseLables
-     * @return
-     */
-    @Override
-    public int setHouseLable(List<HouseLable> houseLables) {
-        return aHouseMapping.setHouseLable(houseLables);
-    }
 
-    /**
-     * 添加房屋组图
-     * @param list
-     * @return
-     */
-    @Override
-    public int setHouseImg(List<HouseImg> list) {
-        return aHouseMapping.setHouseImg(list);
-    }
+
 
     /**
      * 查询我的房屋啊

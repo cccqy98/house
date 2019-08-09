@@ -77,21 +77,9 @@ public interface AHouseService {
      * @param map
      * @return
      */
-    int setHouse(Map map);
+    ResultUtil setHouse(Map map);
 
-    /**
-     * 添加房屋标签表
-     * @param houseLables
-     * @return
-     */
-    int setHouseLable(List<HouseLable> houseLables);
 
-    /**
-     * 添加房屋组图
-     * @param list
-     * @return
-     */
-    int setHouseImg(List<HouseImg> list);
 
 
     /**
