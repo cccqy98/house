@@ -1,6 +1,8 @@
 package com.aaa.house.entity;
 
-public class BHouseUser {
+import java.io.Serializable;
+
+public class BHouseUser implements Serializable {
 
     //int(200) NOT NULL客户布房源
     private int uh_id;

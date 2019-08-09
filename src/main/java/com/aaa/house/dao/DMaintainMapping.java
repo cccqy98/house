@@ -1,10 +1,8 @@
 package com.aaa.house.dao;
 
 import com.aaa.house.entity.Maintain;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.aaa.house.utils.RedisCache;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,6 +15,8 @@ import java.util.Map;
  * @Version 1.0
  */
 @Repository
+//开启二级缓存 reids
+@CacheNamespace(implementation = RedisCache.class)
 public interface DMaintainMapping {
 
 

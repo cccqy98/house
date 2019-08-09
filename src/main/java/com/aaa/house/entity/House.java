@@ -2,6 +2,7 @@ package com.aaa.house.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.Map;
  * versoin:1.0.0
  */
 @Data
-public class House {
+public class House implements Serializable {
     private Integer id;
 
     private Integer houseId;//房间id

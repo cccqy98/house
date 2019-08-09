@@ -2,6 +2,7 @@ package com.aaa.house.dao;
 
 import com.aaa.house.entity.Staff;
 import com.aaa.house.entity.StaffRole;
+import com.aaa.house.utils.RedisCache;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,8 @@ import java.util.Map;
  * 曹康
  */
 @Repository
+//开启二级缓存 reids
+@CacheNamespace(implementation = RedisCache.class)
 public interface AStaffMappng {
 
     //员工登录

@@ -2,6 +2,8 @@ package com.aaa.house.dao;
 
 
 import com.aaa.house.entity.HouseLaIm;
+import com.aaa.house.utils.RedisCache;
+import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 @Repository
+//开启二级缓存 reids
+@CacheNamespace(implementation = RedisCache.class)
 public interface DHouseMapper {
 
     /**

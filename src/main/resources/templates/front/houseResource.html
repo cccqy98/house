@@ -225,7 +225,7 @@
                     <div class="zf">
                         <h3 style="display: inline;margin-left: 20px">选择您所在的城市
                             <img src="resources/images/localtion.png" style="width: 25px;height: 25px;"/>
-                            <h3 style="color: #2f54eb;display: inline">{{form.codetype1}}</h3>
+                            <h3 style="color: #2f54eb;display: inline">{{form.uh_urban}}</h3>
                         </h3>
                     </div>
                 </a-layout-content>
@@ -298,12 +298,14 @@
 </div>
 </body>
 <script>
+
     var usevue = new Vue({
         el: "#house",
         data: {
             options3:[],
             value: '',
             imageUrl: null,
+             ucard:null,
             form: {},
             setval: "",
             setval2: "",
@@ -380,11 +382,40 @@
                         if (response.data.code === 200) {
                             //头像显示
                             self.imageUrl = 'http://localhost:8080/loginReg/show?fileName=' + response.data.object.uphoto;
+                            self.ucard=response.data.object.ucard
                         } else {
-                            window.location.href="login.html";
+                            self.imageUrl = null;
                         }
+                        self.yuyue();
                     })
             },
+
+            yuyue: function () {
+                var safe = this;
+                if (this.imageUrl == null) {
+                    this.$confirm('请先登录?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(function () {
+                        window.location.href = "login.html";
+                    })
+                } else if (this.ucard == null){
+                    this.$confirm('请先实名认证?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(function () {
+                        window.location.href = "userInfo.html";
+                    })
+                }
+            },
+
+
+
+
+
+
            /* open:function() {
                 this.$alert('对不起老铁，请先登录谢谢。→_→', '提示', {
                     confirmButtonText: '确定',

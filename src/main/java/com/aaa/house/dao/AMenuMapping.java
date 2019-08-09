@@ -15,8 +15,8 @@ import java.util.Map;
  * Description: 菜单权限
  */
 @Repository
-/*//开启二级缓存 reids
-@CacheNamespace(implementation = RedisCache.class)*/
+//开启二级缓存 reids
+@CacheNamespace(implementation = RedisCache.class)
 public interface AMenuMapping {
     /**
      * 查询权限 树形菜单

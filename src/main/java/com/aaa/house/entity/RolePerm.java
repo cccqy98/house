@@ -2,6 +2,8 @@ package com.aaa.house.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * FileName: RolePerm
  * Author:   曹康
@@ -9,7 +11,7 @@ import lombok.Data;
  * Description: 角色权限中间表
  */
 @Data
-public class RolePerm {
+public class RolePerm implements Serializable {
     private String pid;
     private String rid;
 }

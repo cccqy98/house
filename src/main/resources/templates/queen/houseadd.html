@@ -126,7 +126,7 @@
 								</el-col>
 
 								<el-col :span="8">
-									<span>房屋&nbsp;&nbsp;</span>
+									<span>房屋ID&nbsp;&nbsp;</span>
 									<el-select v-model="eform.uhouse" prop="uhouse"  placeholder="请选择房东房屋号" size="large" clearable >
 										<el-option
 												v-for="item in options1"
@@ -388,6 +388,24 @@
                     }
                 }, 1000);
             };
+			var houseRent = (rule, value, callback) => {
+				if (!value) {
+					return callback(new Error('租金不能为空'));
+				}
+				setTimeout(() => {
+					if (!Number.isInteger(value)) {
+						callback(new Error('请输入数字值'));
+					} else {
+						if (value > 20000) {
+							callback(new Error('不能大于20000'));
+						}else if (value < 0){
+							callback(new Error('不能为负数'));
+						} else {
+							callback();
+						}
+					}
+				}, 1000);
+			};
 			new Vue({
 				el: "#res",
 				data: {
@@ -499,15 +517,7 @@
 						house_area: [//面积
                             { validator: housearea, trigger: 'blur' }
 						],
-						house_rent: [{
-								required: true, //是否必填
-								message: '租金不能为空', //规则
-								trigger: 'blur' //何事件触发
-							},
-							{
-								type: 'number',
-								message: '租金必须是数字'
-							}
+						house_rent: [{ validator: houseRent, trigger: 'blur' }
 						],
 						house_date: [{
 							required: true, //是否必填
@@ -594,7 +604,6 @@
 						}else{
 							this.eform.headPic2+=file.response.newFileName+",";
 						}
-
 					},
 					beforeAvatarUpload:function(file) {
 						const isJPG = file.type === 'image/jpeg';

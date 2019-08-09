@@ -211,6 +211,11 @@ public class AHouseServiceImpl implements AHouseService{
         }
         //添加房屋组图表
         int img=aHouseMapping.setHouseImg(listimg);
+        /*--------------修改house_user的添加状态 ----------------------*/
+
+
+        aHouseMapping.updateHouseUser(uh_name);
+
 
 
         /*--------------添加房屋标签----------------------*/

@@ -2,6 +2,8 @@ package com.aaa.house.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * FileName: HouseImg
  * Author:   曹康
@@ -9,7 +11,7 @@ import lombok.Data;
  * Description: 房屋组图
  */
 @Data
-public class HouseImg {
+public class HouseImg implements Serializable {
     private String hid;
     private String himg;
 

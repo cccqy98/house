@@ -2,6 +2,8 @@ package com.aaa.house.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * FileName: Role
  * Author:   曹康
@@ -9,7 +11,7 @@ import lombok.Data;
  * Description: 角色
  */
 @Data
-public class Role {
+public class Role implements Serializable {
     private String role_id;
     private String role_name;
     private String role_describe;

@@ -3,10 +3,8 @@ package com.aaa.house.dao;
 import com.aaa.house.entity.RolePerm;
 import com.aaa.house.entity.Tree;
 import com.aaa.house.entity.TreeRole;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.aaa.house.utils.RedisCache;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,8 +17,8 @@ import java.util.Map;
  * Description: 角色
  */
 @Repository
-/*//开启二级缓存 reids
-@CacheNamespace(implementation = RedisCache.class)*/
+//开启二级缓存 reids
+@CacheNamespace(implementation = RedisCache.class)
 public interface ARoleMapping {
 
     /**

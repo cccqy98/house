@@ -2,6 +2,8 @@ package com.aaa.house.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * FileName: StaffRole
  * Author:   曹康
@@ -9,7 +11,7 @@ import lombok.Data;
  * Description: 员工角色中间表
  */
 @Data
-public class StaffRole {
+public class StaffRole implements Serializable {
     private String sid;
     private String rid;
 }

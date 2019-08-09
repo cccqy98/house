@@ -1,6 +1,8 @@
 package com.aaa.house.dao;
 
 import com.aaa.house.entity.Staff;
+import com.aaa.house.utils.RedisCache;
+import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
@@ -15,6 +17,8 @@ import java.util.Map;
  * @Modified By:
  */
 @Repository
+//开启二级缓存 reids
+@CacheNamespace(implementation = RedisCache.class)
 public interface DStaffMapping {
     /**
      * 查询单个

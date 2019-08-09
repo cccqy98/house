@@ -1,6 +1,8 @@
 package com.aaa.house.dao;
 
 import com.aaa.house.entity.StaffRole;
+import com.aaa.house.utils.RedisCache;
+import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
@@ -10,6 +12,8 @@ import java.util.Map;
 /**
  * 字典表查
  */
+//开启二级缓存 reids
+@CacheNamespace(implementation = RedisCache.class)
 public interface ACodeMapping {
 
     /**

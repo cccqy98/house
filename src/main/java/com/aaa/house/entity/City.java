@@ -1,5 +1,6 @@
 package com.aaa.house.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
  * createTime:2019/7/31 14:52
  * versoin:1.0.0
  */
-public class City {
+public class City implements Serializable {
     private Integer id;
     private Integer codeType;
     private Integer codeNumber;

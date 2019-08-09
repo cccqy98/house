@@ -5,18 +5,16 @@ import com.aaa.house.entity.HouseLaIm;
 import com.aaa.house.entity.HouseLable;
 import com.aaa.house.entity.HouseUser;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.aaa.house.utils.RedisCache;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
 @Repository
-/*//开启二级缓存 reids
-@CacheNamespace(implementation = RedisCache.class)*/
+//开启二级缓存 reids
+@CacheNamespace(implementation = RedisCache.class)
 public interface AHouseMapping {
 
     /**
@@ -86,7 +84,7 @@ public interface AHouseMapping {
      * @param map
      * @return
      */
-    @Select("SELECT uh_id,uh_urban,uh_street,uh_district,uh_name FROM house_user where uh_useid=#{uh_useid}")
+    @Select("SELECT uh_id,uh_urban,uh_street,uh_district,uh_name FROM house_user where uh_useid=#{uh_useid} and uh_addhouse=1")
     List<HouseUser> getUserHouse(Map map);
 
 
@@ -160,6 +158,13 @@ public interface AHouseMapping {
     @Insert("insert into house(house_uid,house_title,house_urban,house_street,house_district,house_rent,house_area,house_floor,house_orientation,house_date,house_layout,house_staffid,house_certificate,house_cover,house_id)\n" +
             "VALUES(#{uh_name},#{house_title},#{uh_urban},#{uh_street},#{uh_district},#{house_rent},#{house_area},#{house_floor},#{house_orientation},#{house_date},#{house_layout},#{staff_num},#{headPic1},#{headPic},#{house_id})")
     int setHouse(Map map);
+
+    /**
+     * 修改为已经添加
+     * @return
+     */
+    @Update("update house_user set uh_addhouse=2 where uh_id=#{uh_name}")
+    int updateHouseUser(String uh_name);
 
     /**
      * 添加房屋标签表
