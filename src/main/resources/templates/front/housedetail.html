@@ -524,6 +524,7 @@
 </script>
 <script>
     var uid=null;
+    var ucard=null;
     new Vue({
         el: "#house",
         data: {
@@ -545,7 +546,8 @@
                         if (response.data.code === 200) {
                             //头像显示
                             self.imageUrl = 'http://localhost:8080/loginReg/show?fileName=' + response.data.object.uphoto;
-                            uid = response.data.object.id
+                            uid = response.data.object.id;
+                            ucard=response.data.object.ucard
                         } else {
                             self.imageUrl = null;
                         }
@@ -577,7 +579,15 @@
                     }).then(function () {
                         window.location.href = "login.html";
                     })
-                } else {
+                } else if (ucard == null){
+                    this.$confirm('请先实名认证?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(function () {
+                        window.location.href = "userInfo.html";
+                    })
+                }else {
                     axios.post('/house/yuyue', {
                         look_house: houseId,
                         look_userid: uid,
