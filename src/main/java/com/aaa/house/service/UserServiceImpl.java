@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
         }
         //调用工具类OtherUtil中的randomCode获取随机数
         randomCode = OtherUtil.randomCode();
-        System.out.println("赋值" + randomCode);
+//        System.out.println("赋值" + randomCode);
         try {
             //调用阿里短信服务
             SendSmsResponse sendSms = sendSms(phone, randomCode);
@@ -120,9 +120,13 @@ public class UserServiceImpl implements UserService {
         String phone = record.getUPhone();
         //根据手机号查询用户
         user = userMapper.selectByPrimaryKey(phone);
-        System.out.println(user);
         //如果用户是否存在
         if (user != null) {
+            if (user.getUState() == 2) {
+                resultUtil.setCode(ISysConstants.ERRORCODE);
+                resultUtil.setMsg("此用户已被本平台永久性禁用！！！");
+                return resultUtil;
+            }
             //对前台传输密码进行MD5加密
             record.setUPassword(OtherUtil.MD5(record.getUPassword(), phone));
             //得到加密后的密码
@@ -153,7 +157,6 @@ public class UserServiceImpl implements UserService {
     public ResultUtil judgeCusLogin() {
         //获取session中的值
         user = CusUtil.getCusFromSession();
-        System.out.println(user);
         if (user == null) {
             resultUtil.setCode(ISysConstants.ERRORCODE);
             resultUtil.setObject(user);
@@ -215,8 +218,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResultUtil checkID(User record) {
-
-
         String uCard = record.getUCard();
         String uName = record.getUName();
 //  HttpEntity httpEntity = checkIDCard(uCard, uName);

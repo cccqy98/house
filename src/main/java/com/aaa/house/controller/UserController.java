@@ -123,11 +123,9 @@ public class UserController {
      */
     @RequestMapping("/show")
     public ResponseEntity show(String fileName) {
-        System.out.println(fileName);
         //ftp://admin:admin@192.168.11.116/ftp-dir-xn/84c7f5ed-17e1-4f9a-a775-552254d66386.jpg
-        System.out.println("=======================");
-        System.out.println(resourceLoader.getResource("ftp://" + ftpConfig.getFtpUserName() + ":" +
-                ftpConfig.getFtpPassWord() + "@" + ftpConfig.getRemoteIp() + ftpConfig.getRemotePath() + "/" + fileName));
+//        System.out.println(resourceLoader.getResource("ftp://" + ftpConfig.getFtpUserName() + ":" +
+//                ftpConfig.getFtpPassWord() + "@" + ftpConfig.getRemoteIp() + ftpConfig.getRemotePath() + "/" + fileName));
         return ResponseEntity.ok(resourceLoader.getResource("ftp://" + ftpConfig.getFtpUserName() + ":" +
                 ftpConfig.getFtpPassWord() + "@" + ftpConfig.getRemoteIp() + ftpConfig.getRemotePath() + "/" + fileName));
     }
@@ -202,8 +200,6 @@ public class UserController {
      */
     @RequestMapping("refer")
     public Object refer(@RequestBody Map map) {
-        System.out.println("报修控制");
-        System.out.println(map);
         if (service.insertRefer(map)) {
             resultUtil.setCode(ISysConstants.SUCCESSCODE);
             resultUtil.setMsg("报修成功");
