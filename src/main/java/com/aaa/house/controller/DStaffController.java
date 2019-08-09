@@ -7,13 +7,11 @@ package com.aaa.house.controller;/**
 
 import com.aaa.house.entity.Staff;
 import com.aaa.house.service.DStaffService;
-import com.aaa.house.utils.FtpConfig;
-import com.aaa.house.utils.FtpUtil;
-import com.aaa.house.utils.ISysConstants;
-import com.aaa.house.utils.ResultUtil;
+import com.aaa.house.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,8 +54,9 @@ public class DStaffController {
         return new ResultUtil(ISysConstants.ERRORCODE,null,null);
     }
     @RequestMapping("updateStaff")
-    public Object updateStaff(Staff staff){
-        int staff_id = staffService.updateStaff(staff);
+    public Object updateStaff(@RequestBody Map map){
+        System.out.println(map);
+        int staff_id = staffService.updateStaff(map);
         if(staff_id>0){
             return new ResultUtil(ISysConstants.SUCCESSCODE,"修改成功,请重新登陆",null);
         }
@@ -77,7 +76,6 @@ public class DStaffController {
 
     @RequestMapping("/uploadHeadPicStaff")
     public Object uploadHeadPic(@RequestParam MultipartFile headPic){
-        System.out.println("......................");
         String originalFilename = headPic.getOriginalFilename();
         String newFileName = ftpUtil.upLoad(headPic);
         Map map  = new HashMap();

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: GZB
@@ -24,10 +25,14 @@ public interface DStaffMapping {
 
     /**
      * 修改
-     * @param staff
+     * @param map
      * @return
      */
     @Update("update staff set staff_portrait=#{staff_portrait},staff_name=#{staff_name},staff_sex=#{staff_sex}," +
         "staff_phone=#{staff_phone},staff_card=#{staff_card} where staff_id=#{staff_id}")
-    int updateStaff(Staff staff);
+    int updateStaff(Map map);
+
+    //员工登录
+    @Select("select * from staff where staff_num=#{staff_num}")
+    Staff selectStaff(Map map);
 }

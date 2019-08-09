@@ -123,7 +123,11 @@ public class UserController {
      */
     @RequestMapping("/show")
     public ResponseEntity show(String fileName) {
+        System.out.println(fileName);
         //ftp://admin:admin@192.168.11.116/ftp-dir-xn/84c7f5ed-17e1-4f9a-a775-552254d66386.jpg
+        System.out.println("=======================");
+        System.out.println(resourceLoader.getResource("ftp://" + ftpConfig.getFtpUserName() + ":" +
+                ftpConfig.getFtpPassWord() + "@" + ftpConfig.getRemoteIp() + ftpConfig.getRemotePath() + "/" + fileName));
         return ResponseEntity.ok(resourceLoader.getResource("ftp://" + ftpConfig.getFtpUserName() + ":" +
                 ftpConfig.getFtpPassWord() + "@" + ftpConfig.getRemoteIp() + ftpConfig.getRemotePath() + "/" + fileName));
     }

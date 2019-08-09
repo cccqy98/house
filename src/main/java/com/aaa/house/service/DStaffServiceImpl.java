@@ -8,10 +8,12 @@ package com.aaa.house.service;/**
 import com.aaa.house.dao.DStaffMapping;
 import com.aaa.house.entity.Staff;
 import com.aaa.house.utils.CusUtil;
+import com.aaa.house.utils.PasswordHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName DStaffServiceImpl
@@ -29,8 +31,17 @@ public class DStaffServiceImpl implements DStaffService{
     }
 
     @Override
-    public int updateStaff(Staff staff) {
-        staff.setStaff_id(CusUtil.getStaff().getStaff_id());
-        return mapping.updateStaff(staff);
+    public int updateStaff(Map map) {
+        //获取  加密
+        String password=map.get("staff_password").toString();
+        String name=map.get("staff_num").toString();
+        String staff_password= PasswordHelper.passwordStaff(name,password);
+        map.put("staff_password",staff_password);
+        int a=mapping.updateStaff(map);//修改
+        Staff staff = mapping.selectStaff(map);
+        CusUtil.setStaff(staff);//重新存
+        return a;
     }
+
+
 }

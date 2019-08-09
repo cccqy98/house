@@ -362,7 +362,9 @@
                     } else {
                         if (value > 110) {
                             callback(new Error('不能大于110'));
-                        } else {
+                        } else if(value < -2){
+							callback(new Error('楼层必须大于地下2层'));
+						}else {
                             callback();
                         }
                     }

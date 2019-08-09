@@ -3,6 +3,7 @@ package com.aaa.house.service;
 import com.aaa.house.entity.Staff;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: GZB
@@ -19,8 +20,10 @@ public interface DStaffService {
 
     /**
      * 修改
-     * @param staff
+     * @param
      * @return
      */
-    int updateStaff(Staff staff);
+    int updateStaff(Map map);
+
+
 }
